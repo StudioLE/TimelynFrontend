@@ -9,15 +9,16 @@
 <title>SailsTimeline</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"-->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/sandstone/bootstrap.min.css">
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700">
-<link rel="stylesheet/less" href="assets/css/style.less">
-<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.1.2/less.min.js"></script>
+<!--link rel="stylesheet/less" href="assets/css/style.less">
+<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.1.2/less.min.js"></script-->
 </head>
 <body>
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
+  <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -34,6 +35,8 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#/">Home</a></li>
         <li><a href="#/dashboard">Dashboard</a></li>
+        <li><a href="#/timeline">Timeline</a></li>
+        <li><a href="#/event">Event</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/login">Login</a></li>
@@ -45,16 +48,7 @@
 
 
 <div class="container">
-  <div class="row vertical-center">
-    <div class="col-sm-offset-1 col-sm-3 logo">
-      <a href="#">
-        
-      </a>
-    </div>
-    <div class="col-sm-offset-1 col-sm-6 content">
-      <div ng-view></div>
-    </div>
-  </div>
+  <div ng-view></div>
 </div>
   
 
@@ -65,12 +59,16 @@
 -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<!--script src="services.js"></script-->
 <script src="app.js"></script>
 <script src="404/404.js"></script>
 <script src="home/home.js"></script>
 <script src="login/login.js"></script>
 <script src="register/register.js"></script>
 <script src="dashboard/dashboard.js"></script>
+<script src="timeline/timeline.js"></script>
+<script src="event/event.js"></script>
 <script src="components/version/version.js"></script>
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
