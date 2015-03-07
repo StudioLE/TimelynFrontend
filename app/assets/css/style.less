@@ -1,0 +1,154 @@
+/*
+	// Mixins
+*/
+
+/*
+	// Colours
+*/
+
+@bone: #EDEBE6;
+@brown: #403B33;
+@orange: #D3643B;
+@teal: #94C7B6;
+@red: #B03F3B;
+
+@text: @bone;
+
+@a: @teal;
+@a-faded: mix(@a, @brown, 10%);
+
+
+/*
+	// Document
+*/
+body {
+	background: @brown;
+	color: @text;
+	font-family: 'Ubuntu Mono', 'Consolas', monospace;
+	font-size: 16px;
+}
+
+
+/*
+	// Vertical center
+*/
+
+
+html, body, .container {
+    height: 100%;
+}
+
+.container {
+    display: table;
+    vertical-align: middle;
+}
+
+.vertical-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/*
+	// Generic style
+*/
+
+a {
+	color: @a;
+	&:hover {
+		color: @a-faded;
+		text-decoration: none;
+	}
+	&:focus {
+		color: inherit;
+	}
+}
+
+
+/*
+	// Logo
+*/
+
+.logo {
+	margin-top: 25px;
+}
+
+.logo a  {
+	margin-bottom: 20px;
+	display: inline-block;
+	float: right;
+	position: relative;
+	//text-align: right;
+
+	.title {
+		color: @orange;
+		font-size: 37px;
+	}
+	.tag {
+		width: 100%;
+		position: absolute;
+		top: 63px;
+		left: 51px;
+		color: @teal;
+		font-size: 16px;
+		/* word-break: normal; */
+		/* word-break: break-all; */
+		/* word-wrap: break-word; */
+	}
+}
+
+
+@media (max-width: 767px) {
+	.logo a {
+		margin-right: 22px;
+
+		.tag {
+			right: 15px;
+		}
+	}
+}
+
+/*
+	// Login
+*/
+
+.content {
+	margin-top: 8px;
+	min-height: 200px;
+}
+
+.login {
+	label, button {
+		display: none;
+	}
+}
+
+.status {
+	margin-bottom: 8px;
+	padding-left: 6px;
+	visibility: hidden;
+}
+
+.warn {
+	visibility: visible;
+	color: @red;
+}
+
+.form-control {
+	height: 34px;
+	padding: 6px 12px;
+	color: mix(@brown, @bone, 40%);
+	background: lighten(@brown, 5%);
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+
+/*
+	// Error
+*/
+
+.error {
+	margin-top: 55px;
+	font-size: 18px;
+}
