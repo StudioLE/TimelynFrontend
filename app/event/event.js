@@ -4,7 +4,7 @@ angular.module('myApp.event', ['ngRoute', 'ngResource'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/event', {
-    templateUrl: 'event/event.html',
+    templateUrl: 'event/event-list.html',
     controller: 'EventCtrl'
   });
   $routeProvider.when('/event/:id', {
