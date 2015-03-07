@@ -31,7 +31,7 @@ angular.module('myApp.event', ['ngRoute', 'ngResource'])
 
   // ng-click="delete(id)"
   $scope.delete = function(id) {
-    Edit.delete({ id: id });
+    Event.delete({ id: id });
     $scope.events = Event.query();
   };
 
