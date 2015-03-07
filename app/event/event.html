@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1>Events</h1>
+  </div>
+  <div class="col-sm-6">
+    <a ng-click="create()" class="btn btn-small btn-primary pull-right" style="margin-top: 20px;">create new</a>
+  </div>
+</div>
+  
+<table class="table table-striped">
+  <thead>
+  <tr>
+      <th style="min-width: 80px;">ID</th>
+      <th style="min-width: 80px;">Headline</th>
+      <th style="min-width: 80px;">User</th>
+      <th style="width:20px;"> </th>
+      <th style="width:20px;"> </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="event in events">
+    <td>{{ event.id }}</td>
+    <td>{{ event.headline }}</td>
+    <td>{{ event.timeline.user }}</td>
+    <td><a ng-click="edit(event.id)" class="btn btn-small btn-primary">edit</a></td>
+    <td><a ng-click="delete(event.id)" class="btn btn-small btn-danger">delete</a></td>
+  </tr>
+  </tbody>
+</table>

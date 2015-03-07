@@ -1,0 +1,81 @@
+<div class="well">
+<form class="form-horizontal">
+  <fieldset>
+    <legend ng-if="event.timeline">Edit event for Timeline: <em>{{event.timeline.headline}}</em></legend>
+    <legend ng-if="create">Create event</em></legend>
+
+    <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span class="sr-only">Error:</span>
+      {{error}}
+    </div>
+
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Start Date</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.startDate">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">End Date</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.endDate">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Headline</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.headline">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Text</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" rows="5" ng-model="event.text"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Media</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.asset.media">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Tag</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.tag">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Class</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.classname">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Thumbnail</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.asset.thumbnail">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Credit</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.asset.credit">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="" class="col-sm-2 control-label">Caption</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="event.asset.caption">
+      </div>
+    </div>
+    <div class="form-group"></div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <a class="btn btn-primary" ng-click="save()">Save Event</a>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</div>
