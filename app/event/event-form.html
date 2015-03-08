@@ -1,8 +1,8 @@
 <div class="well">
 <form class="form-horizontal">
   <fieldset>
-    <legend ng-if="event.timeline">Edit event for Timeline: <em>{{event.timeline.headline}}</em></legend>
-    <legend ng-if="create">Create event</em></legend>
+    <legend ng-if="event.timeline">Edit event for Timeline: <span class="text-primary">{{event.timeline.headline}}</span></legend>
+    <legend ng-if="create">Create event</legend>
 
     <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
