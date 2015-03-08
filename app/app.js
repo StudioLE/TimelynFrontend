@@ -8,6 +8,7 @@ angular.module('myApp', [
   'myApp.login',
   'myApp.register',
   'myApp.dashboard',
+  'myApp.timeline',
   'myApp.event',
   'myApp.version'
 ]).

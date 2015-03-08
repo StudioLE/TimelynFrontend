@@ -1,0 +1,16 @@
+<div ng-include="'timeline/timeline-embed.html'" style="margin: 50px 0;">
+</div>
+
+<div class="row" style="margin: 50px 0;">
+  <div class="col-sm-8">
+    <h1>{{timeline.headline}}</h1>
+  </div>
+  <div class="col-sm-4">
+	  <span class="pull-right">
+	    <a ng-click="edit()" class="btn btn-small btn-default" style="margin-top: 20px;">edit timeline</a> &nbsp;
+	    <a ng-click="edit()" class="btn btn-small btn-default" style="margin-top: 20px;">create new event</a>
+	</span>
+  </div>
+</div>
+
+<div ng-include="'timeline/' + partial + '.html'"></div>

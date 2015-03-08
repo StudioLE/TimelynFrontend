@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1>Timelines</h1>
+  </div>
+  <div class="col-sm-6">
+    <a ng-click="create()" class="btn btn-small btn-primary pull-right" style="margin-top: 20px;">create new</a>
+  </div>
+</div>
+  
+<table class="table table-striped">
+  <thead>
+  <tr>
+      <th style="min-width: 80px;">ID</th>
+      <th style="min-width: 80px;">Headline</th>
+      <th style="min-width: 80px;">Events</th>
+      <th style="min-width: 80px;">User</th>
+      <th style="width:20px;"> </th>
+      <th style="width:20px;"> </th>
+      <th style="width:20px;"> </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="timeline in timelines">
+    <td>{{ timeline.id }}</td>
+    <td>{{ timeline.headline }}</td>
+    <td>{{ timeline.date.length }}</td>
+    <td>{{ timeline.user.username }}</td>
+    <td><a ng-click="preview(timeline.id)" class="btn btn-small btn-default">preview</a></td>
+    <td><a ng-click="edit(timeline.id)" class="btn btn-small btn-primary">edit</a></td>
+    <td><a ng-click="delete(timeline.id)" class="btn btn-small btn-danger">delete</a></td>
+  </tr>
+  </tbody>
+</table>
