@@ -3,7 +3,7 @@
     <h1>Timelines</h1>
   </div>
   <div class="col-sm-6">
-    <a ng-click="create()" class="btn btn-small btn-primary pull-right" style="margin-top: 20px;">create new</a>
+    <a ng-click="create()" class="btn btn-sm btn-primary pull-right" style="margin-top: 20px;">create new timeline</a>
   </div>
 </div>
   
@@ -25,9 +25,9 @@
     <td>{{ timeline.headline }}</td>
     <td>{{ timeline.date.length }}</td>
     <td>{{ timeline.user.username }}</td>
-    <td><a ng-click="preview(timeline.id)" class="btn btn-small btn-default">preview</a></td>
-    <td><a ng-click="edit(timeline.id)" class="btn btn-small btn-primary">edit</a></td>
-    <td><a ng-click="delete(timeline.id)" class="btn btn-small btn-danger">delete</a></td>
+    <td><a ng-click="preview(timeline.id)" class="btn btn-sm btn-default">preview</a></td>
+    <td><a ng-click="edit(timeline.id)" class="btn btn-sm btn-primary">edit</a></td>
+    <td><a ng-click="delete(timeline.id)" class="btn btn-sm btn-danger">delete</a></td>
   </tr>
   </tbody>
 </table>

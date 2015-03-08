@@ -40,7 +40,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 * TimelineCtrl controller
 *
 ******************************************************************/
-.controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', function ($scope, $routeParams, Timeline, Event, $location) {
+.controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', '$window', function ($scope, $routeParams, Timeline, Event, $location, $window) {
 
 	/*************************************************************
 	*
@@ -90,6 +90,11 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	* Button actions
 	* 	
 	**************************************************************/
+
+	// ng-click="back()"
+	$scope.back = function(timelineId, eventId) {
+		$window.history.back();
+	};
 
 	// ng-click="createTimeline()"
 	$scope.createTimeline = function() {
@@ -211,8 +216,6 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 	// Get all Timelines for list
 	$scope.timelines = Timeline.query()
-
-	console.log($scope.timelines)
 
 	// ng-click="preview(id)"
 	$scope.preview = function(id) {
