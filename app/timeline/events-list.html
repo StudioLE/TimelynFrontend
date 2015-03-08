@@ -15,8 +15,8 @@
     <td>{{ event.headline }}</td>
     <td>{{ event.timeline.id }}</td>
     <td>{{ event.timeline.user }}</td>
-    <td><a ng-click="edit(event.id)" class="btn btn-small btn-primary">edit</a></td>
-    <td><a ng-click="delete(event.id)" class="btn btn-small btn-danger">delete</a></td>
+    <td><a ng-click="editEvent(timeline.id, event.id)" class="btn btn-small btn-primary">edit</a></td>
+    <td><a ng-click="deleteEvent(timeline.id, event.id)" class="btn btn-small btn-danger">delete</a></td>
   </tr>
   </tbody>
 </table>
