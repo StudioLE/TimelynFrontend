@@ -1,15 +1,6 @@
 <div class="well">
 <form class="form-horizontal">
   <fieldset>
-    <div class="row">
-      <div class="col-sm-4">
-       <legend ng-if="edit" style="text-align: right">Editing timeline</legend>
-       <legend ng-if="create" style="text-align: right">Creating timeline</legend>
-      </div>
-      <div class="col-sm-8">
-       <legend class="text-primary">{{timeline.headline}}</legend>
-      </div>
-    </div>
     <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span class="sr-only">Error:</span>
@@ -55,7 +46,7 @@
     <div class="form-group"></div>
     <div class="form-group">
       <div class="col-sm-offset-4 col-sm-8">
-        <a class="btn btn-primary" ng-click="save()">Save Timeline</a>
+        <a class="btn btn-primary" ng-click="saveTimeline()">Save Timeline</a>
       </div>
     </div>
   </fieldset>
