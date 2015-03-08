@@ -3,11 +3,7 @@
 angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 .config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/timeline/edit/:timelineId/event/:eventId', {
-		templateUrl: 'timeline/timeline.html',
-		controller: 'TimelineCtrl'
-	});
-	$routeProvider.when('/timeline/:action/:timelineId', {
+	$routeProvider.when('/timeline/:action/:eventId/:timelineId', {
 		templateUrl: 'timeline/timeline.html',
 		controller: 'TimelineCtrl'
 	});
@@ -59,26 +55,14 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 .controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', function ($scope, $routeParams, Timeline, Event, $location) {
 
-	// Get the timeline by routeParam
-	$scope.timeline = Timeline.get({id: $routeParams.timelineId});
-
-	// Get all events
-	$scope.events = Event.query();
-
-	console.log($routeParams)
-
-	// If action is edit get Timeline
+	// If a timeline is specified
 	if($routeParams.timelineId !== 'create') {
-		$scope.timeline = Timeline.get({id: $routeParams.timelineId});
-		$scope.edit = true
-	}
-	// Else action is create
-	else {
-		$scope.create = true
+		// Get the timeline by routeParam
+		$scope.timeline = Timeline.get({id: $routeParams.timelineId})
 	}
 
 	// Edit Event
-	if($routeParams.timelineId && $routeParams.eventId) {
+	if($routeParams.action === 'event' && $routeParams.eventId) {
 		$scope.event = Event.get({id: $routeParams.eventId});
 		$scope.edit = true
 		$scope.partial = 'event-form'
@@ -95,8 +79,6 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	}
 	// List Events
 	else if($routeParams.action === undefined) {
-
-		// Load the event list partial
 		$scope.partial = 'events-list'
 	}
 	// 404
@@ -127,7 +109,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 	// ng-click="editEvent(id)"
 	$scope.editEvent = function(timelineId, eventId) {
-		$location.path('/timeline/edit/' + timelineId + '/event/' + eventId);
+		$location.path('/timeline/event/' + eventId + '/' + timelineId);
 	};
 
 	// ng-click="saveTimeline()"
