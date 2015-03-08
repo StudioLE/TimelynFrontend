@@ -3,7 +3,7 @@
 angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 .config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/timeline/:action/:eventId/:timelineId', {
+	$routeProvider.when('/timeline/:action/:eventId?/:timelineId', {
 		templateUrl: 'timeline/timeline.html',
 		controller: 'TimelineCtrl'
 	});
