@@ -23,36 +23,6 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	});
 })
 
-.controller('TimelineListCtrl', function($scope, Timeline, $location, $log) {
-
-	// Get all Timelines for list
-	$scope.timelines = Timeline.query()
-
-	console.log($scope.timelines)
-
-	// ng-click="preview(id)"
-	$scope.preview = function(id) {
-		$location.path('/timeline/' + id);
-	};
-
-	// ng-click="edit(id)"
-	$scope.edit = function(id) {
-		$location.path('/timeline/edit/' + id);
-	};
-
-	// ng-click="delete(id)"
-	$scope.delete = function(id) {
-		Timeline.delete({ id: id });
-		$scope.timelines = Timeline.query();
-	};
-
-	// ng-click="create()"
-	$scope.create = function() {
-		$location.path('/timeline/create');
-	};
-
-})
-
 .controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', function ($scope, $routeParams, Timeline, Event, $location) {
 
 	// If a timeline is specified
@@ -195,3 +165,33 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	};
 
 }])
+
+.controller('TimelineListCtrl', function($scope, Timeline, $location, $log) {
+
+	// Get all Timelines for list
+	$scope.timelines = Timeline.query()
+
+	console.log($scope.timelines)
+
+	// ng-click="preview(id)"
+	$scope.preview = function(id) {
+		$location.path('/timeline/' + id);
+	};
+
+	// ng-click="edit(id)"
+	$scope.edit = function(id) {
+		$location.path('/timeline/edit/' + id);
+	};
+
+	// ng-click="delete(id)"
+	$scope.delete = function(id) {
+		Timeline.delete({ id: id });
+		$scope.timelines = Timeline.query();
+	};
+
+	// ng-click="create()"
+	$scope.create = function() {
+		$location.path('/timeline/create');
+	};
+
+})
