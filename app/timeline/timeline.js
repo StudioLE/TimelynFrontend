@@ -2,6 +2,13 @@
 
 angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
+
+/*****************************************************************
+*
+* Route provider
+*
+******************************************************************/
+
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/timeline/:action/:eventId?/:timelineId', {
 		templateUrl: 'timeline/timeline.html',
@@ -17,19 +24,41 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	});
 }])
 
+/*****************************************************************
+*
+* Timeline factory
+*
+******************************************************************/
 .factory('Timeline', function($resource) {
 	return $resource('http://localhost:7425/api/timeline/:id', {}, {
 		edit: { method: 'PUT', params: {id: '@id'} }
 	});
 })
 
+/*****************************************************************
+*
+* TimelineCtrl controller
+*
+******************************************************************/
 .controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', function ($scope, $routeParams, Timeline, Event, $location) {
+
+	/*************************************************************
+	*
+	* Load models
+	* 
+	**************************************************************/
 
 	// If a timeline is specified
 	if($routeParams.timelineId !== 'create') {
 		// Get the timeline by routeParam
 		$scope.timeline = Timeline.get({id: $routeParams.timelineId})
 	}
+
+	/*************************************************************
+	* 	
+	* Router
+	* 	
+	**************************************************************/
 
 	// Edit Event
 	if($routeParams.action === 'event' && $routeParams.eventId) {
@@ -55,6 +84,12 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	else {
 		console.error('Unknown Timeline action')
 	}
+
+	/*************************************************************
+	* 	
+	* Button actions
+	* 	
+	**************************************************************/
 
 	// ng-click="createTimeline()"
 	$scope.createTimeline = function() {
@@ -166,6 +201,12 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 }])
 
+
+/*****************************************************************
+*
+* TimelineListCtrl controller
+*
+******************************************************************/
 .controller('TimelineListCtrl', function($scope, Timeline, $location, $log) {
 
 	// Get all Timelines for list
