@@ -1,31 +1,5 @@
 'use strict';
 
-function actionDefaults(action, $scope) {
-	if(action == 'editTimeline') {
-		$scope.partial = 'timeline-form'
-		$scope.edit = true
-		$scope.create = false
-	}
-	else if(action == 'createTimeline') {
-		$scope.partial = 'timeline-form'
-		$scope.edit = false
-		$scope.create = true
-	}
-	else if(action == 'previewTimeline') {
-		$scope.partial = 'events-list'
-	}
-	else if(action == 'editEvent') {
-		$scope.partial = 'event-form'
-		$scope.edit = true
-		$scope.create = false
-	}
-	else if(action == 'createEvent') {
-		$scope.partial = 'event-form'
-		$scope.edit = false
-		$scope.create = true
-	}
-}
-
 angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 
@@ -36,13 +10,40 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 ******************************************************************/
 
 .config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/timeline/:action/:eventId?/:timelineId', {
+	$routeProvider.when('/timeline/create', {
+		templateUrl: 'timeline/timeline-form.html',
+		controller: 'TimelineCtrl',
+		resolve: {
+			action: function() { return 'createTimeline' }
+		}
+	});
+	$routeProvider.when('/timeline/edit/:timelineId', {
 		templateUrl: 'timeline/timeline.html',
-		controller: 'TimelineCtrl'
+		controller: 'TimelineCtrl',
+		resolve: { 
+			action: function() { return 'editTimeline' }
+		}
+	});
+	$routeProvider.when('/timeline/event/create/:timelineId', {
+		templateUrl: 'timeline/timeline.html',
+		controller: 'TimelineCtrl',
+		resolve: { 
+			action: function() { return 'createEvent' }
+		}
+	});
+	$routeProvider.when('/timeline/event/:eventId/:timelineId', {
+		templateUrl: 'timeline/timeline.html',
+		controller: 'TimelineCtrl',
+		resolve: { 
+			action: function() { return 'editEvent' }
+		}
 	});
 	$routeProvider.when('/timeline/:timelineId', {
 		templateUrl: 'timeline/timeline.html',
-		controller: 'TimelineCtrl'
+		controller: 'TimelineCtrl',
+		resolve: {
+			action: function() { return 'previewTimeline' }
+		}
 	});
 	$routeProvider.when('/timeline', {
 		templateUrl: 'timeline/timeline-list.html',
@@ -66,51 +67,71 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * TimelineCtrl controller
 *
 ******************************************************************/
-.controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', '$window', function ($scope, $routeParams, Timeline, Event, $location, $window) {
-
-	/*************************************************************
-	*
-	* Load models
-	* 
-	**************************************************************/
-
-	// If a timeline is specified
-	if($routeParams.timelineId !== 'create') {
-		// Get the timeline by routeParam
-		$scope.timeline = Timeline.get({id: $routeParams.timelineId})
+.controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', '$window', 'action', function ($scope, $routeParams, Timeline, Event, $location, $window, action) {
+	
+	if($scope[action] !== undefined) {
+		$scope.initialise = true
 	}
 
 	/*************************************************************
 	* 	
-	* Router
+	* Views
 	* 	
 	**************************************************************/
 
-	// Edit Event
-	if($routeParams.action === 'event' && $routeParams.eventId) {
-		actionDefaults('editEvent', $scope)
-		$scope.event = Event.get({id: $routeParams.eventId})
-	}
-	// Edit Timeline
-	else if($routeParams.action === 'edit' && $routeParams.timelineId) {
-		actionDefaults('editTimeline', $scope)
-	}
-	// Create Timeline
-	else if($routeParams.action === 'create') {
-		actionDefaults('createTimeline', $scope)
-	}
-	// List Events
-	else if($routeParams.action === undefined) {
-		actionDefaults('previewTimeline', $scope)
-	}
-	// 404
-	else {
-		console.error('Unknown Timeline action')
-	}
+	// ng-click="createTimeline()"
+	$scope.createTimeline = function() {
+		if( ! $scope.initialise) {
+			$location.path('/timeline/create')
+		}
+		$routeParams.action = 'create'
+		$routeParams.timelineId = null
+		$scope.edit = false
+		$scope.create = true
+	};
+
+	// ng-click="previewTimeline(id)"
+	$scope.previewTimeline = function(id) {
+		if( ! $scope.initialise) {
+			$location.path('/timeline/' + id, false);
+		}
+		$scope.partial = 'events-list'
+	};
+
+	// ng-click="editTimeline(id)"
+	$scope.editTimeline = function(id) {
+		if( ! $scope.initialise) {
+			$location.path('/timeline/edit/' + id, false);
+		}
+		$scope.partial = 'timeline-form'
+		$scope.edit = true
+		$scope.create = false
+	};
+
+	// ng-click="createEvent(id)"
+	$scope.createEvent = function(timelineId) {
+		if( ! $scope.initialise) {
+			$location.path('/timeline/event/create/' + timelineId, false);
+		}
+		$scope.partial = 'event-form'
+		$scope.edit = false
+		$scope.create = true
+	};
+
+	// ng-click="editEvent(id)"
+	$scope.editEvent = function(timelineId, eventId) {
+		if( ! $scope.initialise) {
+			$location.path('/timeline/event/' + eventId + '/' + timelineId, false);
+		}
+		$scope.partial = 'event-form'
+		$scope.edit = true
+		$scope.create = false
+		$scope.event = Event.get({id: eventId})
+	};
 
 	/*************************************************************
 	* 	
-	* Button actions
+	* Actions
 	* 	
 	**************************************************************/
 
@@ -119,42 +140,32 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		$window.history.back();
 	};
 
-	// ng-click="createTimeline()"
-	$scope.createTimeline = function() {
-		$location.path('/timeline/create', false);
-		actionDefaults('createTimeline', $scope)
-	};
-
-	// ng-click="previewTimeline(id)"
-	$scope.previewTimeline = function(id) {
-		$location.path('/timeline/' + id, false);
-		actionDefaults('previewTimeline', $scope)
-	};
-
-	// ng-click="editTimeline(id)"
-	$scope.editTimeline = function(id) {
-		$location.path('/timeline/edit/' + id, false);
-		actionDefaults('editTimeline', $scope)
-	};
-
 	// ng-click="deleteTimeline(id)"
 	$scope.deleteTimeline = function(id) {
-		Timeline.delete({ id: id });
-		// @todo Set query() as a callback of delete()
-		$scope.timelines = Timeline.query();
-	};
 
-	// ng-click="createEvent(id)"
-	$scope.createEvent = function(timelineId) {
-		$location.path('/timeline/event/create/' + timelineId, false);
-		actionDefaults('createEvent', $scope)
-	};
+		// REST success callback
+		var success = function(value, responseHeaders) {
+			// Update model on success
+			//$scope.timelines.splice(id, 1)
+			$scope.timelines = Timeline.query();
+			console.log(Timeline.query())
+			console.log(value)
+			console.log(responseHeaders)
+		}
 
-	// ng-click="editEvent(id)"
-	$scope.editEvent = function(timelineId, eventId) {
-		$location.path('/timeline/event/' + eventId + '/' + timelineId, false);
-		actionDefaults('editEvent', $scope)
-		$scope.event = Event.get({id: $routeParams.eventId})
+		// REST failure callback
+		var failure = function(httpResponse){
+			if($scope.errors === undefined) {
+				$scope.errors = []
+			}
+			// Error
+			$scope.errors.push(httpResponse);
+			console.log('ffs')
+		}
+
+		console.log('cunt')
+
+		Timeline.delete({ id: id }, success, failure)
 	};
 
 	// ng-click="saveTimeline()"
@@ -216,7 +227,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		// REST success callback
 		var success = function(value, responseHeaders) {
 			// Redirect on success
-			$location.path('/event');
+			$scope.previewTimeline($scope.timeline.id)
 		}
 
 		// REST failure callback
@@ -228,6 +239,9 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			$scope.errors.push(httpResponse);
 		}
 
+		// Link the new event with the timeline
+		$scope.event.timeline = $scope.timeline.id
+
 		// If action is edit
 		if($routeParams.timelineId !== 'create') {
 			Event.edit($scope.event, success, failure);
@@ -238,6 +252,23 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		}
 
 	};
+
+	/*************************************************************
+	*
+	* Initialise
+	* 
+	**************************************************************/
+	
+
+	// If a timeline is specified
+	if($routeParams.timelineId) {
+		// Get the timeline by routeParam
+		$scope.timeline = Timeline.get({id: $routeParams.timelineId})
+	}
+
+	// Call the function defined in $routeProvider
+	$scope[action]($routeParams.timelineId, $routeParams.eventId)
+	$scope.initialise = false
 
 }])
 
