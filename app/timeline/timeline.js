@@ -1,6 +1,6 @@
 'use strict';
 
-function actionDefaults($scope, action) {
+function actionDefaults(action, $scope) {
 	if(action == 'editTimeline') {
 		$scope.partial = 'timeline-form'
 		$scope.edit = true
@@ -26,7 +26,7 @@ function actionDefaults($scope, action) {
 	}
 }
 
-angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
+angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 
 /*****************************************************************
@@ -88,20 +88,20 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 
 	// Edit Event
 	if($routeParams.action === 'event' && $routeParams.eventId) {
-		$scope.event = Event.get({id: $routeParams.eventId});
-		actionDefaults($scope, 'editEvent')
+		actionDefaults('editEvent', $scope)
+		$scope.event = Event.get({id: $routeParams.eventId})
 	}
 	// Edit Timeline
 	else if($routeParams.action === 'edit' && $routeParams.timelineId) {
-		actionDefaults($scope, 'editTimeline')
+		actionDefaults('editTimeline', $scope)
 	}
 	// Create Timeline
 	else if($routeParams.action === 'create') {
-		actionDefaults($scope, 'createTimeline')
+		actionDefaults('createTimeline', $scope)
 	}
 	// List Events
 	else if($routeParams.action === undefined) {
-		actionDefaults($scope, 'previewTimeline')
+		actionDefaults('previewTimeline', $scope)
 	}
 	// 404
 	else {
@@ -122,37 +122,39 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource'])
 	// ng-click="createTimeline()"
 	$scope.createTimeline = function() {
 		$location.path('/timeline/create', false);
-		actionDefaults($scope, 'createTimeline')
+		actionDefaults('createTimeline', $scope)
 	};
 
 	// ng-click="previewTimeline(id)"
 	$scope.previewTimeline = function(id) {
 		$location.path('/timeline/' + id, false);
-		actionDefaults($scope, 'previewTimeline')
+		actionDefaults('previewTimeline', $scope)
 	};
 
 	// ng-click="editTimeline(id)"
 	$scope.editTimeline = function(id) {
 		$location.path('/timeline/edit/' + id, false);
-		actionDefaults($scope, 'editTimeline')
+		actionDefaults('editTimeline', $scope)
 	};
 
 	// ng-click="deleteTimeline(id)"
 	$scope.deleteTimeline = function(id) {
 		Timeline.delete({ id: id });
+		// @todo Set query() as a callback of delete()
 		$scope.timelines = Timeline.query();
 	};
 
 	// ng-click="createEvent(id)"
 	$scope.createEvent = function(timelineId) {
 		$location.path('/timeline/event/create/' + timelineId, false);
-		actionDefaults($scope, 'createEvent')
+		actionDefaults('createEvent', $scope)
 	};
 
 	// ng-click="editEvent(id)"
 	$scope.editEvent = function(timelineId, eventId) {
 		$location.path('/timeline/event/' + eventId + '/' + timelineId, false);
-		actionDefaults($scope, 'editEvent')
+		actionDefaults('editEvent', $scope)
+		$scope.event = Event.get({id: $routeParams.eventId})
 	};
 
 	// ng-click="saveTimeline()"
