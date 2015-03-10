@@ -81,6 +81,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="createTimeline()"
 	$scope.createTimeline = function() {
+		action = 'createTimeline'
 		if( ! $scope.initialise) {
 			$location.path('/timeline/create')
 		}
@@ -91,17 +92,24 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	};
 
 	// ng-click="previewTimeline(id)"
-	$scope.previewTimeline = function(id) {
+	$scope.previewTimeline = function(timelineId) {
+		action = 'previewTimeline'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/' + id, false);
+			$location.path('/timeline/' + timelineId, false);
 		}
 		$scope.partial = 'events-list'
 	};
 
+	// ng-click="listTimeline()"
+	$scope.listTimelines = function() {
+		$location.path('/timeline')
+	};
+
 	// ng-click="editTimeline(id)"
-	$scope.editTimeline = function(id) {
+	$scope.editTimeline = function(timelineId) {
+		action = 'editTimeline'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/edit/' + id, false);
+			$location.path('/timeline/edit/' + timelineId, false);
 		}
 		$scope.partial = 'timeline-form'
 		$scope.edit = true
@@ -110,6 +118,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="createEvent(id)"
 	$scope.createEvent = function(timelineId) {
+		action = 'createEvent'
 		if( ! $scope.initialise) {
 			$location.path('/timeline/event/create/' + timelineId, false);
 		}
@@ -120,6 +129,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="editEvent(id)"
 	$scope.editEvent = function(timelineId, eventId) {
+		action = 'editEvent'
 		if( ! $scope.initialise) {
 			$location.path('/timeline/event/' + eventId + '/' + timelineId, false);
 		}
@@ -142,30 +152,20 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="deleteTimeline(id)"
 	$scope.deleteTimeline = function(id) {
-
-		// REST success callback
-		var success = function(value, responseHeaders) {
-			// Update model on success
-			//$scope.timelines.splice(id, 1)
+		Timeline.delete({ id: id }, function(value, responseHeaders) {
+			// REST success callback
+			// Update scope on success
 			$scope.timelines = Timeline.query();
-			console.log(Timeline.query())
-			console.log(value)
-			console.log(responseHeaders)
-		}
-
-		// REST failure callback
-		var failure = function(httpResponse){
+			// @todo add mechanism to delete linked events
+			
+		}, function(httpResponse){
+			// REST failure callback
+			// Send errors to scope
 			if($scope.errors === undefined) {
 				$scope.errors = []
 			}
-			// Error
-			$scope.errors.push(httpResponse);
-			console.log('ffs')
-		}
-
-		console.log('cunt')
-
-		Timeline.delete({ id: id }, success, failure)
+			$scope.errors.push(httpResponse)
+		})
 	};
 
 	// ng-click="saveTimeline()"
@@ -194,7 +194,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			}
 
 			// Redirect on success
-			$location.path('/timeline/' + timeline.id);
+			$location.path('/timeline/' + timeline.id, true);
 		}
 
 		// REST failure callback
@@ -207,11 +207,11 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		}
 
 		// If action is edit
-		if($routeParams.action === 'edit') {
+		if(action === 'editTimeline') {
 			Timeline.edit($scope.timeline, success, failure);
 		}
 		// Else action is create
-		else if($routeParams.action === 'create') {
+		else if(action === 'createTimeline') {
 			Timeline.save($scope.timeline, success, failure);
 		}
 		else {
@@ -238,6 +238,8 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			// Error
 			$scope.errors.push(httpResponse);
 		}
+
+		console.log($scope)
 
 		// Link the new event with the timeline
 		$scope.event.timeline = $scope.timeline.id
@@ -295,8 +297,20 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="delete(id)"
 	$scope.delete = function(id) {
-		Timeline.delete({ id: id });
-		$scope.timelines = Timeline.query();
+		Timeline.delete({ id: id }, function(value, responseHeaders) {
+			// REST success callback
+			// Update scope on success
+			$scope.timelines = Timeline.query();
+			// @todo add mechanism to delete linked events
+
+		}, function(httpResponse){
+			// REST failure callback
+			// Send errors to scope
+			if($scope.errors === undefined) {
+				$scope.errors = []
+			}
+			$scope.errors.push(httpResponse)
+		})
 	};
 
 	// ng-click="create()"
