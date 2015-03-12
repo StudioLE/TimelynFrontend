@@ -227,6 +227,8 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		var success = function(value, responseHeaders) {
 			// Redirect on success
 			$scope.previewTimeline($scope.timeline.id)
+			// Update the model
+			$scope.timeline = Timeline.get({id: $routeParams.timelineId})
 		}
 
 		// REST failure callback
