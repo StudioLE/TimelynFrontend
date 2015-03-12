@@ -1,10 +1,15 @@
 {
-  "name": "angular-seed",
+  "name": "SailsTimelineFrontend",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
-  "license": "MIT",
+  "description": "The AngularJS frontend for SailsTimeline",
+  "repository": "https://github.com/StudioLE/SailsTimelineFrontend",
+  "license": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/StudioLE/SailsTimelineFrontend.git"
+  },
+  "author": "Laurence Elsdon",
   "devDependencies": {
     "karma": "~0.10",
     "protractor": "^1.1.1",

@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
+  "name": "SailsTimelineFrontend",
+  "description": "The AngularJS frontend for SailsTimeline",
   "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
-  "license": "MIT",
+  "homepage": "https://github.com/StudioLE/SailsTimelineFrontend",
+  "license": false,
   "private": true,
   "dependencies": {
     "angular": "1.2.x",
