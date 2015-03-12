@@ -9,7 +9,6 @@ angular.module('myApp', [
   'myApp.register',
   'myApp.dashboard',
   'myApp.timeline',
-  'myApp.event',
   'myApp.version'
 ])
 

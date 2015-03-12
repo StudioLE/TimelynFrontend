@@ -52,11 +52,32 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 /*****************************************************************
 *
+* Configuration
+*
+******************************************************************/
+
+.constant('Config', {
+	rest_url: 'http://localhost:7425/api'
+})
+
+/*****************************************************************
+*
 * Timeline factory
 *
 ******************************************************************/
-.factory('Timeline', function($resource) {
-	return $resource('http://localhost:7425/api/timeline/:id', {}, {
+.factory('Timeline', function($resource, Config) {
+	return $resource(Config.rest_url + '/timeline/:id', {}, {
+		edit: { method: 'PUT', params: {id: '@id'} }
+	});
+})
+
+/*****************************************************************
+*
+* Timeline factory
+*
+******************************************************************/
+.factory('Event', function($resource, Config) {
+	return $resource(Config.rest_url + '/event/:id', {}, {
 		edit: { method: 'PUT', params: {id: '@id'} }
 	});
 })
