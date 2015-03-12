@@ -2,7 +2,6 @@
 
 angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
-
 /*****************************************************************
 *
 * Route provider
@@ -175,7 +174,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		var success = function(timeline, responseHeaders) {
 			
 			// If new timeline then create the first event on it
-			if($routeParams.action === 'create') {
+			if(action === 'createTimeline') {
 				Event.save({
 					"timeline": timeline.id,
 					"startDate": timeline.createdAt,
@@ -222,7 +221,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	};
 
 	// ng-click="saveEvent()"
-	$scope.saveEvent = function() {
+	$scope.saveEvent = function(event) {
 
 		// REST success callback
 		var success = function(value, responseHeaders) {
@@ -239,18 +238,19 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			$scope.errors.push(httpResponse);
 		}
 
-		console.log($scope)
-
-		// Link the new event with the timeline
-		$scope.event.timeline = $scope.timeline.id
-
 		// If action is edit
-		if($routeParams.timelineId !== 'create') {
-			Event.edit($scope.event, success, failure);
+		if(action === 'editEvent') {
+			Event.edit(event, success, failure);
 		}
 		// Else action is create
+		else if(action === 'createEvent') {
+			// Link the new event with the timeline
+			event.timeline = $scope.timeline.id
+			Event.save(event, success, failure)
+		}
 		else {
-			Event.save($scope.event, success, failure);
+			// This shouldn't happen
+			console.error('saveEvent() called in unknown context')
 		}
 
 	};
