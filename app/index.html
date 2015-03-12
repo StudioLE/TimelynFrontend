@@ -31,11 +31,9 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#/">Home</a></li>
-        <li><a href="#/dashboard">Dashboard</a></li>
-        <li><a href="#/timeline">Timeline</a></li>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-app="navList">
+      <ul class="nav navbar-nav" ng-controller="navCtrl">
+        <li ng-repeat="link in nav" ng-class="navClass(link.url)"><a href="{{link.url}}">{{link.title}}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/login">Login</a></li>
@@ -69,6 +67,7 @@
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <!--script src="services.js"></script-->
 <script src="app.js"></script>
+<script src="nav/nav.js"></script>
 <script src="404/404.js"></script>
 <script src="home/home.js"></script>
 <script src="login/login.js"></script>
