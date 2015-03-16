@@ -1,0 +1,222 @@
+@import "../bower_components/bootstrap/less/mixins.less";
+@import "../bower_components/bootstrap/less/variables.less";
+
+@navy: #2b313b;
+@bone: #f2f2f2;
+
+@link: fade(@bone, 25%);
+@link_hover: fade(@bone, 50%);
+@link_active: fade(@bone, 75%);
+@nav_border: fade(@bone, 10%);
+
+@button_bg: fade(#000, 10%);
+@button_bg_hover: fade(#000, 40%);
+@button_color: @link_active;
+@button_primary_bg: fade(#000, 25%);
+
+/*****************************************************************
+*
+* Style defaults
+*
+******************************************************************/
+
+body {
+  background: @navy;
+  color: @bone;
+  font-size: 18px;
+}
+
+::selection {
+  background: rgba(227, 80, 80, 0.5);
+  color: #fff;
+}
+
+a {
+  color: @link;
+}
+
+a:hover {
+  color: @link_hover;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+}
+
+
+/*****************************************************************
+*
+* Navbar
+*
+******************************************************************/
+
+.navbar-default {
+  margin-bottom: 90px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid @nav_border;
+  font-size: 18px;
+
+  .author {
+    display: none;
+    position: relative;
+    top: 14px;
+    left: 141px;
+  }
+
+  .navbar-nav>li>a {
+    color: @link;
+  }
+
+  .navbar-nav>li>a:focus, .navbar-nav>li>a:hover {
+    color: @link_hover;
+  }
+
+  .navbar-nav>.active>a, .navbar-nav>.active>a:focus, .navbar-nav>.active>a:hover {
+    background: transparent;
+    color: @link_active;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-default .navbar-brand {
+    padding-top: 45px;
+    padding-bottom: 0px;
+    color: @bone;
+    font-size: 36px;
+  }
+
+  .navbar-nav>li>a {
+    padding: 45px 20px 0;
+  }
+}
+
+
+/*****************************************************************
+*
+* Intro
+*
+******************************************************************/
+
+.intro {
+  text-align: center;
+  
+  p {
+    font-size: 24px;
+  }
+}
+
+
+/*****************************************************************
+*
+* Forms
+*
+******************************************************************/
+
+label {
+  color: fade(@bone, 50%);
+  font-size: 23px;
+  font-weight: normal;
+}
+
+.form-control {
+  // display: block;
+  // width: 100%;
+  // height: 34px;
+  // padding: 6px 12px;
+  font-size: 23px;
+  // line-height: 1.42857143;
+  color: @bone;
+  background-color: transparent;
+  // background-image: none;
+  border: none;
+  border-bottom: 1px solid fade(@bone, 50%);;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  // -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  // -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  // transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+
+  &:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+
+.btn-default, .btn-primary {
+  padding: 11px 25px;
+  background-color: @button_bg;
+  border: none;
+  font-size: 18px;
+  color: @button_color;
+
+  &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
+    background-color: @button_bg_hover;
+    color: @button_color;
+  }
+
+
+}
+
+.btn-primary {
+  color: @button_color;
+  background-color: @button_primary_bg;
+  border: none;
+}
+
+
+/*****************************************************************
+*
+* Forms
+*
+******************************************************************/
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border: none; //fade(@bone, 3%);
+  vertical-align: middle;
+}
+
+th {
+  font-weight: normal;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+  background-color: fade(@bone, 3%);
+}
+
+.well {
+  background-color: fade(@bone, 3%);
+  border: none;
+}
+
+
+/*****************************************************************
+*
+* Foot
+*
+******************************************************************/
+
+.foot {
+  margin-top: 150px;
+  padding-top: 20px;
+  border-top: 1px solid @nav_border;
+
+  .title a {
+    font-size: 36px;
+    color: @bone;
+  }
+  .author {
+    position: relative;
+    top: -28px;
+    right: -143px;
+
+  }
+  a {
+    padding-right: 20px;
+  }
+  img {
+    height: 40px;
+  }
+}
