@@ -45,7 +45,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		}
 	});
 	$routeProvider.when('/timeline', {
-		templateUrl: 'timeline/timeline-list.html',
+		templateUrl: 'timeline/timeline-index-table.html',
 		controller: 'TimelineListCtrl'
 	});
 }])
