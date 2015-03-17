@@ -1,10 +1,4 @@
 <div class="row">
-  <div class="col-sm-2 event-tile">
-    <div class="img" ng-click="create()">
-     <i class="add fa fa-plus fa-4x"></i>
-    </div>
-    <h2><a href="" ng-click="create()">Create new event</a></h2>
-  </div> <!-- .event-tile -->
 
   <div class="col-sm-2 event-tile" ng-repeat="event in timeline.date">
     <div style="background-image: url({{ event.asset.media }})" class="img">
@@ -21,6 +15,13 @@
     </div>
     <h2><a href="" ng-click="editEvent(timeline.id, event.id)">{{ event.headline }}</a></h2>
     <p class="meta">{{ event.startDate | date }} - {{ event.startDate | date }}</p>
+  </div> <!-- .event-tile -->
+  
+  <div class="col-sm-2 event-tile">
+    <div class="img" ng-click="create()">
+     <i class="add fa fa-plus fa-4x"></i>
+    </div>
+    <h2><a href="" ng-click="create()">Create new event</a></h2>
   </div> <!-- .event-tile -->
 
 </div> <!-- .row -->
