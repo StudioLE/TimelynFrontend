@@ -179,9 +179,60 @@ label {
 *
 ******************************************************************/
 
-.timeline {
+.row.title {
+  margin-bottom: 30px;
+}
+
+.timeline-js {
   padding: 20px 0;
   background: #fff;
+}
+
+.timeline-tile {
+
+  .timeline-img {
+    min-height: 175px;
+    background: fade(#000, 10%);
+    background-position: cover;
+    border-radius: 3px;
+    text-align: center;
+
+    i.add {
+      color: @button_bg_hover;
+      line-height: 175px;
+    }
+  }
+
+  .btn-default, .btn-primary {
+    padding: 5px 10px;
+    background-color: @button_bg_hover;
+
+    &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
+      background-color: fade(#000, 75%);
+    }
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .meta {
+    display: none;
+  }
+
+
+}
+
+.timeline-tile > a {
+  display: block;
+
+  img {
+    max-height: 100px;
+  }
+
+  &:hover img {
+    opacity: 0.75;
+  }
 }
 
 

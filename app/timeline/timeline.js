@@ -9,6 +9,14 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 ******************************************************************/
 
 .config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/timeline', {
+		templateUrl: 'timeline/timeline-index.html',
+		controller: 'TimelineListCtrl'
+	});
+	$routeProvider.when('/timeline/table', {
+		templateUrl: 'timeline/timeline-index-table.html',
+		controller: 'TimelineListCtrl'
+	});
 	$routeProvider.when('/timeline/create', {
 		templateUrl: 'timeline/timeline-form.html',
 		controller: 'TimelineCtrl',
@@ -43,10 +51,6 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		resolve: {
 			action: function() { return 'previewTimeline' }
 		}
-	});
-	$routeProvider.when('/timeline', {
-		templateUrl: 'timeline/timeline-index-table.html',
-		controller: 'TimelineListCtrl'
 	});
 }])
 
