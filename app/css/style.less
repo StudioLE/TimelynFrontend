@@ -40,6 +40,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5 {
+  margin: 10px 0;
   font-weight: normal;
 }
 
@@ -81,13 +82,13 @@ h1, h2, h3, h4, h5 {
 @media (min-width: 768px) {
   .navbar-default .navbar-brand {
     padding-top: 45px;
-    padding-bottom: 0px;
+    padding-bottom: 30px;
     color: @bone;
     font-size: 36px;
   }
 
   .navbar-nav>li>a {
-    padding: 45px 20px 0;
+    padding: 50px 20px 30px;
   }
 }
 
@@ -167,9 +168,11 @@ label {
   border: none;
 }
 
-.intro .btn {
-  padding: 11px 25px;
+form .btn, .row.title .btn { // .btn-lg
+  padding: 10px 16px;
+  border-radius: 6px;
   font-size: 18px;
+  line-height: 1.3333333;
 }
 
 
@@ -194,7 +197,7 @@ label {
   .img {
     min-height: 175px;
     background: fade(#000, 10%);
-    background-position: cover;
+    ibackground-size: cover;
     border-radius: 3px;
     text-align: center;
 
