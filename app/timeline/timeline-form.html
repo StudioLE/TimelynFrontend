@@ -1,64 +1,61 @@
-<div class="well">
-<form class="form-horizontal">
-  <fieldset>
-    <div class="row">
-      <div class="col-sm-3" style="text-align: right">
-        <legend ng-if="edit">Edit timeline</legend>
-        <legend ng-if="create">Create timeline</legend>
-      </div>
-      <div class="col-sm-8 text-primary">
-        <legend>{{timeline.headline}}</legend>
-      </div>
-    </div>
-
-    <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
-      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span class="sr-only">Error:</span>
-      {{error}}
-    </div>
-    
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Headline</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" ng-model="timeline.headline">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Type</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" ng-model="timeline.type">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Text</label>
-      <div class="col-sm-8">
-        <textarea class="form-control" rows="5" ng-model="timeline.text"></textarea>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Media</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" ng-model="timeline.asset.media">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Credit</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" ng-model="timeline.asset.credit">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Caption</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control" ng-model="timeline.asset.caption">
-      </div>
-    </div>
-    <div class="form-group"></div>
-    <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-8">
-        <a class="btn btn-primary" ng-click="saveTimeline()">Save Timeline</a>
-      </div>
-    </div>
-  </fieldset>
-</form>
+I<div class="row">
+  <div class="col-sm-3" style="text-align: right">
+    <h2 ng-if="edit">Edit timeline</h2>
+    <h2 ng-if="create">Create timeline</h2>
+  </div>
+  <div class="col-sm-8 text-primary">
+    <h2>{{timeline.headline}}</h2>
+  </div>
 </div>
+
+<form class="form-horizontal">
+
+  <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {{error}}
+  </div>
+  
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Headline</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="timeline.headline">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Type</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="timeline.type">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Text</label>
+    <div class="col-sm-8">
+      <textarea class="form-control" rows="5" ng-model="timeline.text"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Media</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="timeline.asset.media">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Credit</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="timeline.asset.credit">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Caption</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="timeline.asset.caption">
+    </div>
+  </div>
+  <div class="form-group"></div>
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-8">
+      <a class="btn btn-primary" ng-click="saveTimeline()">Save Timeline</a>
+    </div>
+  </div>
+</form>
