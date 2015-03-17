@@ -121,7 +121,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		if( ! $scope.initialise) {
 			$location.path('/timeline/' + timelineId, false);
 		}
-		$scope.partial = 'events-list'
+		$scope.partial = 'events-index'
 	};
 
 	// ng-click="listTimeline()"

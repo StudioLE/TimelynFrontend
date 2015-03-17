@@ -188,9 +188,9 @@ label {
   background: #fff;
 }
 
-.timeline-tile {
+.timeline-tile, .event-tile {
 
-  .timeline-img {
+  .img {
     min-height: 175px;
     background: fade(#000, 10%);
     background-position: cover;
@@ -219,11 +219,27 @@ label {
   .meta {
     display: none;
   }
-
-
 }
 
-.timeline-tile > a {
+.event-tile {
+  .img {
+    min-height: 125px;
+
+    i.add {
+      line-height: 125px;
+    }
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .meta {
+    display: block;
+  }
+}
+
+.timeline-tile > a, .event-tile > a {
   display: block;
 
   img {
