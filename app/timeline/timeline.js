@@ -7,7 +7,6 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * Route provider
 *
 ******************************************************************/
-
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/timeline', {
 		templateUrl: 'timeline/timeline-index.html',
@@ -53,16 +52,6 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		}
 	});
 }])
-
-/*****************************************************************
-*
-* Configuration
-*
-******************************************************************/
-
-.constant('Config', {
-	rest_url: 'http://localhost:7425/api'
-})
 
 /*****************************************************************
 *

@@ -1,6 +1,10 @@
 'use strict';
 
-// Declare app level module which depends on views, and components
+/*****************************************************************
+*
+* Declare app level module which depends on views, and components
+*
+******************************************************************/
 angular.module('myApp', [
   'ngRoute',
   'navList',
@@ -13,10 +17,30 @@ angular.module('myApp', [
   'myApp.version'
 ])
 
+/*****************************************************************
+*
+* Configuration
+*
+******************************************************************/
+.constant('Config', {
+  rest_url: 'http://localhost:7425/api',
+  auth_url: 'http://localhost:7425/auth/local'
+})
+
+/*****************************************************************
+*
+* Route provider
+*
+******************************************************************/
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/404'});
 }])
 
+/*****************************************************************
+*
+* Location override
+*
+******************************************************************/
 .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
     var original = $location.path;
     $location.path = function (path, reload) {
