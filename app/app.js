@@ -10,8 +10,7 @@ angular.module('myApp', [
   'navList',
   'myApp.404',
   'myApp.home',
-  'myApp.login',
-  'myApp.register',
+  'myApp.auth',
   'myApp.dashboard',
   'myApp.timeline',
   'myApp.version'
