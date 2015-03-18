@@ -23,7 +23,8 @@ angular.module('myApp', [
 ******************************************************************/
 .constant('Config', {
   rest_url: 'http://localhost:7425/api',
-  auth_url: 'http://localhost:7425/auth/local'
+  auth_url: 'http://localhost:7425/auth/local',
+  user_url: 'http://localhost:7425/user'
 })
 
 /*****************************************************************
