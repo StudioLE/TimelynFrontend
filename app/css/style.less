@@ -40,6 +40,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5 {
+  margin: 10px 0;
   font-weight: normal;
 }
 
@@ -81,13 +82,13 @@ h1, h2, h3, h4, h5 {
 @media (min-width: 768px) {
   .navbar-default .navbar-brand {
     padding-top: 45px;
-    padding-bottom: 0px;
+    padding-bottom: 30px;
     color: @bone;
     font-size: 36px;
   }
 
   .navbar-nav>li>a {
-    padding: 45px 20px 0;
+    padding: 50px 20px 30px;
   }
 }
 
@@ -99,11 +100,17 @@ h1, h2, h3, h4, h5 {
 ******************************************************************/
 
 .intro {
+  margin-bottom: 50px;
   text-align: center;
   
   p {
     font-size: 24px;
   }
+
+  form {
+    margin-top: 40px;
+  }
+
 }
 
 
@@ -144,20 +151,15 @@ label {
   }
 }
 
-
 .btn-default, .btn-primary {
-  padding: 11px 25px;
   background-color: @button_bg;
   border: none;
-  font-size: 18px;
   color: @button_color;
 
   &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
     background-color: @button_bg_hover;
     color: @button_color;
   }
-
-
 }
 
 .btn-primary {
@@ -166,10 +168,97 @@ label {
   border: none;
 }
 
+form .btn, .row.title .btn { // .btn-lg
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+
 
 /*****************************************************************
 *
-* Forms
+* Timeline
+*
+******************************************************************/
+
+.row.title {
+  margin-bottom: 30px;
+}
+
+.timeline-js {
+  margin: 30px 0;
+  padding: 20px 0;
+  background: #fff;
+}
+
+.timeline-tile, .event-tile {
+
+  .img {
+    min-height: 175px;
+    background: fade(#000, 10%);
+    background-size: cover;
+    border-radius: 3px;
+    text-align: center;
+
+    i.add {
+      color: @button_bg_hover;
+      line-height: 175px;
+    }
+  }
+
+  .btn-default, .btn-primary {
+    padding: 5px 10px;
+    background-color: @button_bg_hover;
+
+    &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
+      background-color: fade(#000, 75%);
+    }
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .meta {
+    display: none;
+  }
+}
+
+.event-tile {
+  .img {
+    min-height: 125px;
+
+    i.add {
+      line-height: 125px;
+    }
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .meta {
+    display: block;
+  }
+}
+
+.timeline-tile > a, .event-tile > a {
+  display: block;
+
+  img {
+    max-height: 100px;
+  }
+
+  &:hover img {
+    opacity: 0.75;
+  }
+}
+
+
+/*****************************************************************
+*
+* Tables
 *
 ******************************************************************/
 
@@ -199,7 +288,7 @@ th {
 ******************************************************************/
 
 .foot {
-  margin-top: 150px;
+  margin-top: 100px;
   padding-top: 20px;
   border-top: 1px solid @nav_border;
 
@@ -210,8 +299,8 @@ th {
   
   .author {
     position: relative;
-    top: -28px;
-    right: -143px;
+    top: -26px;
+    left: 92px;
 
   }
   
@@ -220,7 +309,7 @@ th {
   }
 
   img {
-    height: 40px;
+    height: 30px;
   }
 
   a:hover img {

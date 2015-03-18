@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>Timelines</h1>
+    </div>
+    <div class="col-sm-6">
+      <a ng-click="create()" class="btn btn-sm btn-primary pull-right" style="margin-top: 20px;">create new timeline</a>
+    </div>
+  </div> <!-- .row -->
+    
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th style="min-width: 80px;">ID</th>
+      <th style="min-width: 80px;">Headline</th>
+      <th style="min-width: 80px;">Events</th>
+      <th style="min-width: 80px;">User</th>
+      <th style="min-width: 40px;"> </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="timeline in timelines">
+      <td>{{ timeline.id }}</td>
+      <td>{{ timeline.headline }}</td>
+      <td>{{ timeline.date.length }}</td>
+      <td>{{ timeline.user.username }}</td>
+      <td style="text-align: right">
+        <div class="btn-group">
+          <a ng-click="preview(timeline.id)" class="btn btn-sm btn-primary">
+            <i class="fa fa-arrow-circle-right"></i> timeline
+          </a>
+          <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-cog"></i> &nbsp;<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="edit(timeline.id)">
+              <i class="fa fa-pencil-square-o"></i> edit timeline</a>
+            </li>
+            <li><a ng-click="delete(timeline.id)">
+              <i class="fa fa-trash"></i> delete timeline</a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div> <!-- .container -->

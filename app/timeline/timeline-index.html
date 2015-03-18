@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row title">
+    <div class="col-sm-6">
+      <h1>Timelines</h1>
+    </div>
+    <div class="col-sm-6">
+      <a class="btn btn-primary pull-right">create new timeline</a>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-sm-3 timeline-tile" ng-repeat="timeline in timelines">
+      <div style="background-image: url({{ timeline.asset.media }})" class="img">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-cog"></i> &nbsp;<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="edit(timeline.id)">
+              <i class="fa fa-pencil-square-o"></i> edit timeline</a>
+            </li>
+            <li><a ng-click="delete(timeline.id)">
+              <i class="fa fa-trash"></i> delete timeline</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <h2><a href="" ng-click="preview(timeline.id)">{{ timeline.headline }}</a></h2>
+      <p class="meta">{{ timeline.date.length }} events</p>
+    </div> <!-- .timeline-tile -->
+
+    <div class="col-sm-3 timeline-tile">
+      <div class="img" ng-click="create()">
+       <i class="add fa fa-plus fa-4x"></i>
+      </div>
+      <h2><a href="" ng-click="create()">Create new timeline</a></h2>
+    </div> <!-- .timeline-tile -->
+
+  </div> <!-- .row -->
+</div> <!-- .container -->

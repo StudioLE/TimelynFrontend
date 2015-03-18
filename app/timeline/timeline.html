@@ -1,46 +1,38 @@
-<div ng-include="'timeline/timeline-embed.html'" style="margin: 50px 0; height: 450px;">
-</div>
+<div class="container">
+  <div class="row title">
+    <div class="col-sm-9">
+      <h1>{{timeline.headline}}</h1>
+    </div>
+    <div class="col-sm-3">
+      <div class="btn-group pull-right">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-cog"></i> &nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a ng-click="createEvent(timeline.id)">
+            <i class="fa fa-plus"></i> create event
+          </a></li>
+          <li><a ng-click="previewTimeline(timeline.id)">
+            <i class="fa fa-list"></i> list events
+          </a></li>
+          <li class="divider"></li>
+          <li><a ng-click="editTimeline(timeline.id)">
+            <i class="fa fa-pencil-square-o"></i> edit timeline
+          </a></li>
+          <li><a ng-click="deleteTimeline(timeline.id)">
+            <i class="fa fa-trash"></i> delete timeline
+          </a></li>
+          <li class="divider"></li>
+          <li><a ng-click="listTimelines()">
+            <i class="fa fa-list"></i> list timelines
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div> <!-- .row -->
 
-<div class="row" style="margin: 50px 0;">
-	<div class="col-sm-9">
-	<h1>{{timeline.headline}}</h1>
-	</div>
-	<div class="col-sm-3">
-		<div class="btn-group pull-right" style="margin-top: 20px;">
-			<a ng-click="createEvent(timeline.id)" class="btn btn-sm btn-default disabled">
-				event
-			</a>
-			<a ng-click="createEvent(timeline.id)" class="btn btn-sm btn-primary">
-				<i class="fa fa-plus"></i>
-			</a>
-			<a ng-click="previewTimeline(timeline.id)" class="btn btn-sm btn-default">
-				<i class="fa fa-list"></i>
-			</a>
-			<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				timeline &nbsp;<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" role="menu">
-				<li><a ng-click="createEvent(timeline.id)">
-					<i class="fa fa-plus"></i> create event
-				</a></li>
-				<li><a ng-click="previewTimeline(timeline.id)">
-					<i class="fa fa-list"></i> list events
-				</a></li>
-				<li class="divider"></li>
-				<li><a ng-click="editTimeline(timeline.id)">
-					<i class="fa fa-pencil-square-o"></i> edit timeline
-				</a></li>
-				<li><a ng-click="deleteTimeline(timeline.id)">
-					<i class="fa fa-trash"></i> delete timeline
-				</a></li>
-				<li class="divider"></li>
-				<li><a ng-click="listTimelines()">
-					<i class="fa fa-list"></i> list timelines
-				</a></li>
-			</ul>
-		</div>
-	</span>
-	</div>
-</div>
+  <div ng-include="'timeline/' + partial + '.html'"></div>
 
-<div ng-include="'timeline/' + partial + '.html'"></div>
+</div> <!-- .container -->
+
+<div ng-include="'timeline/timeline-embed.html'" class="timeline-js"></div>

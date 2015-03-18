@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>SailsTimeline</title>
+<title>Elegant timelines are built effortlessly with timelyn</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -28,7 +28,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/">SailsTimeline</a>
+      <a class="navbar-brand" href="#/">timelyn.io</a>
       <p class="author"><a href="https://studiole.uk">by StudioLE</a></p>
     </div>
 
@@ -38,6 +38,7 @@
         <li ng-repeat="link in nav" ng-class="navClass(link.url)"><a href="{{link.url}}">{{link.title}}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/dashboard">Dashboard</a></li>
         <li><a href="#/login">Login</a></li>
         <li><a href="#/register">Register</a></li>
       </ul>
@@ -46,15 +47,13 @@
 </nav>
 
 
-<div class="container">
-  <div ng-view></div>
-</div>
+<div ng-view></div>
 
 <div class="foot">
   <div class="container">
     <div class="row ">
       <div class="col-sm-4 credit">
-        <p class="title"><a href="#/">SailsTimeline</a></p>
+        <p class="title"><a href="#/">timelyn.io</a></p>
         <p class="author"><a href="https://studiole.uk">by StudioLE</a></p>
       </div>
       <div class="col-sm-8">
@@ -79,8 +78,7 @@
 <script src="nav/nav.js"></script>
 <script src="404/404.js"></script>
 <script src="home/home.js"></script>
-<script src="login/login.js"></script>
-<script src="register/register.js"></script>
+<script src="auth/auth.js"></script>
 <script src="dashboard/dashboard.js"></script>
 <script src="timeline/timeline.js"></script>
 <script src="components/version/version.js"></script>

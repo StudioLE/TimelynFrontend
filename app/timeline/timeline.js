@@ -7,8 +7,15 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * Route provider
 *
 ******************************************************************/
-
 .config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/timeline', {
+		templateUrl: 'timeline/timeline-index.html',
+		controller: 'TimelineListCtrl'
+	});
+	$routeProvider.when('/timeline/table', {
+		templateUrl: 'timeline/timeline-index-table.html',
+		controller: 'TimelineListCtrl'
+	});
 	$routeProvider.when('/timeline/create', {
 		templateUrl: 'timeline/timeline-form.html',
 		controller: 'TimelineCtrl',
@@ -44,21 +51,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			action: function() { return 'previewTimeline' }
 		}
 	});
-	$routeProvider.when('/timeline', {
-		templateUrl: 'timeline/timeline-list.html',
-		controller: 'TimelineListCtrl'
-	});
 }])
-
-/*****************************************************************
-*
-* Configuration
-*
-******************************************************************/
-
-.constant('Config', {
-	rest_url: 'http://localhost:7425/api'
-})
 
 /*****************************************************************
 *
@@ -117,7 +110,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		if( ! $scope.initialise) {
 			$location.path('/timeline/' + timelineId, false);
 		}
-		$scope.partial = 'events-list'
+		$scope.partial = 'events-index'
 	};
 
 	// ng-click="listTimeline()"

@@ -9,11 +9,8 @@ angular.module('navList', [])
     url: '#/',
     title: 'Home'
   }, {
-    url: '#/dashboard',
-    title: 'Dashboard'
-  }, {
     url: '#/timeline',
-    title: 'Timeline'
+    title: 'Timelines'
   }]
   
 }]);

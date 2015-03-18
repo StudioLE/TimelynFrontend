@@ -1,7 +1,7 @@
 
-<div id="timeline-embed" style="margin: 50px 0; height: 450px; position: absolute; top: 150px; left: 0;"></div>
+<div id="timeline-embed" style="margin: 50px 0; height: 450px;"></div>
 <script>
-timeline_id = window.location.href.split('/').pop()
+timeline_id = window.location.href.split('/').pop() || 1
 $(document).ready(function() {
 	// Get storyjs-embed.js which will then call getTimelineJSON()
 	// This ensures createStoryJS isn't called early
