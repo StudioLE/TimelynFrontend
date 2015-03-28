@@ -10,9 +10,9 @@ The basic application functionality is almost complete but there's still a lot o
 
 The [Sails.js](http://sailsjs.org) backend can be found in the [backend repository](https://github.com/StudioLE/TimelynBackend).
 
-## Demo
+## Website
 
-[Demo website](https://sailstimeline.studiole.uk)
+The frontend is available at [timelyn.io](https://timelyn.io) however the backend is currently only available offline. The frontend will attempt to connect to [http://localhost:7425](http://localhost:7425).
 
 ## Install
 
