@@ -1,8 +1,8 @@
 {
-  "name": "SailsTimelineFrontend",
-  "description": "The AngularJS frontend for SailsTimeline",
+  "name": "TimelynFrontend",
+  "description": "The AngularJS frontend for Timelyn",
   "version": "0.0.0",
-  "homepage": "https://github.com/StudioLE/SailsTimelineFrontend",
+  "homepage": "https://github.com/StudioLE/TimelynFrontend",
   "license": false,
   "private": true,
   "dependencies": {

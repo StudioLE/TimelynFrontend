@@ -193,7 +193,7 @@ angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 					"timeline": timeline.id,
 					"startDate": timeline.createdAt,
 					"endDate": "",
-					"headline": "I created my first Timeline using SailsTimeline",
+					"headline": "I created my first Timeline using Timelyn",
 					"text": "<p>You can put some text here. Why, isn't that pretty...</p>",
 					"tag": "",
 					"classname": "",

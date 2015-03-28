@@ -1,14 +1,14 @@
-# SailsTimelineFrontend
+# TimelynFrontend
 
-The [AngularJS](https://angularjs.org) frontend for SailsTimeline.
+The [AngularJS](https://angularjs.org) frontend for Timelyn.
 
-## SailsTimeline
+## Timelyn
 
-SailsTimeline is an application to create, edit, manage and embed [Timeline JS](http://timeline.knightlab.com) timelines intuitively. 
+Timelyn is an application to create, edit, manage and embed [Timeline JS](http://timeline.knightlab.com) timelines intuitively. 
 
 The basic application functionality is almost complete but there's still a lot of work to be done.
 
-The [Sails.js](http://sailsjs.org) backend can be found in its own [repository](https://github.com/StudioLE/SailsTimelineBackend).
+The [Sails.js](http://sailsjs.org) backend can be found in the [backend repository](https://github.com/StudioLE/TimelynBackend).
 
 ## Demo
 

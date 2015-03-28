@@ -1,13 +1,13 @@
 {
-  "name": "SailsTimelineFrontend",
+  "name": "TimelynFrontend",
   "private": true,
   "version": "0.0.0",
-  "description": "The AngularJS frontend for SailsTimeline",
-  "repository": "https://github.com/StudioLE/SailsTimelineFrontend",
+  "description": "The AngularJS frontend for Timelyn",
+  "repository": "https://github.com/StudioLE/TimelynFrontend",
   "license": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/StudioLE/SailsTimelineFrontend.git"
+    "url": "git://github.com/StudioLE/TimelynFrontend.git"
   },
   "author": "Laurence Elsdon",
   "devDependencies": {
