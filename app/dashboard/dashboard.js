@@ -32,32 +32,17 @@ angular.module('myApp.dashboard', ['ngRoute'])
 
   $scope.check = function () {
 
-    $http.defaults.cache = false
-
-    // Send a GET request to the authController
+    // GET JWT
     $http.get(Config.user_url)
-      // If success then...
-      .success(function(data, status, headers, config) {
-        console.log(data)
-        console.log(status)
-        if(status === 200 && data.user) {
-          $location.path('/dashboard')
+      .then(function(response) {
+        console.log(response)
+        if(response.status === 200) {
+          console.log('Recieved JWT')
         }
         else {
-          $scope.errors.push('Login appeared to succeed but something else has gone wrong')
+          // $scope.errors.push('Login appeared to succeed but something else has gone wrong')
         }
       })
-      // If error then...
-      .error(function(data, status, headers, config) {
-        console.log(data)
-        console.log(status)
-        if(status === 401) {
-          $scope.errors.push('Invalid credentials')
-        }
-        else {
-          $scope.errors.push('Login failed for unknown reason')
-        }
-      });
   }
 
   $scope.check()

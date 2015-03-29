@@ -29,15 +29,14 @@ angular.module('myApp.auth', ['ngRoute'])
 
   $scope.login = function () {
     // Send a POST request to the authController
-    $http.post(Config.auth_url, $scope.user)
+    $http.post(Config.auth_url + '/login', $scope.user)
       // If success then...
       .success(function(data, status, headers, config) {
-        if(status === 200 && data.user) {
-          $location.path('/dashboard')
-        }
-        else {
-          $scope.errors.push('Login appeared to succeed but something else has gone wrong')
-        }
+        console.log(data)
+        // Auth isn't going to work until Waterlock merges PR #41
+        // https://github.com/waterlock/waterlock/pull/41
+        // @todo After PR #41 data should be a JSON web token which we will store before redirecting
+        $location.path('/dashboard')
       })
       // If error then...
       .error(function(data, status, headers, config) {
@@ -64,7 +63,7 @@ angular.module('myApp.auth', ['ngRoute'])
 
   $scope.register = function () {
     // Send a POST request to the authController
-    $http.post(Config.auth_url + '/register', $scope.user)
+    $http.post(Config.auth_url, $scope.user)
       // If success then...
       .success(function(data, status, headers, config) {
         if(status === 200 && data.user) {
