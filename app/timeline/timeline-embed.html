@@ -17,7 +17,7 @@ $(document).ready(function() {
 		});
 	}
 	function getTimelineJSON() {
-		$.getJSON('http://localhost:7425/api/timeline/' + timeline_id)
+		$.getJSON('https://app.timelyn.io/timeline/' + timeline_id)
 			.fail(function(jqxhr, textStatus, error) {
 				var err = textStatus + ", " + error
 				console.log('Request Failed: ' + err)

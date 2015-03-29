@@ -22,9 +22,10 @@ angular.module('myApp', [
 *
 ******************************************************************/
 .constant('Config', {
-  rest_url: 'http://localhost:7425/api',
-  auth_url: 'http://localhost:7425/auth/local',
-  user_url: 'http://localhost:7425/user'
+  rest_url: 'https://app.timelyn.io',
+  auth_url: 'https://app.timelyn.io/auth',
+  user_path: 'https://app.timelyn.io/user',
+  jwt_path: 'https://app.timelyn.io/user/jwt'
 })
 
 /*****************************************************************
