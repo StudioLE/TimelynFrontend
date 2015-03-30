@@ -1,16 +1,23 @@
 'use strict';
 
-describe('myApp.view1 module', function() {
+describe('timelyn.auth module', function() {
 
-  beforeEach(module('myApp.view1'));
+  beforeEach(module('timelyn.auth'));
 
-  describe('view1 controller', function(){
+  beforeEach(inject(function($rootScope, $controller, $http, $location, Config, User, localStorageService) {
+    var $scope = $rootScope.$new()
+    $controller('LoginCtrl', {
+      $rootScope: $rootScope,
+      $scope: $scope,
+      $http: $http,
+      $location: $location,
+      Config: Config,
+      User: User,
+      localStorageService: localStorageService
+    });
+  }))
 
-    it('should ....', inject(function($controller) {
-      //spec body
-      var view1Ctrl = $controller('View1Ctrl');
-      expect(view1Ctrl).toBeDefined();
-    }));
-
+  it(' should bleed ', function() {
+    expect($scope.valueForTest == 'bleed')
   });
 });
