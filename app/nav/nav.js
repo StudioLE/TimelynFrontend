@@ -1,6 +1,6 @@
 angular.module('navList', [])
 
-.controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
+.controller('navCtrl', ['$scope', '$location', 'User', function ($scope, $location, User) {
   $scope.navClass = function (href) {
     return href === '#' + $location.path() ? 'active' : '';
   };
@@ -12,5 +12,11 @@ angular.module('navList', [])
     url: '#/timeline',
     title: 'Timelines'
   }]
+
+  $scope.isLoggedIn = function() {
+    return User.get()
+  }
+
+  console.log(User.get())
   
 }]);

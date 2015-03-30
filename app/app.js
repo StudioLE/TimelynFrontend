@@ -82,5 +82,22 @@ angular.module('myApp', [
       // }
     };
   }]);
+})
+
+/*****************************************************************
+*
+* User factory
+*
+******************************************************************/
+.factory('User', function() {
+  return {
+    user: false,
+    get: function() {
+      return this.user
+    },
+    set: function(user) {
+      this.user = user
+    }
+  }
 });
 

@@ -20,7 +20,7 @@ angular.module('myApp.dashboard', ['ngRoute'])
 * DashboardCtrl controlller
 *
 ******************************************************************/
-.controller('DashboardCtrl', ['$scope', '$http', '$location', 'Config', 'localStorageService', function($scope, $http, $location, Config, localStorageService) {
+.controller('DashboardCtrl', ['$scope', '$http', '$location', 'Config', 'User', 'localStorageService', function($scope, $http, $location, Config, User, localStorageService) {
   
   $scope.user = {
     username: 'guest',
@@ -33,9 +33,9 @@ angular.module('myApp.dashboard', ['ngRoute'])
   $scope.check = function () {
 
     // Send a get request to test whether the JSON Web Token in local storage is valid
-    $http.get(Config.rest_url + '/test/jwt')
+    $http.get(Config.rest_url + '/test/user')
       .then(function(response) {
-        console.log(response)
+        console.log(User.get())
         if(response.status === 200) {
           console.log('JWT was accepted')
         }

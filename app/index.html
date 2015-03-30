@@ -33,14 +33,15 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-app="navList">
-      <ul class="nav navbar-nav" ng-controller="navCtrl">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-app="navList" ng-controller="navCtrl">
+      <ul class="nav navbar-nav">
         <li ng-repeat="link in nav" ng-class="navClass(link.url)"><a href="{{link.url}}">{{link.title}}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/dashboard">Dashboard</a></li>
-        <li><a href="#/login">Login</a></li>
-        <li><a href="#/register">Register</a></li>
+        <li ng-if="isLoggedIn()"><a href="#/dashboard">Dashboard</a></li>
+        <li ng-if="isLoggedIn()"><a href="#/logout">Logout</a></li>
+        <li ng-if=" ! isLoggedIn()"><a href="#/login">Login</a></li>
+        <li ng-if=" ! isLoggedIn()"><a href="#/register">Register</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

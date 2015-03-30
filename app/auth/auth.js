@@ -23,7 +23,7 @@ angular.module('myApp.auth', ['ngRoute', 'LocalStorageModule'])
 * LoginCtrl controlller
 *
 ******************************************************************/
-.controller('LoginCtrl', ['$scope', '$http', '$location', 'Config', 'localStorageService', function($scope, $http, $location, Config, localStorageService) {
+.controller('LoginCtrl', ['$scope', '$http', '$location', 'Config', 'User', 'localStorageService', function($scope, $http, $location, Config, User, localStorageService) {
 
   $scope.errors = []
 
@@ -35,6 +35,7 @@ angular.module('myApp.auth', ['ngRoute', 'LocalStorageModule'])
         if(response.status === 200) {
           // Store the JSON Web Token in local storage
           localStorageService.set('jwt', response.data.token)
+          User.set(true)
           $location.path('/dashboard')
         }
         // If errors
