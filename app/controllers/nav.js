@@ -16,7 +16,5 @@ angular.module('navList', [])
   $scope.isLoggedIn = function() {
     return User.get()
   }
-
-  console.log(User.get())
   
 }]);
