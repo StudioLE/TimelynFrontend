@@ -88,15 +88,43 @@ angular.module('timelyn', [
 * User factory
 *
 ******************************************************************/
-.factory('User', function() {
-  return {
-    user: false,
+.factory('User', function($http, localStorageService, Config) {
+  var User = {
+    user: null,
+    token: localStorageService.get('jwt'),
     get: function() {
       return this.user
     },
     set: function(user) {
       this.user = user
+    },
+    fetch: function() {
+      $http.get(Config.rest_url + '/test/user', {cache: true}).then(function(response) {
+        if(response.status === 200) {
+          User.user = response.data
+        }
+        else {
+          console.error('JWT not accepted by server')
+          console.error(response.data)
+          User.user = false
+        }
+      })
     }
   }
+  /**
+   * Check to see whether a JWT is present in local storage
+   * if it is then fetch the user data from the server
+   * @return object User 
+   */
+  var init = function() {
+    // If no token then user is not logged in
+    if( ! User.token) {
+      User.user = false
+    }
+    else {
+      User.fetch()
+    }
+    return User
+  }
+  return init()
 });
-
