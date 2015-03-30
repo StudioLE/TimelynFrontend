@@ -20,7 +20,7 @@ angular.module('myApp.dashboard', ['ngRoute'])
 * DashboardCtrl controlller
 *
 ******************************************************************/
-.controller('DashboardCtrl', ['$scope', '$http', '$location', 'Config', function($scope, $http, $location, Config) {
+.controller('DashboardCtrl', ['$scope', '$http', '$location', 'Config', 'localStorageService', function($scope, $http, $location, Config, localStorageService) {
   
   $scope.user = {
     username: 'guest',
@@ -32,15 +32,15 @@ angular.module('myApp.dashboard', ['ngRoute'])
 
   $scope.check = function () {
 
-    // GET JWT
-    $http.get(Config.user_url)
+    // Send a get request to test whether the JSON Web Token in local storage is valid
+    $http.get(Config.rest_url + '/test/jwt')
       .then(function(response) {
         console.log(response)
         if(response.status === 200) {
-          console.log('Recieved JWT')
+          console.log('JWT was accepted')
         }
         else {
-          // $scope.errors.push('Login appeared to succeed but something else has gone wrong')
+          console.log('JWT was not accepted')
         }
       })
   }

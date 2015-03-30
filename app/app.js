@@ -7,6 +7,7 @@
 ******************************************************************/
 angular.module('myApp', [
   'ngRoute',
+  'LocalStorageModule',
   'navList',
   'myApp.404',
   'myApp.home',
@@ -24,7 +25,7 @@ angular.module('myApp', [
 .constant('Config', {
   rest_url: 'https://app.timelyn.io',
   auth_url: 'https://app.timelyn.io/auth',
-  user_path: 'https://app.timelyn.io/user',
+  user_url: 'https://app.timelyn.io/user',
   jwt_path: 'https://app.timelyn.io/user/jwt'
 })
 
@@ -54,4 +55,32 @@ angular.module('myApp', [
         }
         return original.apply($location, [path]);
     };
-}]);
+}])
+
+/*****************************************************************
+*
+* HTTP interceptor
+*
+******************************************************************/
+.config(function ($httpProvider) {
+  $httpProvider.interceptors.push(['$q', '$location', 'localStorageService', function($q, $location, localStorageService) {
+    return {
+      request: function(config) {
+        config.params = config.params || {};
+        // config.headers = config.headers || {};
+        if (localStorageService.get('jwt')) {
+          config.params.access_token = localStorageService.get('jwt')
+          // config.headers.access_token = localStorageService.get('jwt')
+        }
+        return config;
+      },
+      // responseError: function(response) {
+      //   if(response.status === 401 || response.status === 403) {
+      //     $location.path('/signin');
+      //   }
+      //   return $q.reject(response);
+      // }
+    };
+  }]);
+});
+

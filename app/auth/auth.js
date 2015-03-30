@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.auth', ['ngRoute'])
+angular.module('myApp.auth', ['ngRoute', 'LocalStorageModule'])
 
 /*****************************************************************
 *
@@ -23,30 +23,25 @@ angular.module('myApp.auth', ['ngRoute'])
 * LoginCtrl controlller
 *
 ******************************************************************/
-.controller('LoginCtrl', ['$scope', '$http', '$location', 'Config', function($scope, $http, $location, Config) {
+.controller('LoginCtrl', ['$scope', '$http', '$location', 'Config', 'localStorageService', function($scope, $http, $location, Config, localStorageService) {
 
   $scope.errors = []
 
   $scope.login = function () {
     // Send a POST request to the authController
     $http.post(Config.auth_url + '/login', $scope.user)
-      // If success then...
-      .success(function(data, status, headers, config) {
-        console.log(data)
-        // Auth isn't going to work until Waterlock merges PR #41
-        // https://github.com/waterlock/waterlock/pull/41
-        // @todo After PR #41 data should be a JSON web token which we will store before redirecting
-        $location.path('/dashboard')
-      })
-      // If error then...
-      .error(function(data, status, headers, config) {
-        if(status === 401) {
+      .then(function(response) {
+        // If successful then
+        if(response.status === 200) {
+          // Store the JSON Web Token in local storage
+          localStorageService.set('jwt', response.data.token)
+          $location.path('/dashboard')
+        }
+        // If errors
+        else {
           $scope.errors.push('Invalid credentials')
         }
-        else {
-          $scope.errors.push('Login failed for unknown reason')
-        }
-      });
+      })
   }
 
 }])
