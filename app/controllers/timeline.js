@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
+angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 /*****************************************************************
 *

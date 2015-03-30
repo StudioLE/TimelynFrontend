@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.auth', ['ngRoute', 'LocalStorageModule'])
+angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 
 /*****************************************************************
 *

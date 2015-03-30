@@ -5,16 +5,16 @@
 * Declare app level module which depends on views, and components
 *
 ******************************************************************/
-angular.module('myApp', [
+angular.module('timelyn', [
   'ngRoute',
   'LocalStorageModule',
   'navList',
-  'myApp.404',
-  'myApp.home',
-  'myApp.auth',
-  'myApp.dashboard',
-  'myApp.timeline',
-  'myApp.version'
+  'timelyn.404',
+  'timelyn.home',
+  'timelyn.auth',
+  'timelyn.dashboard',
+  'timelyn.timeline',
+  'timelyn.version'
 ])
 
 /*****************************************************************

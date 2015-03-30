@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.404', ['ngRoute'])
+angular.module('timelyn.404', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/404', {

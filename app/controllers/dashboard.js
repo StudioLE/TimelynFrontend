@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.dashboard', ['ngRoute'])
+angular.module('timelyn.dashboard', ['ngRoute'])
 
 
 /*****************************************************************
