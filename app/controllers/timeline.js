@@ -9,36 +9,36 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 ******************************************************************/
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/timeline', {
-		templateUrl: 'timeline/timeline-index.html',
+		templateUrl: 'views/timeline/timeline-index.html',
 		controller: 'TimelineListCtrl'
 	});
 	$routeProvider.when('/timeline/table', {
-		templateUrl: 'timeline/timeline-index-table.html',
+		templateUrl: 'views/timeline/timeline-index-table.html',
 		controller: 'TimelineListCtrl'
 	});
 	$routeProvider.when('/timeline/create', {
-		templateUrl: 'timeline/timeline-form.html',
+		templateUrl: 'views/timeline/timeline-form.html',
 		controller: 'TimelineCtrl',
 		resolve: {
 			action: function() { return 'createTimeline' }
 		}
 	});
 	$routeProvider.when('/timeline/edit/:timelineId', {
-		templateUrl: 'timeline/timeline.html',
+		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: { 
 			action: function() { return 'editTimeline' }
 		}
 	});
 	$routeProvider.when('/timeline/event/create/:timelineId', {
-		templateUrl: 'timeline/timeline.html',
+		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: { 
 			action: function() { return 'createEvent' }
 		}
 	});
 	$routeProvider.when('/timeline/event/:eventId/:timelineId', {
-		templateUrl: 'timeline/timeline.html',
+		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: { 
 			action: function() { return 'editEvent' }

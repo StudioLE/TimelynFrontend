@@ -10,7 +10,7 @@ angular.module('timelyn.dashboard', ['ngRoute'])
 ******************************************************************/
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/dashboard', {
-    templateUrl: 'dashboard/dashboard.html',
+    templateUrl: 'views/dashboard/dashboard.html',
     controller: 'DashboardCtrl'
   });
 }])

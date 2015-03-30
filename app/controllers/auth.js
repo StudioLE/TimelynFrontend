@@ -9,11 +9,11 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 ******************************************************************/
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
-    templateUrl: 'auth/login.html',
+    templateUrl: 'views/auth/login.html',
     controller: 'LoginCtrl'
   });
   $routeProvider.when('/register', {
-    templateUrl: 'auth/register.html',
+    templateUrl: 'views/auth/register.html',
     controller: 'RegisterCtrl'
   });
 }])

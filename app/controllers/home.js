@@ -4,7 +4,7 @@ angular.module('timelyn.home', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: 'home/home.html',
+    templateUrl: 'views/home/home.html',
     controller: 'HomeCtrl'
   });
 }])

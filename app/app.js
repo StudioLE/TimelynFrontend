@@ -13,8 +13,7 @@ angular.module('timelyn', [
   'timelyn.home',
   'timelyn.auth',
   'timelyn.dashboard',
-  'timelyn.timeline',
-  'timelyn.version'
+  'timelyn.timeline'
 ])
 
 /*****************************************************************
