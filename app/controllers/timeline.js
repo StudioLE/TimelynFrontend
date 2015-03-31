@@ -45,7 +45,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		}
 	});
 	$routeProvider.when('/timeline/:timelineId', {
-		templateUrl: 'timeline/timeline.html',
+		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: {
 			action: function() { return 'previewTimeline' }
