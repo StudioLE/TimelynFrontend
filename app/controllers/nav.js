@@ -13,8 +13,9 @@ angular.module('navList', [])
     title: 'Timelines'
   }]
 
-  $scope.isLoggedIn = function() {
-    return User.get().id
+  $scope.navType = function() {
+    if(User.get().id) return 'views/nav/nav-user.html'
+    return 'views/nav/nav-guest.html'
   }
 
   $scope.user = function() {
