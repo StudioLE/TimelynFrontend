@@ -55,11 +55,16 @@ angular.module('timelyn.actionFactory', [])
               "credit": "Credit Name Goes Here",
               "caption": "Caption text goes here"
             }
-          })
+          }, function(event, response) {
+            // Redirect on success
+            callback(null, timeline)
+          }, failure)
         }
-
-        // Redirect on success
-        callback(null, timeline)
+        // Else this is edit
+        else {
+          // Redirect on success
+          callback(null, timeline)
+        }
       }
 
       // REST failure callback
