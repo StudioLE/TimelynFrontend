@@ -38,7 +38,7 @@
         <li ng-repeat="link in nav" ng-class="navClass(link.url)"><a href="{{link.url}}">{{link.title}}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li ng-if="isLoggedIn()"><a href="#/dashboard">Dashboard</a></li>
+        <li ng-if="isLoggedIn()"><a href="#/dashboard">{{user().name}}</a></li>
         <li ng-if="isLoggedIn()"><a href="#/logout">Logout</a></li>
         <li ng-if=" ! isLoggedIn()"><a href="#/login">Login</a></li>
         <li ng-if=" ! isLoggedIn()"><a href="#/register">Register</a></li>
