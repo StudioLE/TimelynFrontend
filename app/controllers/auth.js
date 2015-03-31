@@ -27,7 +27,7 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 * LogoutCtrl controlller
 *
 ******************************************************************/
-.controller('LogoutCtrl', ['$scope', '$location', 'Config', 'User', 'localStorageService', function($scope, $location, Config, User, localStorageService) {
+.controller('LogoutCtrl', function($scope, $location, User) {
 
   $scope.errors = []
 
@@ -39,14 +39,14 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 
   $scope.logout()
 
-}])
+})
 
 /*****************************************************************
 *
 * LoginCtrl controlller
 *
 ******************************************************************/
-.controller('LoginCtrl', ['$scope', '$http', '$location', 'Config', 'User', 'localStorageService', function($scope, $http, $location, Config, User, localStorageService) {
+.controller('LoginCtrl', function($scope, $http, $location, User) {
 
   $scope.errors = []
 
@@ -68,15 +68,14 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
       })
   }
 
-}])
-
+})
 
 /*****************************************************************
 *
 * RegisterCtrl controller
 *
 ******************************************************************/
-.controller('RegisterCtrl', ['$scope', '$http', '$location', 'Config', 'User', function($scope, $http, $location, Config, User) {
+.controller('RegisterCtrl', function($scope, $http, $location, User) {
 
   $scope.errors = []
 
@@ -106,4 +105,4 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
     })
   }
 
-}]);
+});

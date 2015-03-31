@@ -9,6 +9,6 @@ angular.module('timelyn.404', ['ngRoute'])
   });
 }])
 
-.controller('404Ctrl', [function() {
+.controller('404Ctrl', function(Breadcrumb) {
   Breadcrumb.default()
-}]);
+});
