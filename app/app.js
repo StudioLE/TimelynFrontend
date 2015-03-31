@@ -14,7 +14,9 @@ angular.module('timelyn', [
   'timelyn.auth',
   'timelyn.dashboard',
   'timelyn.timeline',
+  'timelyn.breadcrumbFactory',
   'timelyn.eventFactory',
+  'timelyn.pathFactory',
   'timelyn.timelineFactory',
   'timelyn.userFactory'
 ])

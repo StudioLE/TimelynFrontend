@@ -88,8 +88,25 @@ h1, h2, h3, h4, h5 {
   }
 
   .navbar-nav>li>a {
-    padding: 50px 20px 30px;
+    padding: 50px 15px 30px;
   }
+
+  .breadcrumb>li>a {
+    padding-left: 18px;
+    padding-right: 13px;
+  }
+
+  .breadcrumb>li+li:before {
+    padding: 50px 0 0 0;
+    display: block;
+    float: left;
+    color: @nav_border;
+  }
+}
+.breadcrumb {
+  padding: 0;
+  margin-bottom: 0;
+  background: transparent;
 }
 
 

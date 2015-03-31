@@ -10,5 +10,5 @@ angular.module('timelyn.404', ['ngRoute'])
 }])
 
 .controller('404Ctrl', [function() {
-
+  Breadcrumb.default()
 }]);

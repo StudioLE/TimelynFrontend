@@ -1,19 +1,23 @@
 angular.module('navList', [])
 
-.controller('navCtrl', ['$scope', '$location', 'User', function ($scope, $location, User) {
-  $scope.navClass = function (href) {
+.controller('navCtrl', function($scope, $location, User, Breadcrumb) {
+  $scope.navClass = function(href) {
     return href === '#' + $location.path() ? 'active' : '';
   };
 
   $scope.nav = [{
-    url: '#/',
-    title: 'Home'
+    url: '#/about',
+    title: 'About'
   }, {
-    url: '#/timeline',
-    title: 'Timelines'
+    url: '#/pricing',
+    title: 'Pricing'
   }]
 
-  $scope.navType = function() {
+  $scope.breadcrumbs = function() {
+    return Breadcrumb.get()
+  }
+
+  $scope.navView = function() {
     if(User.get().id) return 'views/nav/nav-user.html'
     return 'views/nav/nav-guest.html'
   }
@@ -22,4 +26,4 @@ angular.module('navList', [])
     return User.get()
   }
   
-}]);
+});

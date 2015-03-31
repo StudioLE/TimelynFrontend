@@ -11,9 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/style.css">
-<!--link rel="stylesheet/less" href="css/style.less">
-<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.1.2/less.min.js"></script-->
+<!-- <link rel="stylesheet" href="css/style.css"> -->
+<link rel="stylesheet/less" href="css/style.less">
+<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.1.2/less.min.js"></script>
 <script src="//use.typekit.net/vix4xtn.js"></script>
 <script>try{Typekit.load();}catch(e){}</script>
 </head>
@@ -33,7 +33,7 @@
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-app="navList" ng-controller="navCtrl" ng-include="navType()">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-app="navList" ng-controller="navCtrl" ng-include="navView()">
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
@@ -74,7 +74,9 @@
 <script src="controllers/home.js"></script>
 <script src="controllers/nav.js"></script>
 <script src="controllers/timeline.js"></script>
+<script src="factories/breadcrumbFactory.js"></script>
 <script src="factories/eventFactory.js"></script>
+<script src="factories/pathFactory.js"></script>
 <script src="factories/timelineFactory.js"></script>
 <script src="factories/userFactory.js"></script>
 </body>

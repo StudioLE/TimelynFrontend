@@ -23,21 +23,21 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			action: function() { return 'createTimeline' }
 		}
 	});
-	$routeProvider.when('/timeline/edit/:timelineId', {
+	$routeProvider.when('/timeline/:timelineId/edit', {
 		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: { 
 			action: function() { return 'editTimeline' }
 		}
 	});
-	$routeProvider.when('/timeline/event/create/:timelineId', {
+	$routeProvider.when('/timeline/:timelineId/event/create', {
 		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: { 
 			action: function() { return 'createEvent' }
 		}
 	});
-	$routeProvider.when('/timeline/event/:eventId/:timelineId', {
+	$routeProvider.when('/timeline/:timelineId/event/:eventId', {
 		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
 		resolve: { 
@@ -58,7 +58,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * TimelineCtrl controller
 *
 ******************************************************************/
-.controller('TimelineCtrl', ['$scope', '$routeParams', 'Timeline', 'Event', '$location', '$window', 'action', function ($scope, $routeParams, Timeline, Event, $location, $window, action) {
+.controller('TimelineCtrl', function ($scope, $routeParams, Timeline, Event, $location, $window, action, Breadcrumb, Path) {
 	
 	if($scope[action] !== undefined) {
 		$scope.initialise = true
@@ -74,60 +74,66 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	$scope.createTimeline = function() {
 		action = 'createTimeline'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/create')
+			path.go(['create'])
 		}
 		$routeParams.action = 'create'
 		$routeParams.timelineId = null
 		$scope.edit = false
 		$scope.create = true
+		Breadcrumb.set(['create'])
 	};
 
 	// ng-click="previewTimeline(id)"
 	$scope.previewTimeline = function(timelineId) {
 		action = 'previewTimeline'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/' + timelineId, false);
+			Path.go([timelineId])
 		}
 		$scope.partial = 'events-index'
+		Breadcrumb.set([timelineId])
 	};
 
 	// ng-click="listTimeline()"
 	$scope.listTimelines = function() {
-		$location.path('/timeline')
+		Path.go([null])
+		Breadcrumb.set([null])
 	};
 
 	// ng-click="editTimeline(id)"
 	$scope.editTimeline = function(timelineId) {
 		action = 'editTimeline'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/edit/' + timelineId, false);
+			Path.go([timelineId, 'edit'])
 		}
 		$scope.partial = 'timeline-form'
 		$scope.edit = true
 		$scope.create = false
+		Breadcrumb.set([timelineId, 'edit'])
 	};
 
 	// ng-click="createEvent(id)"
 	$scope.createEvent = function(timelineId) {
 		action = 'createEvent'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/event/create/' + timelineId, false);
+			Path.go([timelineId, 'event', 'create'])
 		}
 		$scope.partial = 'event-form'
 		$scope.edit = false
 		$scope.create = true
+		Breadcrumb.set([timelineId, 'event', 'create'])
 	};
 
 	// ng-click="editEvent(id)"
 	$scope.editEvent = function(timelineId, eventId) {
 		action = 'editEvent'
 		if( ! $scope.initialise) {
-			$location.path('/timeline/event/' + eventId + '/' + timelineId, false);
+			Path.go([timelineId, 'event', eventId])
 		}
 		$scope.partial = 'event-form'
 		$scope.edit = true
 		$scope.create = false
 		$scope.event = Event.get({id: eventId})
+		Breadcrumb.set([timelineId, 'event', eventId])
 	};
 
 	/*************************************************************
@@ -266,7 +272,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	$scope[action]($routeParams.timelineId, $routeParams.eventId)
 	$scope.initialise = false
 
-}])
+})
 
 
 /*****************************************************************
@@ -274,19 +280,19 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * TimelineListCtrl controller
 *
 ******************************************************************/
-.controller('TimelineListCtrl', function($scope, Timeline, $location, $log) {
+.controller('TimelineListCtrl', function($scope, Timeline, Path, Breadcrumb) {
 
 	// Get all Timelines for list
 	$scope.timelines = Timeline.query()
 
-	// ng-click="preview(id)"
-	$scope.preview = function(id) {
-		$location.path('/timeline/' + id);
+	// ng-click="preview(timelineId)"
+	$scope.preview = function(timelineId) {
+		Path.go([timelineId])
 	};
 
-	// ng-click="edit(id)"
-	$scope.edit = function(id) {
-		$location.path('/timeline/edit/' + id);
+	// ng-click="edit(timelineId)"
+	$scope.edit = function(timelineId) {
+		Path.go([timelineId, 'edit'])
 	};
 
 	// ng-click="delete(id)"
@@ -309,7 +315,10 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="create()"
 	$scope.create = function() {
-		$location.path('/timeline/create');
+		console.log('fucks sake')
+		Path.go(['create'])
 	};
+
+	Breadcrumb.default()
 
 })
