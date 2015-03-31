@@ -8,6 +8,10 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 *
 ******************************************************************/
 .config(['$routeProvider', function($routeProvider) {
+  $routeProvider.when('/logout', {
+    templateUrl: 'views/auth/login.html',
+    controller: 'LogoutCtrl'
+  });
   $routeProvider.when('/login', {
     templateUrl: 'views/auth/login.html',
     controller: 'LoginCtrl'
@@ -16,6 +20,25 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
     templateUrl: 'views/auth/register.html',
     controller: 'RegisterCtrl'
   });
+}])
+
+/*****************************************************************
+*
+* LogoutCtrl controlller
+*
+******************************************************************/
+.controller('LogoutCtrl', ['$scope', '$location', 'Config', 'User', 'localStorageService', function($scope, $location, Config, User, localStorageService) {
+
+  $scope.errors = []
+
+  $scope.logout = function () {
+    User.token.unset()
+    User.guest()
+    $location.path('/login')
+  }
+
+  $scope.logout()
+
 }])
 
 /*****************************************************************
@@ -34,8 +57,8 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
         // If successful then
         if(response.status === 200) {
           // Store the JSON Web Token in local storage
-          localStorageService.set('jwt', response.data.token)
-          User.set(true)
+          User.token.set(response.data.token)
+          User.fetch()
           $location.path('/dashboard')
         }
         // If errors

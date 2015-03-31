@@ -9,14 +9,82 @@ angular.module('timelyn.userFactory', [])
 ******************************************************************/
 .factory('User', function($http, localStorageService, Config) {
   var User = {
-    user: null,
-    token: localStorageService.get('jwt'),
+
+    /**
+     * Current user
+     */
+    user: {
+      id: null,
+      name: 'Guest',
+      username: null,
+      email: null
+    },
+    
+    /**
+     * User token class
+     */
+    token: {
+      
+      /**
+       * User token getter
+       *
+       * @return {String} token
+       */
+      get: function() {
+        return localStorageService.get('jwt')
+      },
+
+      /**
+       * User token setter
+       *
+       * @return {String} token
+       */
+      set: function(token) {
+        return localStorageService.set('jwt', token)
+      },
+
+      /**
+       * User token unset
+       */
+      unset: function(token) {
+        return localStorageService.remove('jwt')
+      }
+    },
+    
+    /**
+     * Current user getter
+     *
+     * @return  {Object} user
+     */
     get: function() {
       return this.user
     },
+    
+    /**
+     * Current user setter
+     *
+     * @param {Object} user
+     * @return {Object} user
+     */
     set: function(user) {
-      this.user = user
+      return this.user = user
     },
+
+    /**
+     * Set user to guest
+     */
+    guest: function() {
+      return this.user = {
+        id: null,
+        name: 'Guest',
+        username: null,
+        email: null
+      }
+    },
+
+    /**
+     * Fetch user details
+     */
     fetch: function() {
       $http.get(this.url('current'), {cache: true}).then(function(response) {
         if(response.status === 200) {
@@ -29,6 +97,13 @@ angular.module('timelyn.userFactory', [])
         }
       })
     },
+    
+    /**
+     * User url getter
+     *
+     * @param {String} req
+     * @return {String} url
+     */
     url: function(req) {
       var path = Config.app_url
       if(req === 'current') {
@@ -46,19 +121,17 @@ angular.module('timelyn.userFactory', [])
       }
     }
   }
+
   /**
-   * Check to see whether a JWT is present in local storage
+   * Init 
+   *
+   * Check whether a JSON Web Token is present in local storage
    * if it is then fetch the user data from the server
-   * @return object User 
+   *
+   * @return {Object} user 
    */
   var init = function() {
-    // If no token then user is not logged in
-    if( ! User.token) {
-      User.user = false
-    }
-    else {
-      User.fetch()
-    }
+    if(User.token.get()) User.fetch()
     return User
   }
   return init()
