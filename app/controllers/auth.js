@@ -76,31 +76,34 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 * RegisterCtrl controller
 *
 ******************************************************************/
-.controller('RegisterCtrl', ['$scope', '$http', '$location', 'Config', function($scope, $http, $location, Config) {
+.controller('RegisterCtrl', ['$scope', '$http', '$location', 'Config', 'User', function($scope, $http, $location, Config, User) {
 
   $scope.errors = []
 
   $scope.register = function () {
     // Send a POST request to the authController
     $http.post(User.url('register'), $scope.user)
-      // If success then...
-      .success(function(data, status, headers, config) {
-        if(status === 200 && data.user) {
-          $location.path('/dashboard')
-        }
-        else {
-          $scope.errors.push('Register appeared to succeed but something else has gone wrong')
-        }
-      })
-      // If error then...
-      .error(function(data, status, headers, config) {
-        if(status === 401) {
-          $scope.errors.push('Invalid credentials')
-        }
-        else {
-          $scope.errors.push('Register failed for unknown reason')
-        }
-      });
+    .success(function(data, status, headers, config) {
+      // If successful then
+      if(status === 200) {
+        User.token.set(data.token)
+        User.fetch()
+        $location.path('/dashboard')
+      }
+      else {
+        $scope.errors.push('Register appeared to succeed but something else has gone wrong')
+      }
+    })
+    .error(function(data, status, headers, config) {
+      if(data.error === 'E_VALIDATION') {
+        $scope.errors.push('2 attributes are invalid')
+        console.error(data.invalidAttributes)
+      }
+      else {
+        $scope.errors.push('Registration failed due to unknown error')
+        console.error(data)
+      }
+    })
   }
 
 }]);
