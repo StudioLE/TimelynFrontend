@@ -59,7 +59,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 *
 ******************************************************************/
 .factory('Timeline', function($resource, Config) {
-	return $resource(Config.rest_url + '/timeline/:id', {}, {
+	return $resource(Config.url('/timeline/:id'), {}, {
 		edit: { method: 'PUT', params: {id: '@id'} }
 	});
 })
@@ -70,7 +70,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 *
 ******************************************************************/
 .factory('Event', function($resource, Config) {
-	return $resource(Config.rest_url + '/event/:id', {}, {
+	return $resource(Config.url('/event/:id'), {}, {
 		edit: { method: 'PUT', params: {id: '@id'} }
 	});
 })

@@ -22,10 +22,10 @@ angular.module('timelyn', [
 *
 ******************************************************************/
 .constant('Config', {
-  rest_url: 'https://app.timelyn.io',
-  auth_url: 'https://app.timelyn.io/auth',
-  user_url: 'https://app.timelyn.io/user',
-  jwt_path: 'https://app.timelyn.io/user/jwt'
+  app_url: 'https://app.timelyn.io',
+  app: function(req) {
+    return this.app_url + req
+  }
 })
 
 /*****************************************************************
@@ -99,7 +99,7 @@ angular.module('timelyn', [
       this.user = user
     },
     fetch: function() {
-      $http.get(Config.rest_url + '/test/user', {cache: true}).then(function(response) {
+      $http.get(this.url('current'), {cache: true}).then(function(response) {
         if(response.status === 200) {
           User.user = response.data
         }
@@ -109,6 +109,22 @@ angular.module('timelyn', [
           User.user = false
         }
       })
+    },
+    url: function(req) {
+      var path = Config.app_url
+      if(req === 'current') {
+        return path + '/user/current'
+      }
+      else if(req === 'register') {
+        return path + '/user/register'
+      }
+      else if(req === 'login') {
+        return path + '/auth/login'
+      }
+      else {
+        console.error('Unknown request User.url("' + req + '")')
+        return null
+      }
     }
   }
   /**

@@ -29,7 +29,7 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 
   $scope.login = function () {
     // Send a POST request to the authController
-    $http.post(Config.auth_url + '/login', $scope.user)
+    $http.post(User.url('login'), $scope.user)
       .then(function(response) {
         // If successful then
         if(response.status === 200) {
@@ -59,7 +59,7 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 
   $scope.register = function () {
     // Send a POST request to the authController
-    $http.post(Config.auth_url, $scope.user)
+    $http.post(User.url('register'), $scope.user)
       // If success then...
       .success(function(data, status, headers, config) {
         if(status === 200 && data.user) {
