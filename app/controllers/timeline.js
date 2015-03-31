@@ -58,11 +58,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * TimelineCtrl controller
 *
 ******************************************************************/
-.controller('TimelineCtrl', function ($scope, $routeParams, Timeline, Event, $location, $window, action, Breadcrumb, Path) {
-	
-	if($scope[action] !== undefined) {
-		$scope.initialise = true
-	}
+.controller('TimelineCtrl', function ($scope, $routeParams, Timeline, Event, action, Action, Breadcrumb, Path) {
 
 	/*************************************************************
 	* 	
@@ -74,9 +70,8 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	$scope.createTimeline = function() {
 		action = 'createTimeline'
 		if( ! $scope.initialise) {
-			path.go(['create'])
+			Path.go(['create'])
 		}
-		$routeParams.action = 'create'
 		$routeParams.timelineId = null
 		$scope.edit = false
 		$scope.create = true
@@ -143,116 +138,50 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	**************************************************************/
 
 	// ng-click="back()"
-	$scope.back = function(timelineId, eventId) {
-		$window.history.back();
+	$scope.back = function() {
+		Action.back()
 	};
 
 	// ng-click="deleteTimeline(id)"
 	$scope.deleteTimeline = function(id) {
-		Timeline.delete({ id: id }, function(value, responseHeaders) {
-			// REST success callback
-			// Update scope on success
-			$scope.timelines = Timeline.query();
-			// @todo add mechanism to delete linked events
-			
-		}, function(httpResponse){
-			// REST failure callback
-			// Send errors to scope
-			if($scope.errors === undefined) {
-				$scope.errors = []
+		Action.deleteTimeline(id, function(err, timeline) {
+			if(err) {
+				$scope.errors.push(err)
 			}
-			$scope.errors.push(httpResponse)
+			else {
+	      // Redirect & update scope
+      	Path.go([null])
+        $scope.timelines = Timeline.query();
+      }
 		})
 	};
 
 	// ng-click="saveTimeline()"
 	$scope.saveTimeline = function() {
-
-		// REST success callback
-		var success = function(timeline, responseHeaders) {
-			
-			// If new timeline then create the first event on it
-			if(action === 'createTimeline') {
-				Event.save({
-					"timeline": timeline.id,
-					"startDate": timeline.createdAt,
-					"endDate": "",
-					"headline": "I created my first Timeline using Timelyn",
-					"text": "<p>You can put some text here. Why, isn't that pretty...</p>",
-					"tag": "",
-					"classname": "",
-					"asset": {
-						"media": "",
-						"thumbnail": "http://lorempixel.com/32/32/",
-						"credit": "Credit Name Goes Here",
-						"caption": "Caption text goes here"
-					}
-				})
+		Action.saveTimeline($scope.timeline, action, function(err, timeline) {
+			if(err) {
+				$scope.errors.push(err)
 			}
-
-			// Redirect on success
-			$location.path('/timeline/' + timeline.id, true);
-		}
-
-		// REST failure callback
-		var failure = function(httpResponse) {
-			if($scope.errors === undefined) {
-				$scope.errors = []
-			}
-			// Error
-			$scope.errors.push(httpResponse);
-		}
-
-		// If action is edit
-		if(action === 'editTimeline') {
-			Timeline.edit($scope.timeline, success, failure);
-		}
-		// Else action is create
-		else if(action === 'createTimeline') {
-			Timeline.save($scope.timeline, success, failure);
-		}
-		else {
-			// This shouldn't happen
-			console.error('saveTimeline() called in unknown context')
-		}
-		
+			else {
+	      // Redirect & update scope
+	      Path.go([timeline.id])
+	      $scope.timeline = Timeline.get({id: $routeParams.timelineId})
+      }
+		})
 	};
 
 	// ng-click="saveEvent()"
 	$scope.saveEvent = function(event) {
-
-		// REST success callback
-		var success = function(value, responseHeaders) {
-			// Redirect on success
-			$scope.previewTimeline($scope.timeline.id)
-			// Update the model
-			$scope.timeline = Timeline.get({id: $routeParams.timelineId})
-		}
-
-		// REST failure callback
-		var failure = function(httpResponse){
-			if($scope.errors === undefined) {
-				$scope.errors = []
+		Action.saveEvent(event, action, function(err, timeline) {
+			if(err) {
+				$scope.errors.push(err)
 			}
-			// Error
-			$scope.errors.push(httpResponse);
-		}
-
-		// If action is edit
-		if(action === 'editEvent') {
-			Event.edit(event, success, failure);
-		}
-		// Else action is create
-		else if(action === 'createEvent') {
-			// Link the new event with the timeline
-			event.timeline = $scope.timeline.id
-			Event.save(event, success, failure)
-		}
-		else {
-			// This shouldn't happen
-			console.error('saveEvent() called in unknown context')
-		}
-
+			else {
+	      // Redirect & update scope
+	      Path.go([timeline.id])
+	      $scope.timeline = Timeline.get({id: $routeParams.timelineId})
+      }
+    })
 	};
 
 	/*************************************************************
@@ -261,6 +190,11 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	* 
 	**************************************************************/
 	
+	$scope.errors = []
+
+	if($scope[action] !== undefined) {
+		$scope.initialise = true
+	}
 
 	// If a timeline is specified
 	if($routeParams.timelineId) {
@@ -297,25 +231,20 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
 	// ng-click="delete(id)"
 	$scope.delete = function(id) {
-		Timeline.delete({ id: id }, function(value, responseHeaders) {
-			// REST success callback
-			// Update scope on success
-			$scope.timelines = Timeline.query();
-			// @todo add mechanism to delete linked events
-
-		}, function(httpResponse){
-			// REST failure callback
-			// Send errors to scope
-			if($scope.errors === undefined) {
-				$scope.errors = []
+		Action.deleteTimeline(id, function(err, timeline) {
+			if(err) {
+				$scope.errors.push(err)
 			}
-			$scope.errors.push(httpResponse)
+			else {
+	      // Redirect & update scope
+      	Path.go([null])
+        $scope.timelines = Timeline.query();
+      }
 		})
 	};
 
 	// ng-click="create()"
 	$scope.create = function() {
-		console.log('fucks sake')
 		Path.go(['create'])
 	};
 

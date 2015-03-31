@@ -9,6 +9,6 @@ angular.module('timelyn.home', ['ngRoute'])
   });
 }])
 
-.controller('HomeCtrl', function() {
-
+.controller('HomeCtrl', function(Breadcrumb) {
+  Breadcrumb.default()
 });
