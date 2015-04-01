@@ -1,19 +1,19 @@
-# TimelynFrontend
+This repository contains the frontend application for [timelyn](https://timelyn.io). The backend repository is available at [StudioLE/TimelynBackend](https://github.com/StudioLE/TimelynBackend).
 
-The [AngularJS](https://angularjs.org) frontend for Timelyn.
+# Timelyn
 
-## Timelyn
+With [timelyn](https://timelyn.io) anyone can publish embedable timelines.
 
-Timelyn is an application to create, edit, manage and embed [Timeline JS](http://timeline.knightlab.com) timelines intuitively. 
+Find the application at [https://timelyn.io](https://timelyn.io)
 
-The basic application functionality is almost complete but there's still a lot of work to be done.
+## More information
 
-The [Sails.js](http://sailsjs.org) backend can be found in the [backend repository](https://github.com/StudioLE/TimelynBackend).
+Browse the [backend README for more information](https://github.com/StudioLE/TimelynBackend/blob/master/README.md)
 
-## Website
+## Contributing
 
-The frontend is available at [timelyn.io](https://timelyn.io) however the backend is currently only available offline. The frontend will attempt to connect to [http://localhost:7425](http://localhost:7425).
+I'm always on the look out for collaborators so feel free to suggest new features, get in touch or just fork at will.
 
-## Install
+### Install
 
-Install instructions can be found in the [angular-seed README.md](https://github.com/angular/angular-seed/blob/master/README.md).
+To install the frontend clone the repository, modify the config option in `app.js` to suit your environment then follow the instructions in the [angular-seed README.md](https://github.com/angular/angular-seed/blob/master/README.md).
