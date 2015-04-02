@@ -7,18 +7,13 @@ angular.module('timelyn.userFactory', [])
 * User factory
 *
 ******************************************************************/
-.factory('User', function($http, localStorageService, Config) {
+.factory('User', function($http, localStorageService, Config, Alert) {
   var User = {
 
     /**
      * Current user
      */
-    user: {
-      id: null,
-      name: 'Guest',
-      username: null,
-      email: null
-    },
+    user: {},
     
     /**
      * User token class
@@ -72,6 +67,8 @@ angular.module('timelyn.userFactory', [])
 
     /**
      * Set user to guest
+     *
+     * @param {string} route
      */
     guest: function() {
       return this.user = {
@@ -85,17 +82,28 @@ angular.module('timelyn.userFactory', [])
     /**
      * Fetch user details
      */
-    fetch: function() {
-      $http.get(this.url('current'), {cache: true}).then(function(response) {
-        if(response.status === 200) {
-          User.user = response.data
-        }
-        else {
-          console.error('JWT not accepted by server')
-          console.error(response.data)
-          User.user = false
-        }
-      })
+    fetch: function(route) {
+      if(route !== 'guest') route = 'current'
+
+      $http.get(this.url(route))
+        .success(function(data, status, headers, config) {
+          User.user = data
+        })
+        .error(function(data, status, headers, config) {
+          if(status === 403) {
+            Alert.set('Request forbidden by application server', 'warning')
+            console.error('Request forbidden by server')
+            // console.error('JWT not accepted by server')
+            console.error(status)
+            console.error(data)
+          }
+          else {
+            Alert.set('Could not connect to application server', 'danger')
+            console.error('Could not connect to application server')
+            console.error(status)
+            console.error(data)
+          }
+        })
     },
     
     /**
@@ -108,6 +116,9 @@ angular.module('timelyn.userFactory', [])
       var path = Config.app_url
       if(req === 'current') {
         return path + '/user/current'
+      }
+      else if(req === 'guest') {
+        return path + '/user/guest'
       }
       else if(req === 'register') {
         return path + '/user/register'
@@ -127,11 +138,17 @@ angular.module('timelyn.userFactory', [])
    *
    * Check whether a JSON Web Token is present in local storage
    * if it is then fetch the user data from the server
+   * otherwise just check the server is online
    *
    * @return {Object} user 
    */
   var init = function() {
-    if(User.token.get()) User.fetch()
+    if(User.token.get()) {
+      User.fetch()
+    } 
+    else {
+      User.fetch('guest')
+    }
     return User
   }
   return init()

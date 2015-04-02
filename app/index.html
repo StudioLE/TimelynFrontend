@@ -38,6 +38,8 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+<div class="alerts" ng-app="alertModule" ng-controller="AlertCtrl" ng-include="'partials/alerts.html'"></div>
+
 
 <div ng-view></div>
 
@@ -69,12 +71,14 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.1.5/angular-local-storage.min.js"></script>
 <script src="app.js"></script>
 <script src="config.js"></script>
+<script src="controllers/alert.js"></script>
 <script src="controllers/auth.js"></script>
 <script src="controllers/dashboard.js"></script>
 <script src="controllers/pages.js"></script>
 <script src="controllers/nav.js"></script>
 <script src="controllers/timeline.js"></script>
 <script src="factories/actionFactory.js"></script>
+<script src="factories/alertFactory.js"></script>
 <script src="factories/breadcrumbFactory.js"></script>
 <script src="factories/eventFactory.js"></script>
 <script src="factories/pathFactory.js"></script>
