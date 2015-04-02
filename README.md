@@ -14,6 +14,4 @@ Browse the [backend README for more information](https://github.com/StudioLE/Tim
 
 I'm always on the look out for collaborators so feel free to suggest new features, get in touch or just fork at will.
 
-### Install
-
-To install the frontend clone the repository, modify the config option in `app.js` to suit your environment then follow the instructions in the [angular-seed README.md](https://github.com/angular/angular-seed/blob/master/README.md).
+Installation instructions for both the frontend and backend are available in the backend [INSTALL.md](https://github.com/StudioLE/TimelynBackend/edit/master/INSTALL.md)
