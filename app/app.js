@@ -9,6 +9,7 @@ angular.module('timelyn', [
   'ngRoute',
   'LocalStorageModule',
   'navList',
+  'timelyn.config',
   'timelyn.404',
   'timelyn.home',
   'timelyn.auth',
@@ -21,18 +22,6 @@ angular.module('timelyn', [
   'timelyn.timelineFactory',
   'timelyn.userFactory'
 ])
-
-/*****************************************************************
-*
-* Configuration
-*
-******************************************************************/
-.constant('Config', {
-  app_url: 'https://app.timelyn.io',
-  app: function(req) {
-    return this.app_url + req
-  }
-})
 
 /*****************************************************************
 *
