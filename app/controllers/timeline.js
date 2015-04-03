@@ -51,6 +51,13 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			action: function() { return 'previewTimeline' }
 		}
 	});
+	$routeProvider.when('/timeline/:timelineId/media/create', {
+		templateUrl: 'views/timeline/media-form.html',
+		controller: 'TimelineCtrl',
+		resolve: {
+			action: function() { return 'createMedia' }
+		}
+	});
 }])
 
 /*****************************************************************
@@ -131,6 +138,19 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		Breadcrumb.set([timelineId, 'event', eventId])
 	};
 
+	// ng-click="createMedia(id)"
+	$scope.createMedia = function(timelineId, eventId) {
+		action = 'editEvent'
+		if( ! $scope.initialise) {
+			Path.go([timelineId, 'event', eventId])
+		}
+		$scope.partial = 'media-form'
+		$scope.edit = false
+		$scope.create = true
+		// $scope.event = Event.get({id: eventId})
+		Breadcrumb.set([timelineId, 'event', eventId])
+	};
+
 	/*************************************************************
 	* 	
 	* Actions
@@ -182,7 +202,22 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	      $scope.timeline = Timeline.get({id: $routeParams.timelineId})
       }
     })
-	};
+	}
+
+	$scope.saveMedia = function(media) {
+		Action.uploadMedia(media, function(err, media) {
+			if(err) {
+				$scope.errors.push(err)
+			}
+			else {
+				console.log('success')
+				console.log(media)
+	      // Redirect & update scope
+	      // Path.go([timeline.id])
+	      // $scope.timeline = Timeline.get({id: $routeParams.timelineId})
+      }
+    })
+	}
 
 	/*************************************************************
 	*

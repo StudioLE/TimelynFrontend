@@ -9,6 +9,7 @@ angular.module('timelyn', [
   'ngRoute',
   'LocalStorageModule',
   'navList',
+  'angularFileUpload',
   'alertModule',
   'timelyn.config',
   'timelyn.config',

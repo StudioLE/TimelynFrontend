@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-sm-3" style="text-align: right">
+    <h2 ng-if="edit">Edit event</h2>
+    <h2 ng-if="create">Create event</h2>
+  </div>
+  <div class="col-sm-8 text-primary">
+    <h2>{{event.headline}}</h2>
+  </div>
+</div>
+
+<form class="form-horizontal">
+
+  <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {{error}}
+  </div>
+
+  <div class="form-group">
+    <label for="" class="col-sm-3 control-label">Type</label>
+    <div class="col-sm-8">
+      <select class="form-control" ng-model="media.type">
+        <option>Select from list...</option>
+        <option value="upload">Upload Image</option>
+        <option value="url">Image URL</option>
+        <option value="url">Other</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group" ng-show="media.type=='upload'">
+    <label for="" class="col-sm-3 control-label">Upload Image</label>
+    <div class="col-sm-8">
+      <input type="file" ng-file-select ng-model="media.file">
+       <!-- ng-file-change="upload($files)"  ng-multiple="true" -->
+      <!-- <ul>
+        <li ng-repeat="item in uploader.queue">
+          Name: <span ng-bind="item.file.name"></span><br/>
+          <button ng-click="item.upload()">upload</button>
+        </li>
+      </ul> -->
+      <!--div ng-file-drop ng-model="media.upload" drag-over-class="dragover" accept=".jpg,.png,.gif" class="drop">Drop Images here</div>
+      <div ng-no-file-drop>File Drag/Drop is not supported for this browser</div-->
+    </div>
+  </div>
+  <div class="form-group" ng-show="media.type=='url'">
+    <label for="" class="col-sm-3 control-label">Media</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="media.media">
+    </div>
+  </div>
+  <div class="form-group" ng-show="media.type=='url'">
+    <label for="" class="col-sm-3 control-label">Thumbnail</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="media.thumbnail">
+    </div>
+  </div>
+  <div class="form-group" ng-show="media.type">
+    <label for="" class="col-sm-3 control-label">Credit</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="media.credit">
+    </div>
+  </div>
+  <div class="form-group" ng-show="media.type">
+    <label for="" class="col-sm-3 control-label">Caption</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" ng-model="media.caption">
+    </div>
+  </div>
+  <div class="form-group"></div>
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-8">
+      <a class="btn btn-primary" ng-click="saveMedia(media)">Save Media</a>
+    </div>
+  </div>
+</form>

@@ -7,7 +7,7 @@ angular.module('timelyn.actionFactory', [])
 * User factory
 *
 ******************************************************************/
-.factory('Action', function($http, $window, Timeline, Event) {
+.factory('Action', function($http, $window, Timeline, Event, Config, $upload) {
   return {
 
     /**
@@ -24,7 +24,7 @@ angular.module('timelyn.actionFactory', [])
       }
       else {
         console.error(response.data)
-        return data
+        return response.data
       }
     },
     
@@ -139,6 +139,35 @@ angular.module('timelyn.actionFactory', [])
         // REST failure callback
         callback(self.error(err))
       })
+    },
+
+    /**
+     * Upload media
+     */
+    uploadMedia: function(media, callback) {
+      console.log('actionFactory called')
+      // var self = this
+      // https://github.com/danialfarid/ng-file-upload
+      $upload.upload({
+          url: Config.app('/media/upload'),
+          fields: {
+            'credit': media.credit,
+            'caption': media.caption
+          },
+          file: media.file
+      }).progress(function(evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+      }).error(function(data, status, headers, config) {
+        console.log('File upload error')
+        console.log(data)
+        console.log(status)
+        console.log(headers)
+        console.log(config)
+        callback(data)
+      }).success(function(data, status, headers, config) {
+        callback(null, data)
+      });
     }
 
   }
