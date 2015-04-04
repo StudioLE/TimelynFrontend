@@ -160,13 +160,21 @@ angular.module('timelyn.actionFactory', [])
           console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).error(function(data, status, headers, config) {
         console.log('File upload error')
-        console.log(data)
-        console.log(status)
-        console.log(headers)
-        console.log(config)
         callback(data)
       }).success(function(data, status, headers, config) {
-        callback(null, data)
+        // .error() doesn't seem to work so check success here
+        if(status === 200) {
+          callback(null, data)
+        }
+        else {
+          // @todo better errors
+          console.error('File upload error')
+          console.log(data)
+          console.log(status)
+          console.log(headers)
+          console.log(config)
+          callback(data)
+        }
       });
     }
 
