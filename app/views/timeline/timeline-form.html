@@ -1,61 +1,97 @@
-<div class="row">
-  <div class="col-sm-3" style="text-align: right">
-    <h2 ng-if="edit">Edit timeline</h2>
-    <h2 ng-if="create">Create timeline</h2>
-  </div>
-  <div class="col-sm-8 text-primary">
-    <h2>{{timeline.headline}}</h2>
+<div class="container">
+  <!-- <div class="row">
+    <div class="col-sm-4" style="text-align: right">
+      <h2 ng-if="edit">Edit timeline</h2>
+      <h2 ng-if="create">Create timeline</h2>
+    </div>
+    <div class="col-sm-8 text-primary">
+      <h2>{{timeline.headline}}</h2>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-sm-6">
+      <form class="form-horizontal">        
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Headline</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" placeholder="Your timeline headline" required ng-model="timeline.headline">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Text</label>
+          <div class="col-sm-8">
+            <textarea class="form-control" rows="5" ng-blur="renderTimeline(timeline)" placeholder="Some text to introduce the timeline" ng-model="timeline.text"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Media</label>
+          <div class="col-sm-8">
+            <div class="radio">
+              <label class="radio-inline">
+                <input type="radio" ng-model="timeline.media.type" value="upload"> Upload
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="timeline.media.type" value="url"> URL
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="timeline.media.type" value=""> None
+              </label>
+            </div>
+          </div>
+        </div>
+      <fieldset>
+        <div class="form-group" ng-show="timeline.media.type=='upload'">
+          <label for="" class="col-sm-4 control-label">Media Upload</label>
+          <div class="col-sm-4">
+            <a class="btn btn-primary" ng-file-select ng-file-change="renderTimeline(timeline)" ng-model="timeline.media.file">Select File</a>
+          </div>
+          <div class="col-md-2" ng-repeat-start="f in timeline.media.file">
+            <img ng-show="f.dataUrl" ng-src="{{f.dataUrl}}" class="img-responsive">
+          </div>
+          <div class="col-md-2" ng-repeat-end>
+            <p>{{f.name}}<br>
+            {{f.size}}B<br>
+            <!-- {{f.type}} --></p>
+          </div>
+        </div>
+        <div class="form-group" ng-show="timeline.media.type=='url'">
+          <label for="" class="col-sm-4 control-label">Media URL</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.media">
+          </div>
+        </div>
+        <div class="form-group" ng-show="timeline.media.type=='url'">
+          <label for="" class="col-sm-4 control-label"> Thumbnail</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.thumbnail">
+          </div>
+        </div>
+        <div class="form-group" ng-show="timeline.media.type">
+          <label for="" class="col-sm-4 control-label">Credit</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.credit">
+          </div>
+        </div>
+        <div class="form-group" ng-show="timeline.media.type">
+          <label for="" class="col-sm-4 control-label">Caption</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.caption">
+          </div>
+        </div>
+      </fieldset>
+        <div class="form-group"></div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-8">
+            <a class="btn btn-primary" ng-click="saveTimeline()">Save Timeline</a>
+            <a class="btn btn-default" ng-click="renderTimeline(timeline)">Render Preview</a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6 timeline-embed-col">
+      <div id="timeline-embed"></div>
+    </div>
   </div>
 </div>
 
-<form class="form-horizontal">
-
-  <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Error:</span>
-    {{error}}
-  </div>
-  
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Headline</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="timeline.headline">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Type</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="timeline.type">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Text</label>
-    <div class="col-sm-8">
-      <textarea class="form-control" rows="5" ng-model="timeline.text"></textarea>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Media</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="timeline.asset.media">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Credit</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="timeline.asset.credit">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Caption</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="timeline.asset.caption">
-    </div>
-  </div>
-  <div class="form-group"></div>
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-8">
-      <a class="btn btn-primary" ng-click="saveTimeline()">Save Timeline</a>
-    </div>
-  </div>
-</form>

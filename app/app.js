@@ -21,6 +21,7 @@ angular.module('timelyn', [
   'timelyn.alertFactory',
   'timelyn.breadcrumbFactory',
   'timelyn.eventFactory',
+  'timelyn.mediaFactory',
   'timelyn.pathFactory',
   'timelyn.timelineFactory',
   'timelyn.userFactory'
@@ -34,6 +35,13 @@ angular.module('timelyn', [
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/404'});
 }])
+
+/*****************************************************************
+*
+* Lodash
+*
+******************************************************************/
+.constant('_', window._)
 
 /*****************************************************************
 *

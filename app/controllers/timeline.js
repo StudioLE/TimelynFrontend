@@ -65,7 +65,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 * TimelineCtrl controller
 *
 ******************************************************************/
-.controller('TimelineCtrl', function ($scope, $routeParams, Timeline, Event, action, Action, Breadcrumb, Path) {
+.controller('TimelineCtrl', function ($scope, $routeParams, Timeline, Event, action, Action, Breadcrumb, Path, Alert) {
 
 	/*************************************************************
 	* 	
@@ -179,10 +179,8 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	// ng-click="saveTimeline()"
 	$scope.saveTimeline = function() {
 		Action.saveTimeline($scope.timeline, action, function(err, timeline) {
-			if(err) {
-				$scope.errors.push(err)
-			}
-			else {
+			if( ! err) {
+				Alert.set('Timeline created: ' + timeline.headline, 'success')
 	      // Redirect & update scope
 	      Path.go([timeline.id])
 	      $scope.timeline = Timeline.get({id: $routeParams.timelineId})
@@ -219,6 +217,12 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
     })
 	}
 
+	$scope.renderTimeline = function(data) {
+		Action.renderTimeline(data, function(err, response) {
+			//
+		})
+	}
+
 	/*************************************************************
 	*
 	* Initialise
@@ -235,6 +239,7 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	if($routeParams.timelineId) {
 		// Get the timeline by routeParam
 		$scope.timeline = Timeline.get({id: $routeParams.timelineId})
+		$scope.renderTimeline($scope.timeline)
 	}
 
 	// Call the function defined in $routeProvider
