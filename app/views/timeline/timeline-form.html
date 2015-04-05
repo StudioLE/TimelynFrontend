@@ -11,17 +11,26 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <form class="form-horizontal">        
+      <form class="form-horizontal" name="form">        
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">Headline</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" placeholder="Your timeline headline" required ng-model="timeline.headline">
+            <input type="text" class="form-control"
+              placeholder="Your timeline headline"
+              required
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="timeline.headline">
           </div>
         </div>
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">Text</label>
           <div class="col-sm-8">
-            <textarea class="form-control" rows="5" ng-blur="renderTimeline(timeline)" placeholder="Some text to introduce the timeline" ng-model="timeline.text"></textarea>
+            <textarea class="form-control" rows="5" 
+              placeholder="Some text to introduce the timeline" 
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}" 
+              ng-model="timeline.text"></textarea>
           </div>
         </div>
         <div class="form-group">
@@ -44,7 +53,11 @@
         <div class="form-group" ng-show="timeline.media.type=='upload'">
           <label for="" class="col-sm-4 control-label">Media Upload</label>
           <div class="col-sm-4">
-            <a class="btn btn-primary" ng-file-select ng-file-change="renderTimeline(timeline)" ng-model="timeline.media.file">Select File</a>
+            <a class="btn btn-primary"
+              ng-file-select 
+              ng-file-change="renderTimeline(timeline)" 
+              ng-model="timeline.media.file"
+              ng-required="timeline.media.type=='upload'">Select File</a>
           </div>
           <div class="col-md-2" ng-repeat-start="f in timeline.media.file">
             <img ng-show="f.dataUrl" ng-src="{{f.dataUrl}}" class="img-responsive">
@@ -58,32 +71,47 @@
         <div class="form-group" ng-show="timeline.media.type=='url'">
           <label for="" class="col-sm-4 control-label">Media URL</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.media">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="timeline.media.media"
+              ng-required="timeline.media.type=='url'">
           </div>
         </div>
         <div class="form-group" ng-show="timeline.media.type=='url'">
           <label for="" class="col-sm-4 control-label"> Thumbnail</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.thumbnail">
+            <input type="text" class="form-control" 
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="timeline.media.thumbnail">
           </div>
         </div>
         <div class="form-group" ng-show="timeline.media.type">
           <label for="" class="col-sm-4 control-label">Credit</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.credit">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="timeline.media.credit">
           </div>
         </div>
         <div class="form-group" ng-show="timeline.media.type">
           <label for="" class="col-sm-4 control-label">Caption</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" ng-blur="renderTimeline(timeline)" ng-model="timeline.media.caption">
+            <input type="text" class="form-control" 
+              ng-change="renderTimeline(timeline)" 
+              ng-model-options="{updateOn: 'blur'}" 
+              ng-model="timeline.media.caption">
           </div>
         </div>
       </fieldset>
         <div class="form-group"></div>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-8">
-            <a class="btn btn-primary" ng-click="saveTimeline()">Save Timeline</a>
+            <button type="submit" class="btn btn-primary" 
+              ng-disabled="form.$invalid" 
+              ng-click="saveTimeline()">Save Timeline</button>
             <a class="btn btn-default" ng-click="renderTimeline(timeline)">Render Preview</a>
           </div>
         </div>

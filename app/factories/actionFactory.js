@@ -18,60 +18,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
     },
 
     failure: function(err, callback) {
-      callback(self.error(err))
-    },
-
-    
-    /**
-     * Parse errors
-     *
-     * Call on failure of a factory method
-     * It checks for E_VALIDATION errors and
-     * presents them to the user via Alert
-     *
-     * @param {Object} response
-     * @return {Object} error
-     */
-    error: function(response) {
-      console.error(response)
-      if(_.isString(response)) {
-        Alert.set(response, 'danger')
-      }
-      // Check if there is a nested validation error
-      else if(response.status === 500 && response.data.error === 'E_UNKNOWN' && response.data.raw && response.data.raw[0].err.error === 'E_VALIDATION') {
-        // console.log(response.data.raw[0].err.error)
-        // Recurse..
-        this.error({data: response.data.raw[0].err})
-      }
-      else if(response.data.error === 'E_VALIDATION') {
-        var validation = []
-        // For each input that is invalid
-        _.each(response.data.invalidAttributes, function(rules, key) {
-          // Check which rules it failed
-          _.each(rules, function(error) {
-            switch(error.rule) {
-              case 'required':
-                validation.push(key + ' is required')
-              break;
-              case 'string':
-                validation.push(key + ' should contain text')
-              break;
-              default:
-                validation.push(key + rule.message)
-                console.error('Unknown validation error for: ' + key)
-                console.error(error)
-              break;
-            }
-          })
-        })
-        // Join and format validation errors
-        validation = 'Validation Failed <ul><li>'+validation.join('</li><li>')+'</li></ul>'
-        // Set an alert message
-        Alert.set(validation, 'warning')
-      }
-      else {
-        Alert.set('An unknown error occured', 'warning')
-      }
+      callback(Alert.error(err))
     },
     
     /**
@@ -84,6 +31,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
      */
     saveTimeline: function(timeline, action, callback) {
       var self = this
+      Alert.clear()
 
       // If action is edit
       if(action === 'editTimeline') {
@@ -101,19 +49,32 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
              cb('No data submitted')
             }
             else if(timeline.media && timeline.media.type === 'upload') {
+              // Remove the dataUrl before upload
+              console.log(timeline.media)
+              delete timeline.media.media
+              console.log(timeline.media)
               self.uploadMedia(timeline.media, function(err, media) {
                 if(err) cb(err)
+                // Add the id to the timeline
+                timeline.asset = media.id
+                // Remove media from the object
+                delete timeline.media
                 cb(null, timeline)
               })
             }
             else if(timeline.media && timeline.media.type === 'url') {
               Media.save(timeline.media, function(media, response) {
+                // Add the id to the timeline
+                timeline.asset = media.id
+                // Remove media from the object
+                delete timeline.media
                 // Success so proceed
                 cb(null, timeline)
               }, cb)
             }
             else {
-              timeline.media = null
+              delete timeline.media
+              delete timeline.asset
               cb(null, timeline)
             }
           },
@@ -122,6 +83,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
               // Success so proceed
               cb(null, timeline)
             }, cb)
+            // @todo Need to update media with timeline ID
           },
           function(timeline, cb) { // Save first event
             Event.save({
@@ -144,7 +106,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
             }, cb)
           }
         ], function (err, timeline) {
-            if(err) self.error(err, timeline)
+            if(err) Alert.error(err, timeline)
             else callback(null, timeline)
         })
 
@@ -175,7 +137,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
 
       // REST failure callback
       var failure = function(err) {
-        callback(self.error(err))
+        callback(Alert.error(err))
       }
 
       // If action is edit
@@ -206,7 +168,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         callback(null, response)
       }, function(err) {
         // REST failure callback
-        callback(self.error(err))
+        callback(Alert.error(err))
       })
     },
 
@@ -225,7 +187,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
           var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
           console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).error(function(data, status, headers, config) {
-         self.error({ data: data.error }) 
+         Alert.error({ data: data.error }) 
          //callback({ data: data, status: status, headers: headers, config: config})
       }).success(function(data, status, headers, config) {
         callback(null, data)
@@ -241,6 +203,9 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
 
       // console.log(timeline)
 
+      // If we've been sent media use it
+      if(timeline && timeline.media) timeline.asset = timeline.media
+
       // Assign defaults to undefined variables
       timeline = _.assign({
         date: [{
@@ -254,9 +219,9 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         type: "default",
         text: "Some text to introduce your timeline",
         asset: {
-          media: "http://embed.timelyn.io/john/img/1.jpg",
-          credit: "Arjuna Soriano",
-          caption: "From punch cards to multi touch"
+          media: "img/placeholder.png",
+          credit: "Credit for image author",
+          caption: "A short description of the image"
         },
         era: []
       }, timeline)
