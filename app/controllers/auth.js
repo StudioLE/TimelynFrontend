@@ -46,26 +46,24 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 * LoginCtrl controlller
 *
 ******************************************************************/
-.controller('LoginCtrl', function($scope, $http, $location, User) {
+.controller('LoginCtrl', function($scope, $http, $location, User, Alert) {
 
   $scope.errors = []
 
   $scope.login = function () {
+    Alert.clear()
+
     // Send a POST request to the authController
     $http.post(User.url('login'), $scope.user)
-      .then(function(response) {
-        // If successful then
-        if(response.status === 200) {
-          // Store the JSON Web Token in local storage
-          User.token.set(response.data.token)
-          User.fetch()
-          $location.path('/dashboard')
-        }
-        // If errors
-        else {
-          $scope.errors.push('Invalid credentials')
-        }
-      })
+    .success(function(data, status, headers, config) {
+      Alert.set('You\'ve been logged in', 'success')
+      User.token.set(data.token)
+      User.fetch()
+      $location.path('/dashboard')
+    })
+    .error(function(data, status, headers, config) {
+      Alert.set(data.error, 'warning')
+    })
   }
 
 })
@@ -75,33 +73,22 @@ angular.module('timelyn.auth', ['ngRoute', 'LocalStorageModule'])
 * RegisterCtrl controller
 *
 ******************************************************************/
-.controller('RegisterCtrl', function($scope, $http, $location, User) {
-
-  $scope.errors = []
+.controller('RegisterCtrl', function($scope, $http, $location, User, Alert) {
 
   $scope.register = function () {
+    Alert.clear()
+    
     // Send a POST request to the authController
     $http.post(User.url('register'), $scope.user)
     .success(function(data, status, headers, config) {
+      Alert.set('You\'ve been registered', 'success')
       // If successful then
-      if(status === 200) {
-        User.token.set(data.token)
-        User.fetch()
-        $location.path('/dashboard')
-      }
-      else {
-        $scope.errors.push('Register appeared to succeed but something else has gone wrong')
-      }
+      User.token.set(data.token)
+      User.fetch()
+      $location.path('/dashboard')
     })
     .error(function(data, status, headers, config) {
-      if(data.error === 'E_VALIDATION') {
-        $scope.errors.push('2 attributes are invalid')
-        console.error(data.invalidAttributes)
-      }
-      else {
-        $scope.errors.push('Registration failed due to unknown error')
-        console.error(data)
-      }
+      Alert.error({ data: data })
     })
   }
 

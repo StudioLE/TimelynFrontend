@@ -77,7 +77,7 @@ angular.module('timelyn.alertFactory', [])
      * Parse errors
      *
      * Call on failure of a factory method
-     * It checks for E_VALIDATION errors and
+     * It checks for a variety of errors and
      * alerts the user to them.
      *
      * @param {Object} response
@@ -88,13 +88,15 @@ angular.module('timelyn.alertFactory', [])
       if(_.isString(response)) {
         this.set(response, 'danger')
       }
+      else if( ! response || ! response.data)
+        this.set('An unknown error occured. The app may be offline', 'danger')
       // Check if there is a nested validation error
       else if(response.status === 500 && response.data.error === 'E_UNKNOWN' && response.data.raw && response.data.raw[0].err.error === 'E_VALIDATION') {
         // console.log(response.data.raw[0].err.error)
         // Recurse..
         this.error({data: response.data.raw[0].err})
       }
-      else if(response.data.error === 'E_VALIDATION') {
+      else if(response.data && response.data.error === 'E_VALIDATION') {
         var validation = []
         // For each input that is invalid
         _.each(response.data.invalidAttributes, function(rules, key) {
@@ -107,8 +109,11 @@ angular.module('timelyn.alertFactory', [])
               case 'string':
                 validation.push(key + ' should contain text')
               break;
+              case 'email':
+                validation.push(key + ' should be an email address')
+              break;
               default:
-                validation.push(key + rule.message)
+                validation.push(key + ' ' + error.message)
                 console.error('Unknown validation error for: ' + key)
                 console.error(error)
               break;
