@@ -1,29 +1,60 @@
-<div class="row">
+<div class="container">
 
-  <div class="col-sm-2 event-tile" ng-repeat-start="event in timeline.date">
-    <div style="background-image: url({{ event.asset.media }})" class="img">
+  <div class="row title">
+    <div class="col-sm-9">
+      <h1>{{timeline.headline}}</h1>
+    </div>
+    <div class="col-sm-3">
       <div class="btn-group pull-right">
-        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <i class="fa fa-cog"></i> &nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li><a ng-click="deleteEvent(timeline.id, event.id)">
-            <i class="fa fa-trash"></i> delete event</a>
-          </li>
+          <li><a ng-click="createEvent(timeline.id)">
+            <i class="fa fa-plus"></i> create event
+          </a></li>
+          <li><a ng-click="previewTimeline(timeline.id)">
+            <i class="fa fa-list"></i> list events
+          </a></li>
+          <li class="divider"></li>
+          <li><a ng-click="editTimeline(timeline.id)">
+            <i class="fa fa-pencil-square-o"></i> edit timeline
+          </a></li>
+          <li><a ng-click="deleteTimeline(timeline.id)">
+            <i class="fa fa-trash"></i> delete timeline
+          </a></li>
         </ul>
       </div>
     </div>
-    <h2><a href="" ng-click="editEvent(timeline.id, event.id)">{{ event.headline }}</a></h2>
-    <p class="meta">{{ event.startDate | date }} - {{ event.startDate | date }}</p>
-  </div> <!-- .event-tile -->
+  </div> <!-- .row -->
 
-  <div ng-repeat-end class="clearfix" ng-if="($index+1)%6==0"></div> <!-- .clearfix every 6th -->
-  
-  <div class="col-sm-2 event-tile">
-    <div class="img" ng-click="createEvent(timeline.id)">
-     <i class="add fa fa-plus fa-4x"></i>
-    </div>
-    <h2><a href="" ng-click="createEvent(timeline.id)">Create new event</a></h2>
-  </div> <!-- .event-tile -->
+  <div class="row">
+    <div class="col-sm-2 event-tile" ng-repeat-start="event in timeline.date">
+      <div style="background-image: url({{ event.asset.media }})" class="img">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-cog"></i> &nbsp;<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="go('deleteEvent', timeline.id, event.id)">
+              <i class="fa fa-trash"></i> delete event</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <h2><a ng-click="go('editEvent', timeline.id, event.id)">{{ event.headline }}</a></h2>
+      <p class="meta">{{ event.startDate | date }} - {{ event.startDate | date }}</p>
+    </div> <!-- .event-tile -->
+    <div ng-repeat-end class="clearfix" ng-if="($index+1)%6==0"></div> <!-- .clearfix every 6th -->
+    <div class="col-sm-2 event-tile">
+      <div class="img" ng-click="go('createEvent', timeline.id)">
+       <i class="add fa fa-plus fa-4x"></i>
+      </div>
+      <h2><a ng-click="go('createEvent', timeline.id)">Create new event</a></h2>
+    </div> <!-- .event-tile -->
+  </div> <!-- .row -->
 
-</div> <!-- .row -->
+</div> <!-- .container -->
+
+<div id="timeline-embed"></div>
+

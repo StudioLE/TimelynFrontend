@@ -28,10 +28,10 @@ angular.module('timelyn.timeline.settings', ['ngRoute', 'ngResource', 'ui.bootst
   if($routeParams.timelineId) {
     $scope.timeline = Timeline.get({id: $routeParams.timelineId})
     $scope.renderTimeline($scope.timeline)
-    Breadcrumb.set([$routeParams.timelineId, 'edit'])
+    Breadcrumb.set(action, $routeParams.timelineId)
   }
   else {
-    Breadcrumb.set(['create'])
+    Breadcrumb.set(action)
     // $scope.timeline = null
   }
 

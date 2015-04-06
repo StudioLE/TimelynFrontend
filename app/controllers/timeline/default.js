@@ -24,12 +24,16 @@ angular.module('timelyn.timeline.default', ['ngRoute', 'ngResource', 'ui.bootstr
   // ng-change="renderTimeline(timeline)"
   $scope.renderTimeline = Action.renderTimeline
 
-  $scope.partial = 'events-index'
+  // ng-click="go(req, timelineId, eventId)"
+  $scope.go = Path.go
+
+  // href="route(req, timelineId, eventId)"
+  $scope.route = Path.route
 
   $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
-    $scope.renderTimeline(timeline)
+    Action.renderTimeline(timeline)
   })
-  
-  Breadcrumb.set([$routeParams.timelineId])
+
+  Breadcrumb.set(action, $routeParams.timelineId)
 
 })
