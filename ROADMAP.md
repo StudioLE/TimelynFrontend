@@ -19,7 +19,7 @@ UI/UX Overhaul
   - [x] Timeline preview
   - [x] Integrated image upload
   - [x] Image preview
-- [ ] Edit timeline
+- [x] Edit timeline
 - [ ] Create Event
 - [ ] Edit event
 

@@ -25,14 +25,21 @@ angular.module('timelyn.timeline.settings', ['ngRoute', 'ngResource', 'ui.bootst
   $scope.renderTimeline = Action.renderTimeline
 
   // If there is a timeline fetch it
+  // Set edit defaults
   if($routeParams.timelineId) {
-    $scope.timeline = Timeline.get({id: $routeParams.timelineId})
-    $scope.renderTimeline($scope.timeline)
+    $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
+      Action.renderTimeline(timeline)
+      $scope.timeline.asset.type = 'unchanged'
+    })
     Breadcrumb.set(action, $routeParams.timelineId)
+    $scope.edit = true
   }
+  // Set create defaults
   else {
     Breadcrumb.set(action)
-    // $scope.timeline = null
+    $scope.create = true
+    $scope.timeline = { asset: { type: 'none' } }
+    Action.renderTimeline({})
   }
 
 })

@@ -4,88 +4,110 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
 
 /*****************************************************************
 *
-* User factory
+* Action factory
 *
 ******************************************************************/
 .factory('Action', function($http, $window, Timeline, Media, Event, Alert, Config, $upload) {
   return {
 
     /**
+     * Go to previous page
      *
+     * @return void
      */
     back: function() {
       $window.history.back()
     },
 
+    /**
+     * Failure callback [deprecated]
+     *
+     * @param {Object|String} Error object
+     * @param {Function} callback
+     */
     failure: function(err, callback) {
       callback(Alert.error(err))
     },
-    
+
     /**
      * Save timeline
      *
      * @param {Object} timeline
      * @param {String} action
      * @param {Function} callback
-     * @return {Object} user
+     * @return void
      */
     saveTimeline: function(timeline, action, callback) {
       var self = this
       Alert.clear()
 
-      // If action is edit
       if(action === 'editTimeline') {
-        Timeline.edit(timeline, function(timeline, response) {
-          // Success callback
-          callback(null, timeline)
-        }, failure)
+        var method = 'edit'
       }
-      // Else action is create
       else if(action === 'createTimeline') {
-        // If create then we have a series of things to do
-        async.waterfall([
-          function(cb) { // Upload media
-            if( ! timeline) {
-             cb('No data submitted')
-            }
-            else if(timeline.media && timeline.media.type === 'upload') {
-              // Remove the dataUrl before upload
-              console.log(timeline.media)
-              delete timeline.media.media
-              console.log(timeline.media)
-              self.uploadMedia(timeline.media, function(err, media) {
-                if(err) cb(err)
-                // Add the id to the timeline
-                timeline.asset = media.id
-                // Remove media from the object
-                delete timeline.media
-                cb(null, timeline)
-              })
-            }
-            else if(timeline.media && timeline.media.type === 'url') {
-              Media.save(timeline.media, function(media, response) {
-                // Add the id to the timeline
-                timeline.asset = media.id
-                // Remove media from the object
-                delete timeline.media
-                // Success so proceed
-                cb(null, timeline)
-              }, cb)
-            }
-            else {
-              delete timeline.media
-              delete timeline.asset
+        var method = 'save'
+      }
+      else {
+        // This shouldn't happen
+        console.error('saveTimeline() called in unknown context')
+        return false
+      }
+
+      async.waterfall([
+        function(cb) { // Upload media
+          // Delete things we do not need
+          delete timeline.era
+          delete timeline.date
+
+          if( ! timeline) {
+           cb('No data submitted')
+          }
+          else if(timeline.asset.type === 'upload') {
+            // Remove the dataUrl before upload
+            console.log(timeline.asset)
+            delete timeline.asset.media
+            console.log(timeline.asset)
+            self.uploadMedia(timeline.asset, function(err, media) {
+              if(err) cb(err)
+              // Add the id to the timeline
+              timeline.asset = media.id
               cb(null, timeline)
-            }
-          },
-          function(timeline, cb) { // Save timeline
-            Timeline.save(timeline, function(timeline, response) {
+            })
+          }
+          else if(timeline.asset.type === 'url') {
+            timeline.asset.media = timeline.asset.url
+            Media.save(timeline.asset, function(media, response) {
+              // Add the id to the timeline
+              timeline.asset = media.id
               // Success so proceed
               cb(null, timeline)
             }, cb)
-            // @todo Need to update media with timeline ID
-          },
-          function(timeline, cb) { // Save first event
+          }
+          else if(action === 'editTimeline' && timeline.asset.type === 'none') {
+            // @todo If this is an edit and the user has specifically chosen 'none' then we made need to delete an existing media item
+            // For the moment we'll just unattach the item
+            timeline.asset = null
+            cb(null, timeline)
+          }
+          else {
+            delete timeline.asset
+            console.log(timeline)
+            cb(null, timeline)
+          }
+        },
+        function(timeline, cb) { // Save/edit timeline
+          Timeline[method](timeline, function(timeline, response) {
+            // Success so proceed
+            cb(null, timeline)
+          }, cb)
+          // @todo Need to update media with timeline ID
+        },
+        function(timeline, cb) { // Save first event
+          // Skip this if edit
+          if(action === 'editTimeline') {
+            cb(null, timeline)
+          }
+          else {
             Event.save({
               "timeline": timeline.id,
               "startDate": timeline.createdAt,
@@ -93,36 +115,26 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
               "headline": "I created my first Timeline using Timelyn",
               "text": "<p>You can put some text here. Why, isn't that pretty...</p>",
               "tag": "",
-              "classname": "",
-              // "asset": {
-              //   "media": "",
-              //   "thumbnail": "http://lorempixel.com/32/32/",
-              //   "credit": "Credit Name Goes Here",
-              //   "caption": "Caption text goes here"
-              // }
+              "classname": ""
             }, function(event, response) {
               // Success so proceed
               cb(null, timeline)
             }, cb)
           }
-        ], function (err, timeline) {
-            if(err) Alert.error(err, timeline)
-            else callback(null, timeline)
-        })
-
-      }
-      else {
-        // This shouldn't happen
-        console.error('saveTimeline() called in unknown context')
-      }
-      
+        }
+      ], function (err, timeline) {
+          if(err) Alert.error(err, timeline)
+          else callback(null, timeline)
+      })
     },
-    
+
     /**
      * Save event
      *
-     * @param {Object} user
-     * @return {Object} user
+     * @param {Object} event
+     * @param {String} action
+     * @param {Function} callback
+     * @return void
      */
     saveEvent: function(event, action, callback) {
       var self = this
@@ -158,6 +170,10 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
 
     /**
      * Delete timeline
+     *
+     * @param {Integer} timeline id
+     * @param {Function} callback
+     * @return void
      */
     deleteTimeline: function(id, callback) {
       var self = this
@@ -174,6 +190,10 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
 
     /**
      * Upload media
+     * 
+     * @param {Object} media
+     * @param {Function} callback
+     * @return void
      */
     uploadMedia: function(media, callback) {
       var self = this
@@ -195,14 +215,16 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
       });
     },
 
-
     /**
      * Render timeline
+     * 
+     * @param {Object} timeline
+     * @return void
      */
     renderTimeline: function(data) {
       var timeline = data;
 
-      // console.log(timeline)
+      // console.debug(timeline)
 
       // If we've been sent media use it
       if(timeline && timeline.media) timeline.asset = timeline.media
@@ -244,7 +266,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         }
       }
 
-      // console.log(timeline)
+      // console.debug(timeline)
 
       // Remove existing story from DOM
       var existing = document.getElementById('storyjs-timeline')
@@ -273,4 +295,4 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
     }
 
   }
-});
+})
