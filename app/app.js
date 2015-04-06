@@ -17,6 +17,7 @@ angular.module('timelyn', [
   'timelyn.dashboard',
   'timelyn.timeline',
   'timelyn.timeline.default',
+  'timelyn.timeline.delete',
   'timelyn.timeline.event',
   'timelyn.timeline.settings',
   'timelyn.actionFactory',

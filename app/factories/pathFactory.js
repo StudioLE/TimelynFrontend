@@ -36,6 +36,9 @@ angular.module('timelyn.pathFactory', [])
             else if(req[1] === 'event') {
               path.push('event')
             }
+            else if(req[1] === 'delete') {
+              path.push('delete')
+            }
           // No break so cascade
           case 0:
             if(req[0] === null) {
@@ -77,11 +80,17 @@ angular.module('timelyn.pathFactory', [])
         case 'editTimeline':
           return [timelineId, 'edit']
         break;
+        case 'deleteTimeline':
+          return [timelineId, 'delete']
+        break;
         case 'createEvent':
           return [timelineId, 'event', 'create']
         break;
         case 'editEvent':
           return [timelineId, 'event', eventId]
+        break;
+        case 'deleteEvent':
+          return [timelineId, 'delete', eventId]
         break;
         default: 
           console.error('Unknown route', req, timelineId, eventId)

@@ -37,6 +37,20 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			action: function() { return 'editEvent' }
 		}
 	});
+	$routeProvider.when('/timeline/:timelineId/delete/:eventId', {
+		templateUrl: 'views/timeline/confirm-delete.html',
+		controller: 'DeleteController',
+		resolve: { 
+			action: function() { return 'deleteEvent' }
+		}
+	});
+	$routeProvider.when('/timeline/:timelineId/delete', {
+		templateUrl: 'views/timeline/confirm-delete.html',
+		controller: 'DeleteController',
+		resolve: { 
+			action: function() { return 'deleteTimeline' }
+		}
+	});
 	// $routeProvider.when('/timeline/:timelineId/media/create', {
 	// 	templateUrl: 'views/timeline/media-form.html',
 	// 	controller: 'TimelineCtrl',

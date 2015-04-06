@@ -1,0 +1,29 @@
+<div class="container">
+
+  <div class="row title">
+    <div class="col-sm-12" ng-if="deleteMode=='timeline'">
+      <h1>{{timeline.headline}}</h1>
+      <p>Are you sure you wish to delete this timeline?</p>
+    </div>
+    <div class="col-sm-12" ng-if="deleteMode=='event'">
+      <h1>{{timeline.headline}}</h1>
+      <h2>{{event.headline}}</h2>
+      <p>Are you sure you wish to delete this event?</p>
+    </div>
+  </div> <!-- .row -->
+
+  <div class="row">
+    <div class="col-sm-3">
+      <a class="btn btn-default pull-right" ng-click="back()">Cancel</a>
+    </div>
+    <div class="col-sm-8" ng-if="deleteMode=='timeline'">
+      <a class="btn btn-danger" ng-click="deleteTimeline(timeline.id)">Delete Timeline</a>
+    </div>
+    <div class="col-sm-8" ng-if="deleteMode=='event'">
+      <a class="btn btn-danger" ng-click="deleteEvent(timeline.id, event.id)">Delete Event</a>
+    </div>
+  </div> <!-- .row -->
+
+</div> <!-- .container -->
+
+<div id="timeline-embed"></div>

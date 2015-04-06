@@ -22,9 +22,10 @@ UI/UX Overhaul
 - [x] Edit timeline
 - [ ] Create Event
 - [ ] Edit event
+- [x] Delete timeline/event
 
 Integrate Alert.error() / Alert.set()
-- [ ] Delete timeline
+- [x] Delete timeline/event
 - [ ] Publish timeline
 - [x] Login
 - [x] Register

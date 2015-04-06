@@ -176,16 +176,26 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
      * @return void
      */
     deleteTimeline: function(id, callback) {
-      var self = this
-
-      Timeline.delete({ id: id }, function(value, response) {
+      Timeline.delete({ id: id }, function(response) {
         // REST success callback
         // @todo add mechanism to delete linked events
         callback(null, response)
-      }, function(err) {
-        // REST failure callback
-        callback(Alert.error(err))
-      })
+      }, Alert.error)
+    },
+
+    /**
+     * Delete event
+     *
+     * @param {Integer} timeline id
+     * @param {Integer} event id
+     * @param {Function} callback
+     * @return void
+     */
+    deleteEvent: function(timelineId, eventId, callback) {
+      Event.delete({ id: eventId, timeline: timelineId }, function(response) {
+        // REST success callback
+        callback(null, response)
+      }, Alert.error)
     },
 
     /**
