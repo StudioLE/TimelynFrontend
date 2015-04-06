@@ -72,23 +72,21 @@ angular.module('timelyn', [
 *
 ******************************************************************/
 .config(function ($httpProvider) {
-  $httpProvider.interceptors.push(['$q', '$location', 'localStorageService', function($q, $location, localStorageService) {
+  $httpProvider.interceptors.push(function($q, $location, localStorageService, Config) {
     return {
-      request: function(config) {
-        config.params = config.params || {};
-        // config.headers = config.headers || {};
-        if (localStorageService.get('jwt')) {
-          config.params.access_token = localStorageService.get('jwt')
-          // config.headers.access_token = localStorageService.get('jwt')
+      request: function(req) {
+        // If the request is to the app server
+        // Add the JSON Web Token as a param
+        if(_.contains(req.url, Config.app_url)) {
+          req.params = req.params || {};
+          // req.headers = req.headers || {};
+          if (localStorageService.get('jwt')) {
+            req.params.access_token = localStorageService.get('jwt')
+            // req.headers.access_token = localStorageService.get('jwt')
+          }
         }
-        return config;
-      },
-      // responseError: function(response) {
-      //   if(response.status === 401 || response.status === 403) {
-      //     $location.path('/signin');
-      //   }
-      //   return $q.reject(response);
-      // }
-    };
-  }]);
+        return req
+      }
+    }
+  })
 })
