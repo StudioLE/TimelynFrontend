@@ -1,17 +1,7 @@
 <div class="container">
-  <!-- <div class="row">
-    <div class="col-sm-4" style="text-align: right">
-      <h2 ng-if="edit">Edit timeline</h2>
-      <h2 ng-if="create">Create timeline</h2>
-    </div>
-    <div class="col-sm-8 text-primary">
-      <h2>{{timeline.headline}}</h2>
-    </div>
-  </div> -->
-
   <div class="row">
     <div class="col-sm-6">
-      <form class="form-horizontal" name="form">        
+      <form class="form-horizontal" name="form">
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">Headline</label>
           <div class="col-sm-8">
@@ -26,10 +16,10 @@
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">Text</label>
           <div class="col-sm-8">
-            <textarea class="form-control" rows="5" 
-              placeholder="Some text to introduce the timeline" 
+            <textarea class="form-control" rows="5"
+              placeholder="Some text to introduce the timeline"
               ng-change="renderTimeline(timeline)"
-              ng-model-options="{updateOn: 'blur'}" 
+              ng-model-options="{updateOn: 'blur'}"
               ng-model="timeline.text"></textarea>
           </div>
         </div>
@@ -84,7 +74,7 @@
         <div class="form-group" ng-show="timeline.asset.type=='url'">
           <label for="" class="col-sm-4 control-label"> Thumbnail</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" 
+            <input type="text" class="form-control"
               ng-change="renderTimeline(timeline)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="timeline.asset.thumbnail">
@@ -102,9 +92,9 @@
         <div class="form-group" ng-show="timeline.asset.type=='url' || timeline.asset.type=='upload'">
           <label for="" class="col-sm-4 control-label">Caption</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" 
-              ng-change="renderTimeline(timeline)" 
-              ng-model-options="{updateOn: 'blur'}" 
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
               ng-model="timeline.asset.caption">
           </div>
         </div>
@@ -112,8 +102,8 @@
         <div class="form-group"></div>
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-8">
-            <button type="submit" class="btn btn-primary" 
-              ng-disabled="form.$invalid" 
+            <button type="submit" class="btn btn-primary"
+              ng-disabled="form.$invalid"
               ng-click="saveTimeline()">Save Timeline</button>
             <a class="btn btn-default" ng-click="renderTimeline(timeline)">Render Preview</a>
           </div>
@@ -125,4 +115,3 @@
     </div>
   </div>
 </div>
-

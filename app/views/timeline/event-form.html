@@ -1,91 +1,169 @@
-<div class="row">
-  <div class="col-sm-3" style="text-align: right">
-    <h2 ng-if="edit">Edit event</h2>
-    <h2 ng-if="create">Create event</h2>
-  </div>
-  <div class="col-sm-8 text-primary">
-    <h2>{{event.headline}}</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <form class="form-horizontal" name="form">
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Headline</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              placeholder="Your event headline"
+              required
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.headline">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Start Date</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control"
+                ng-model="event.startDate"
+                datepicker-popup="dd MMMM yyyy"
+                is-open="event.startDateOpen"
+                ng-click="event.startDateOpen = true"
+                ng-required="true"
+                close-text="Close"
+                show-weeks="false"
+                starting-day="1">
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">End Date</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control"
+                ng-model="event.endDate"
+                datepicker-popup="dd MMMM yyyy"
+                is-open="event.endDateOpen"
+                ng-click="event.endDateOpen = true"
+                ng-required="true"
+                close-text="Close"
+                show-weeks="false"
+                starting-day="1">
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Text</label>
+          <div class="col-sm-8">
+            <textarea class="form-control" rows="5"
+              placeholder="Some text to introduce the event"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.text"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Tag</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.tag">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Class</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.classname">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-sm-4 control-label">Media</label>
+          <div class="col-sm-8">
+            <div class="radio">
+              <label class="radio-inline">
+                <input type="radio" ng-model="event.asset.type" value="upload"> Upload
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="event.asset.type" value="url"> URL
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="event.asset.type" value="none"> None
+              </label>
+              <label class="radio-inline" ng-show="edit">
+                <input type="radio" ng-model="event.asset.type" value="unchanged"> Unchanged
+              </label>
+            </div>
+          </div>
+        </div>
+      <fieldset>
+        <div class="form-group" ng-show="event.asset.type=='upload'">
+          <label for="" class="col-sm-4 control-label">Media Upload</label>
+          <div class="col-sm-4">
+            <a class="btn btn-primary"
+              ng-file-select
+              ng-file-change="renderTimeline(timeline)"
+              ng-model="event.asset.file"
+              ng-required="event.asset.type=='upload'">Select File</a>
+          </div>
+          <div class="col-md-2" ng-repeat-start="f in event.asset.file">
+            <img ng-show="f.dataUrl" ng-src="{{f.dataUrl}}" class="img-responsive">
+          </div>
+          <div class="col-md-2" ng-repeat-end>
+            <p>{{f.name}}<br>
+            {{f.size}}B<br>
+            <!-- {{f.type}} --></p>
+          </div>
+        </div>
+        <div class="form-group" ng-show="event.asset.type=='url'">
+          <label for="" class="col-sm-4 control-label">Media URL</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.asset.url"
+              ng-required="event.asset.type=='url'">
+          </div>
+        </div>
+        <div class="form-group" ng-show="event.asset.type=='url'">
+          <label for="" class="col-sm-4 control-label"> Thumbnail</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.asset.thumbnail">
+          </div>
+        </div>
+        <div class="form-group" ng-show="event.asset.type=='url' || event.asset.type=='upload'">
+          <label for="" class="col-sm-4 control-label">Credit</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.asset.credit">
+          </div>
+        </div>
+        <div class="form-group" ng-show="event.asset.type=='url' || event.asset.type=='upload'">
+          <label for="" class="col-sm-4 control-label">Caption</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control"
+              ng-change="renderTimeline(timeline)"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-model="event.asset.caption">
+          </div>
+        </div>
+      </fieldset>
+        <div class="form-group"></div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-8">
+            <button type="submit" class="btn btn-primary"
+              ng-disabled="form.$invalid"
+              ng-click="saveEvent(event)">Save Event</button>
+            <a class="btn btn-default" ng-click="renderTimeline(timeline)">Render Preview</a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6 timeline-embed-col">
+      <div id="timeline-embed"></div>
+    </div>
   </div>
 </div>
-
-<form class="form-horizontal">
-
-  <div class="alert alert-danger" role="alert" ng-repeat="error in errors">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Error:</span>
-    {{error}}
-  </div>
-
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Headline</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.headline">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Start Date</label>
-    <div class="col-sm-8">
-      <div class="input-group">
-        <input type="text" class="form-control" ng-model="event.startDate" datepicker-popup="dd MMMM yyyy" is-open="event.startDateOpen" ng-click="event.startDateOpen = true" ng-required="true" close-text="Close" show-weeks="false" starting-day="1" />
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">End Date</label>
-    <div class="col-sm-8">
-      <div class="input-group">
-        <input type="text" class="form-control" ng-model="event.endDate" datepicker-popup="dd MMMM yyyy" is-open="event.endDateOpen" ng-click="event.endDateOpen = true" close-text="Close" show-weeks="false" starting-day="1" />
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Text</label>
-    <div class="col-sm-8">
-      <textarea class="form-control" rows="5" ng-model="event.text"></textarea>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Media</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.asset.media">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Thumbnail</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.asset.thumbnail">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Credit</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.asset.credit">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Caption</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.asset.caption">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Tag</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.tag">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="" class="col-sm-3 control-label">Class</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" ng-model="event.classname">
-    </div>
-  </div>
-  <div class="form-group"></div>
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-8">
-      <a class="btn btn-primary" ng-click="saveEvent(event)">Save Event</a>
-    </div>
-  </div>
-</form>

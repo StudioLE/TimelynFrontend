@@ -24,15 +24,15 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	// 	}
 	// });
 	$routeProvider.when('/timeline/:timelineId/event/create', {
-		templateUrl: 'views/timeline/timeline.html',
-		controller: 'TimelineCtrl',
+		templateUrl: 'views/timeline/event-form.html',
+		controller: 'EventController',
 		resolve: { 
 			action: function() { return 'createEvent' }
 		}
 	});
 	$routeProvider.when('/timeline/:timelineId/event/:eventId', {
-		templateUrl: 'views/timeline/timeline.html',
-		controller: 'TimelineCtrl',
+		templateUrl: 'views/timeline/event-form.html',
+		controller: 'EventController',
 		resolve: { 
 			action: function() { return 'editEvent' }
 		}
