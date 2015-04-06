@@ -16,20 +16,13 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 		templateUrl: 'views/timeline/timeline-index-table.html',
 		controller: 'TimelineListCtrl'
 	});
-	$routeProvider.when('/timeline/create', {
-		templateUrl: 'views/timeline/timeline-form.html',
-		controller: 'TimelineCtrl',
-		resolve: {
-			action: function() { return 'createTimeline' }
-		}
-	});
-	$routeProvider.when('/timeline/:timelineId/edit', {
-		templateUrl: 'views/timeline/timeline.html',
-		controller: 'TimelineCtrl',
-		resolve: { 
-			action: function() { return 'editTimeline' }
-		}
-	});
+	// $routeProvider.when('/timeline/:timelineId/edit', {
+	// 	templateUrl: 'views/timeline/timeline.html',
+	// 	controller: 'TimelineCtrl',
+	// 	resolve: { 
+	// 		action: function() { return 'editTimeline' }
+	// 	}
+	// });
 	$routeProvider.when('/timeline/:timelineId/event/create', {
 		templateUrl: 'views/timeline/timeline.html',
 		controller: 'TimelineCtrl',
@@ -44,18 +37,32 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 			action: function() { return 'editEvent' }
 		}
 	});
+	// $routeProvider.when('/timeline/:timelineId/media/create', {
+	// 	templateUrl: 'views/timeline/media-form.html',
+	// 	controller: 'TimelineCtrl',
+	// 	resolve: {
+	// 		action: function() { return 'createMedia' }
+	// 	}
+	// });
+  $routeProvider.when('/timeline/create', {
+    templateUrl: 'views/timeline/timeline-form.html',
+    controller: 'TimelineSettingsController',
+    resolve: {
+      action: function() { return 'createTimeline' }
+    }
+  });
+  $routeProvider.when('/timeline/:timelineId/edit', {
+    templateUrl: 'views/timeline/timeline-form.html',
+    controller: 'TimelineSettingsController',
+    resolve: {
+      action: function() { return 'editTimeline' }
+    }
+  });
 	$routeProvider.when('/timeline/:timelineId', {
 		templateUrl: 'views/timeline/timeline.html',
-		controller: 'TimelineCtrl',
+		controller: 'TimelineDefaultController',
 		resolve: {
 			action: function() { return 'previewTimeline' }
-		}
-	});
-	$routeProvider.when('/timeline/:timelineId/media/create', {
-		templateUrl: 'views/timeline/media-form.html',
-		controller: 'TimelineCtrl',
-		resolve: {
-			action: function() { return 'createMedia' }
 		}
 	});
 }])

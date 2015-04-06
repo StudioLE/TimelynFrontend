@@ -187,7 +187,8 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
           var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
           console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).error(function(data, status, headers, config) {
-         Alert.error({ data: data.error }) 
+        if(_.isNull(data)) Alert.error(null)
+        else Alert.error({ data: data.error })
          //callback({ data: data, status: status, headers: headers, config: config})
       }).success(function(data, status, headers, config) {
         callback(null, data)
