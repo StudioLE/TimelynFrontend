@@ -8,7 +8,7 @@ angular.module('timelyn.pathFactory', [])
 *
 ******************************************************************/
 .factory('Path', function($location) {
-  return {
+  var Path = {}
     
     /**
      * Form path from array
@@ -16,8 +16,8 @@ angular.module('timelyn.pathFactory', [])
      * @param {Array} timeline req array
      * @return {String} path
      */
-    form: function(req) {
-      if(Array.isArray(req)) {
+    Path.form = function(req) {
+      if(_.isArray(req)) {
         var path = []
 
         switch(req.length - 1) {
@@ -54,17 +54,69 @@ angular.module('timelyn.pathFactory', [])
         return '/timeline/' + path.reverse().join('/')
       }
       return req
-    },
+    }
+    
+    /**
+     * Get route array from string
+     *
+     * @param {String} timeline action
+     * @return {Array} timeline req
+     */
+    Path.routeArray = function(req, timelineId, eventId) {
+      var route = ''
+      switch(req) {
+        case 'listTimelines':
+          return [null]
+        break;
+        case 'previewTimeline':
+          return [timelineId]
+        break;
+        case 'createTimeline':
+          return ['create']
+        break;
+        case 'editTimeline':
+          return [timelineId, 'edit']
+        break;
+        case 'createEvent':
+          return [timelineId, 'event', 'create']
+        break;
+        case 'editEvent':
+          return [timelineId, 'event', eventId]
+        break;
+        default: 
+          console.error('Unknown route', req, timelineId, eventId)
+          // return null
+        break;
+      }
+    }
+    
+    /**
+     * Go to named path
+     *
+     * @param {String} timeline req array
+     * @param {Integer} timelineId
+     * @param {Integer} eventId
+     * @return string
+     */
+    Path.route = function(req, timelineId, eventId) {
+      return Path.form(Path.routeArray(req, timelineId, eventId))
+    }
     
     /**
      * Go to path
      *
-     * @param {Array} timeline req array
+     * @param {Array|String} timeline req array
+     * @param {Integer} timeline id
+     * @param {Integer} event id
      * @return void
      */
-    go: function(req) {
-      $location.path(this.form(req))
+    Path.go = function(req, timelineId, eventId) {
+      if(_.isArray(req)) {
+        $location.path(Path.form(req))
+      }
+      else {
+        $location.path(Path.route(req, timelineId, eventId))
+      }
     }
-
-  }
+  return Path
 });

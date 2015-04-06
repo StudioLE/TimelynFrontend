@@ -17,7 +17,7 @@ angular.module('timelyn.breadcrumbFactory', [])
       url: '#/timeline',
       title: 'Timelines'
     }],
-    
+
     /**
      * Current breadcrumbs getter
      *
@@ -26,15 +26,21 @@ angular.module('timelyn.breadcrumbFactory', [])
     get: function() {
       return this.crumbs
     },
-    
+
     /**
      * Current breadcrumbs setter
      *
-     * @param {Array} timeline req array
+     * @param {Array|String} timeline req array or timeline action
+     * @param {Integer} timelineId
+     * @param {Integer} eventId
      * @return {Array} breadcrumbs
      */
-    set: function(req) {
+    set: function(req, timelineId, eventId) {
       var crumbs = []
+
+      if(_.isString(req)) {
+        req = Path.routeArray(req, timelineId, eventId)
+      }
 
       switch(req.length - 1) {
         case 2:
@@ -81,7 +87,7 @@ angular.module('timelyn.breadcrumbFactory', [])
       }
       return this.crumbs = crumbs.reverse()
     },
-    
+
     /**
      * Current breadcrumbs setter
      *
