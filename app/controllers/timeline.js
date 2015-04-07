@@ -10,11 +10,11 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/timeline', {
 		templateUrl: 'views/timeline/timeline-index.html',
-		controller: 'TimelineListCtrl'
+		controller: 'TimelineIndexController'
 	});
 	$routeProvider.when('/timeline/table', {
 		templateUrl: 'views/timeline/timeline-index-table.html',
-		controller: 'TimelineListCtrl'
+		controller: 'TimelineIndexController'
 	});
 	// $routeProvider.when('/timeline/:timelineId/edit', {
 	// 	templateUrl: 'views/timeline/timeline.html',
@@ -266,49 +266,5 @@ angular.module('timelyn.timeline', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 	// Call the function defined in $routeProvider
 	$scope[action]($routeParams.timelineId, $routeParams.eventId)
 	$scope.initialise = false
-
-})
-
-
-/*****************************************************************
-*
-* TimelineListCtrl controller
-*
-******************************************************************/
-.controller('TimelineListCtrl', function($scope, Timeline, Path, Breadcrumb) {
-
-	// Get all Timelines for list
-	$scope.timelines = Timeline.query()
-
-	// ng-click="preview(timelineId)"
-	$scope.preview = function(timelineId) {
-		Path.go([timelineId])
-	};
-
-	// ng-click="edit(timelineId)"
-	$scope.edit = function(timelineId) {
-		Path.go([timelineId, 'edit'])
-	};
-
-	// ng-click="delete(id)"
-	$scope.delete = function(id) {
-		Action.deleteTimeline(id, function(err, timeline) {
-			if(err) {
-				$scope.errors.push(err)
-			}
-			else {
-	      // Redirect & update scope
-      	Path.go([null])
-        $scope.timelines = Timeline.query();
-      }
-		})
-	};
-
-	// ng-click="create()"
-	$scope.create = function() {
-		Path.go(['create'])
-	};
-
-	Breadcrumb.default()
 
 })

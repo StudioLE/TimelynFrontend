@@ -7,32 +7,32 @@
   <div class="row">
 
     <div class="col-sm-3 timeline-tile" ng-repeat-start="timeline in timelines">
-      <div style="background-image: url({{ timeline.asset.media }})" class="img">
+      <div style="background-image: url({{ getImage(timeline.asset) }})" class="img">
         <div class="btn-group pull-right">
           <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-cog"></i> &nbsp;<span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a ng-click="edit(timeline.id)">
+            <li><a ng-click="go('editTimeline', timeline.id)">
               <i class="fa fa-pencil-square-o"></i> edit timeline</a>
             </li>
-            <li><a ng-click="delete(timeline.id)">
+            <li><a ng-click="go('deleteTimeline', timeline.id)">
               <i class="fa fa-trash"></i> delete timeline</a>
             </li>
           </ul>
         </div>
       </div>
-      <h2><a href="" ng-click="preview(timeline.id)">{{ timeline.headline }}</a></h2>
+      <h2><a href="" ng-click="go('previewTimeline', timeline.id)">{{ timeline.headline }}</a></h2>
       <p class="meta">{{ timeline.date.length }} events</p>
     </div> <!-- .timeline-tile -->
 
     <div ng-repeat-end class="clearfix" ng-if="($index+1)%4==0"></div> <!-- .clearfix every 4th -->
 
     <div class="col-sm-3 timeline-tile">
-      <div class="img" ng-click="create()">
+      <div class="img" ng-click="go('createTimeline')">
        <i class="add fa fa-plus fa-4x"></i>
       </div>
-      <h2><a href="" ng-click="create()">Create new timeline</a></h2>
+      <h2><a href="" ng-click="go('createTimeline')">Create new timeline</a></h2>
     </div> <!-- .timeline-tile -->
 
   </div> <!-- .row -->
