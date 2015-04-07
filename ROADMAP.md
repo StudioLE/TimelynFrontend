@@ -26,7 +26,6 @@ UI/UX Overhaul
 
 Integrate Alert.error() / Alert.set()
 - [x] Delete timeline/event
-- [ ] Publish timeline
 - [x] Login
 - [x] Register
 
@@ -42,6 +41,15 @@ Media attachments
 - [x] Direct browser upload to s3
 - [ ] Automate thumbnail creation
 - [ ] Image resize + compression
+
+Publish/embed
+- [ ] Create published model + controller with relationship to timeline
+- [ ] /timeline/published page to list published timelines + embed code
+- [ ] /timeline/id/publish page to list published timelines + embed code
+- [ ] Backend Publish Controller Write directly to S3
+- [ ] PublishedAt column on timeline model
+- [ ] Frontend confirm publish
+- [ ] Frontend publish button on /timeline/id
 
 User settings
 - [ ] Change name / email / password
