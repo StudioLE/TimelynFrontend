@@ -54,46 +54,11 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
       }
 
       async.waterfall([
-        function(cb) { // Upload media
+        function(cb) { // Upload / modify media
           // Delete things we do not need
           delete timeline.era
           delete timeline.date
-
-          if( ! timeline) {
-           cb('No data submitted')
-          }
-          else if(timeline.asset.type === 'upload') {
-            // Remove the dataUrl before upload
-            console.log(timeline.asset)
-            delete timeline.asset.media
-            console.log(timeline.asset)
-            self.uploadMedia(timeline.asset, function(err, media) {
-              if(err) cb(err)
-              // Add the id to the timeline
-              timeline.asset = media.id
-              cb(null, timeline)
-            })
-          }
-          else if(timeline.asset.type === 'url') {
-            timeline.asset.media = timeline.asset.url
-            Media.save(timeline.asset, function(media, response) {
-              // Add the id to the timeline
-              timeline.asset = media.id
-              // Success so proceed
-              cb(null, timeline)
-            }, cb)
-          }
-          else if(action === 'editTimeline' && timeline.asset.type === 'none') {
-            // @todo If this is an edit and the user has specifically chosen 'none' then we made need to delete an existing media item
-            // For the moment we'll just unattach the item
-            timeline.asset = null
-            cb(null, timeline)
-          }
-          else {
-            delete timeline.asset
-            console.log(timeline)
-            cb(null, timeline)
-          }
+          self.processMedia(timeline, method, cb)
         },
         function(timeline, cb) { // Save/edit timeline
           Timeline[method](timeline, function(timeline, response) {
@@ -109,13 +74,13 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
           }
           else {
             Event.save({
-              "timeline": timeline.id,
-              "startDate": timeline.createdAt,
-              "endDate": "",
-              "headline": "I created my first Timeline using Timelyn",
-              "text": "<p>You can put some text here. Why, isn't that pretty...</p>",
-              "tag": "",
-              "classname": ""
+              timeline: timeline.id,
+              startDate: timeline.createdAt,
+              endDate: '',
+              headline: 'I created my first Timeline using Timelyn',
+              text: '<p>You can put some text here. Why, isn\'t that pretty...</p>',
+              tag: '',
+              classname: ''
             }, function(event, response) {
               // Success so proceed
               cb(null, timeline)
@@ -133,39 +98,48 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
      *
      * @param {Object} event
      * @param {String} action
+     * @param {Integer} timeline id
      * @param {Function} callback
      * @return void
      */
-    saveEvent: function(event, action, callback) {
+    saveEvent: function(event, action, timelineId, callback) {
       var self = this
+      Alert.clear()
 
-      // REST success callback
-      var success = function(value, responseHeaders) {
-        // Redirect on success
-        $scope.previewTimeline($scope.timeline.id)
-        // Update the model
-        $scope.timeline = Timeline.get({id: $routeParams.timelineId})
-      }
-
-      // REST failure callback
-      var failure = function(err) {
-        callback(Alert.error(err))
-      }
-
-      // If action is edit
       if(action === 'editEvent') {
-        Event.edit(event, success, failure);
+        var method = 'edit'
       }
-      // Else action is create
       else if(action === 'createEvent') {
-        // Link the new event with the timeline
-        event.timeline = $scope.timeline.id
-        Event.save(event, success, failure)
+        var method = 'save'
       }
       else {
         // This shouldn't happen
         console.error('saveEvent() called in unknown context')
+        return false
       }
+
+      console.log(event)
+
+      async.waterfall([
+        function(cb) { // Upload / modify media
+          self.processMedia(event, method, cb)
+        },
+        function(event, cb) { // Save/edit event
+          if(action === 'createEvent') {
+            // Link the new event with the timeline
+            // @todo We need a backend method to authenticate that the user owns the timeline the event is associated with
+            event.timeline = timelineId
+          }
+          Event[method](event, function(event, response) {
+            // Success so proceed
+            cb(null, event)
+          }, cb)
+          // @todo Need to update media with timeline ID
+        }
+      ], function (err, event) {
+          if(err) Alert.error(err, event)
+          else callback(null, event)
+      })
     },
 
     /**
@@ -199,8 +173,57 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
     },
 
     /**
+     * Process media
+     *
+     * Given a timeline or event this function will check whether it's
+     * media asset should be uploaded or modified.
+     *
+     * @param {Object} timeline or event
+     * @param {String} method
+     * @param {Function} callback
+     * @return void
+     */
+    processMedia: function(model, method, cb) {
+      if( ! model) {
+       cb('No data submitted')
+      }
+      else if(model.asset.type === 'upload') {
+        // Remove the dataUrl before upload
+        console.log(model.asset)
+        delete model.asset.media
+        console.log(model.asset)
+        this.uploadMedia(model.asset, function(err, media) {
+          if(err) cb(err)
+          // Add the id to the timeline or event
+          model.asset = media.id
+          cb(null, model)
+        })
+      }
+      else if(model.asset.type === 'url') {
+        model.asset.media = model.asset.url
+        Media.save(model.asset, function(media, response) {
+          // Add the id to the timeline or event
+          model.asset = media.id
+          // Success so proceed
+          cb(null, model)
+        }, cb)
+      }
+      else if(method === 'edit' && model.asset.type === 'none') {
+        // @todo If this is an edit and the user has specifically chosen 'none' then we made need to delete an existing media item
+        // For the moment we'll just unattach the item
+        model.asset = null
+        cb(null, model)
+      }
+      else {
+        delete model.asset
+        console.log(model)
+        cb(null, model)
+      }
+    },
+
+    /**
      * Upload media
-     * 
+     *
      * @param {Object} media
      * @param {Function} callback
      * @return void
@@ -227,7 +250,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
 
     /**
      * Render timeline
-     * 
+     *
      * @param {Object} timeline
      * @return void
      */
@@ -242,27 +265,27 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
       // Assign defaults to undefined variables
       timeline = _.assign({
         date: [{
-            "startDate": "2013-12-10T00:00:00.000Z",
-            "headline": "The first event",
-            "text": "<p>You can edit the events after the timeline has been saved.</p>",
-            "tag": "",
-            "classname": ""
+            startDate: '2013-12-10T00:00:00.000Z',
+            headline: 'The first event',
+            text: '<p>You can edit the events after the timeline has been saved.</p>',
+            tag: '',
+            classname: ''
           }],
-        headline: "Your timeline headline",
-        type: "default",
-        text: "Some text to introduce your timeline",
+        headline: 'Your timeline headline',
+        type: 'default',
+        text: 'Some text to introduce your timeline',
         asset: {
-          media: "img/placeholder.png",
-          credit: "Credit for image author",
-          caption: "A short description of the image"
+          media: 'img/placeholder.png',
+          credit: 'Credit for image author',
+          caption: 'A short description of the image'
         },
         era: []
       }, timeline)
-      
+
       // Check if there is a file upload
       if(timeline.asset.file) {
         var file = timeline.asset.file[0]
-        // If there is an upload and it's and image
+        // If there is an upload and it's an image
         if(file != null && file.type.indexOf('image') > -1) {
           var fileReader = new FileReader()
           fileReader.readAsDataURL(file)
