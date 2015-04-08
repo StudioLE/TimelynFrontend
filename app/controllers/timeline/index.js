@@ -17,9 +17,8 @@ angular.module('timelyn.timeline.index', ['ngRoute', 'ngResource', 'ui.bootstrap
 
   // href="route(req, timelineId, eventId)"
   $scope.getImage = function(asset) {
-    console.log(asset)
-    if(asset[0] && asset[0].type === 'upload') {
-      return Config.embed_url + asset[0].media.substr(6)
+    if(asset && asset.type === 'upload') {
+      return Config.embed_url + asset.media.substr(6)
     }
     return 'img/placeholder.png'
   }
