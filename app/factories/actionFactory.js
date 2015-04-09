@@ -292,6 +292,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
           fileReader.onload = function(e) {
             // Preview the image by dataURL
             file.dataUrl = e.target.result
+            // @todo DO NOT SET file.dataURL(). This is causing the post request to be double the length...
             // I can't believe this works
             // Seriously, this may be the coolest code I've ever written
             timeline.asset.media = file.dataUrl
@@ -325,6 +326,65 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         // css: 'path_to_css/timeline.css', //OPTIONAL PATH TO CSS
         // js: 'path_to_js/timeline-min.js' //OPTIONAL PATH TO JS
       })
+    },
+
+    /**
+     * Get Icon for asset
+     *
+     * Matches from https://github.com/NUKnightLab/TimelineJS/blob/119e2490257a3ddcb94bfbba79aad871ef0c303a/source/js/Core/Media/VMM.MediaType.js
+     *
+     * @param {Object} asset
+     * @param {String} icon
+     */
+    getIcon: function(asset) {
+      if( ! asset) return ''
+      if(asset.type === 'upload') return ''
+      var d = asset.media
+      if(d.match('div class="twitter"')) {
+        return 'twitter'
+      } else if (d.match('<blockquote')) {
+        return 'quote-left'
+      } else if (d.match('<iframe')) {
+        return 'external-link'
+      } else if (d.match('(www.)?youtube|youtu\.be')) {
+        return 'youtube'
+      } else if (d.match('(player.)?vimeo\.com')) {
+        return 'vimeo-square'
+      } else if (d.match('(www.)?dailymotion\.com')) {
+        return 'video-camera'
+      } else if (d.match('(www.)?vine\.co')) {
+        return 'vine'
+      } else if (d.match('(player.)?soundcloud\.com')) {
+        return 'soundcloud'
+      } else if (d.match('(www.)?twitter\.com') && d.match('status') ) {
+        return 'twitter'
+      } else if (d.match('maps.google') && !d.match('staticmap') && !d.match('streetview')) {
+        return 'map-marker'
+      } else if (d.match(/www.google.\w+\/maps/)) {
+        return 'map-marker'
+      } else if (d.match('plus.google')) {
+        return 'google-plus'
+      } else if (d.match('flickr.com/photos/')) {
+        return 'flickr'
+      } else if (false) {
+        return 'instagram'
+      } else if (d.match(/jpg|jpeg|png|gif|svg|bmp/i) || 
+             d.match('staticmap') || 
+             d.match('yfrog.com') || 
+             d.match('twitpic.com') ||
+             d.match('maps.googleapis.com/maps/api/streetview')) {
+        return 'image'
+      } else if (false) {
+        return 'file-o'
+      } else if (d.match('(www.)?wikipedia\.org')) {
+        return 'globe'
+      } else if (d.indexOf('http://') === 0) {
+        return 'external-link'
+      } else if (d.match('storify')) {
+        return 'book'
+      } else {
+        return 'question'
+      }
     }
 
   }

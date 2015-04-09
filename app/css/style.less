@@ -9,10 +9,16 @@
 @link_active: fade(@bone, 75%);
 @nav_border: fade(@bone, 10%);
 
-@button_bg: fade(#000, 10%);
-@button_bg_hover: fade(#000, 40%);
 @button_color: @link_active;
-@button_primary_bg: fade(#000, 25%);
+@button_bg: #404B5C;
+@button_bg_hover: lighten(@button_bg, 10%);
+@button_primary_bg: #415981;
+@button_primary_hover: lighten(@button_primary_bg, 10%);
+@button_danger_bg: rgb(161, 76, 74);
+@button_danger_hover: lighten(@button_danger_bg, 10%);
+
+@button_disabled_color: @link;
+@button_disabled_bg: darken(@button_primary_bg, 5%);
 
 @invalid_color: red;
 
@@ -145,7 +151,7 @@ h1, h2, h3, h4, h5 {
 .intro {
   margin-bottom: 50px;
   text-align: center;
-  
+
   p {
     font-size: 24px;
   }
@@ -194,7 +200,27 @@ label {
   }
 }
 
-.btn-default, .btn-primary {
+.ng-touched.ng-invalid {
+  border-bottom-color: @invalid_color;
+}
+
+form img {
+  max-width: 100px;
+}
+
+
+/*****************************************************************
+*
+* Buttons
+*
+******************************************************************/
+
+.btn {
+  padding: 7px 17px;
+  font-size: 18px;
+}
+
+.btn-default, .btn-primary, .btn-danger, .btn-info, .btn-success {
   background-color: @button_bg;
   border: none;
   color: @button_color;
@@ -208,22 +234,72 @@ label {
 .btn-primary {
   color: @button_color;
   background-color: @button_primary_bg;
-  border: none;
+
+  &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
+    background-color: @button_primary_hover;
+  }
 }
 
-form .btn, .row.title .btn { // .btn-lg
+.btn-danger {
+  color: @button_color;
+  background-color: @button_danger_bg;
+
+  &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
+    background-color: @button_danger_hover;
+  }
+}
+
+.btn-primary.disabled, .btn-primary.disabled.active, .btn-primary.disabled.focus, .btn-primary.disabled:active, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled], .btn-primary[disabled].active, .btn-primary[disabled].focus, .btn-primary[disabled]:active, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary.active, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover {
+  color: @button_disabled_color;
+  background-color: @button_disabled_bg;
+}
+.row.title .btn { // .btn-lg
   padding: 10px 16px;
   border-radius: 6px;
   font-size: 18px;
   line-height: 1.3333333;
 }
 
-form img {
-  max-width: 100px;
+
+.btn-group-xs>.btn, .btn-xs {
+  // padding: 1px 5px;
+  font-size: 14px;
 }
 
-.ng-touched.ng-invalid {
-  border-bottom-color: @invalid_color;
+.dropdown-menu { 
+  background-color: @navy;
+
+  .btn {
+    font-size: 14px;
+    border-top: 1px solid @navy;
+    border-right: 1px solid @navy;
+  }
+  .text-info {
+    color: @button_color;
+    font-weight: bold;
+  }
+}
+
+.dropdown-menu>li>a {
+  color: @link;
+}
+
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+  background-color: @button_bg;
+  color: @button_color;
+}
+
+
+/*****************************************************************
+*
+* Angular
+*
+******************************************************************/
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
 }
 
 
@@ -234,8 +310,13 @@ form img {
 ******************************************************************/
 
 #timeline-embed {
-  margin: 50px 0;
+  margin: 50px 0 !important;
   height: 450px;
+
+}
+
+.timeline-spacer {
+  height: 50px;
 }
 
 .timeline-embed-col {
@@ -255,35 +336,56 @@ form img {
 }
 
 .timeline-tile, .event-tile {
+  margin-bottom: 15px;
+  position: relative;
 
-  .img {
-    min-height: 175px;
-    background: fade(#000, 10%);
-    background-size: cover;
-    border-radius: 3px;
-    text-align: center;
-
-    i.add {
-      color: @button_bg_hover;
-      line-height: 175px;
-    }
+  .btn-group {
+    position: absolute;
+    top: 0;
+    right: 15px;
   }
 
   .btn-default, .btn-primary {
-    padding: 5px 10px;
-    background-color: @button_bg_hover;
+    padding: 5px 10px  5px 14px;
+    // background-color: @button_bg_hover;
 
     &.active, &.focus, &:active, &:focus, &:hover, .open>.dropdown-toggle.btn-default {
       background-color: fade(#000, 75%);
     }
   }
 
-  h2 {
-    font-size: 22px;
+  .img {
+    min-height: 175px;
+    background: fade(#000, 25%);
+    background-position: center;
+    background-size: cover;
+    border-radius: 3px;
+    text-align: center;
+    position: relative;
+
+    i.add {
+      color: @navy;
+      line-height: 175px;
+    }
   }
 
   .meta {
+    margin-bottom: 0;
+    padding: 5px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
     display: none;
+    background: fade(#000, 50%);
+    color: #fff;
+  }
+
+  a:hover .meta {
+      display: block;
+    }
+
+  h2 {
+    font-size: 22px;
   }
 }
 
@@ -358,14 +460,14 @@ th {
     font-size: 36px;
     color: @bone;
   }
-  
+
   .author {
     position: relative;
     top: -26px;
     left: 92px;
 
   }
-  
+
   a {
     padding-right: 20px;
   }

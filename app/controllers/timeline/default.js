@@ -21,6 +21,8 @@ angular.module('timelyn.timeline.default', ['ngRoute', 'ngResource', 'ui.bootstr
     })
   }
 
+  $scope.getIcon = Action.getIcon
+
   // ng-change="renderTimeline(timeline)"
   $scope.renderTimeline = Action.renderTimeline
 

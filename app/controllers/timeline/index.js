@@ -7,7 +7,7 @@ angular.module('timelyn.timeline.index', ['ngRoute', 'ngResource', 'ui.bootstrap
 * TimelineSettingsController
 *
 ******************************************************************/
-.controller('TimelineIndexController', function($scope, $routeParams, Config, Timeline, Breadcrumb, Path) {
+.controller('TimelineIndexController', function($scope, $routeParams, Config, Timeline, Breadcrumb, Path, Action) {
 
   // ng-click="go(req, timelineId, eventId)"
   $scope.go = Path.go
@@ -20,8 +20,10 @@ angular.module('timelyn.timeline.index', ['ngRoute', 'ngResource', 'ui.bootstrap
     if(asset && asset.type === 'upload') {
       return Config.embed_url + asset.media.substr(6)
     }
-    return 'img/placeholder.png'
+    return '' //'img/placeholder.png'
   }
+
+  $scope.getIcon = Action.getIcon
 
   // Get all Timelines for list
   $scope.timelines = Timeline.query()
