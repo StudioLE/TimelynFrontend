@@ -34,6 +34,8 @@ angular.module('timelyn.timeline.default', ['ngRoute', 'ngResource', 'ui.bootstr
 
   $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
     Action.renderTimeline(timeline)
+    // Sort the events in date order
+    $scope.timeline.date = _.sortBy($scope.timeline.date, 'startDate')
   })
 
   Breadcrumb.set(action, $routeParams.timelineId)

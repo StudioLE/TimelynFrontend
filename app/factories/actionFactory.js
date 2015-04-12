@@ -118,8 +118,6 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         return false
       }
 
-      console.log(event)
-
       async.waterfall([
         function(cb) { // Upload / modify media
           self.processMedia(event, method, cb)
@@ -189,9 +187,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
       }
       else if(model.asset.type === 'upload') {
         // Remove the dataUrl before upload
-        console.log(model.asset)
         delete model.asset.media
-        console.log(model.asset)
         this.uploadMedia(model.asset, function(err, media) {
           if(err) cb(err)
           // Add the id to the timeline or event
@@ -216,7 +212,6 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
       }
       else {
         delete model.asset
-        console.log(model)
         cb(null, model)
       }
     },
@@ -252,12 +247,10 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
      * Render timeline
      *
      * @param {Object} timeline
+     * @param {Object} event
      * @return void
      */
-    renderTimeline: function(data) {
-      var timeline = data;
-
-      // console.debug(timeline)
+    renderTimeline: function(timeline, event) {
 
       // If we've been sent media use it
       if(timeline && timeline.media) timeline.asset = timeline.media
@@ -286,7 +279,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
       if(timeline.asset.file) {
         var file = timeline.asset.file[0]
         // If there is an upload and it's an image
-        if(file != null && file.type.indexOf('image') > -1) {
+        if(file && file.type.indexOf('image') > -1) {
           var fileReader = new FileReader()
           fileReader.readAsDataURL(file)
           fileReader.onload = function(e) {
@@ -300,7 +293,38 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         }
       }
 
-      // console.debug(timeline)
+      if(event) {
+        // Sort the events in date order
+        timeline.date = _.sortBy(timeline.date, 'startDate')
+        // Find which slide number the event is
+        var eventIndex = _.findIndex(timeline.date, function(e) {
+          return e.id === event.id
+        })
+
+        // If the event was not found in the array then add it to the end
+        if(eventIndex === -1) {
+          // Add a fake id so we can find it again in the future..
+          event.id = 'create'
+          timeline.date.push(event)
+          // Re-sort the events in date order
+          timeline.date = _.sortBy(timeline.date, 'startDate')
+          // Re-find the slide number the event is
+          eventIndex = _.findIndex(timeline.date, function(e) {
+            return e.id === event.id
+          })
+          // @todo Not working for create.. Need to investigate
+        }
+        else {
+          // Overrride the initial event
+          timeline.date[eventIndex] = event
+        }
+
+        // Add 1 because slide numbers start at 0
+        eventIndex ++
+      }
+      else {
+        var eventIndex = null
+      }
 
       // Remove existing story from DOM
       var existing = document.getElementById('storyjs-timeline')
@@ -316,7 +340,7 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
         },
         // embed_id: 'timeline-embed', //OPTIONAL USE A DIFFERENT DIV ID FOR EMBED
         // start_at_end: false, //OPTIONAL START AT LATEST DATE
-        // start_at_slide: '4', //OPTIONAL START AT SPECIFIC SLIDE
+        start_at_slide: eventIndex, //OPTIONAL START AT SPECIFIC SLIDE
         // start_zoom_adjust: '3', //OPTIONAL TWEAK THE DEFAULT ZOOM LEVEL
         // hash_bookmark: true, //OPTIONAL LOCATION BAR HASHES
         // font: 'Bevan-PotanoSans', //OPTIONAL FONT

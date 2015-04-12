@@ -8,7 +8,7 @@
             <input type="text" class="form-control"
               placeholder="Your event headline"
               required
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.headline">
           </div>
@@ -39,7 +39,6 @@
                 datepicker-popup="dd MMMM yyyy"
                 is-open="event.endDateOpen"
                 ng-click="event.endDateOpen = true"
-                ng-required="true"
                 close-text="Close"
                 show-weeks="false"
                 starting-day="1">
@@ -52,7 +51,7 @@
           <div class="col-sm-8">
             <textarea class="form-control" rows="5"
               placeholder="Some text to introduce the event"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.text"></textarea>
           </div>
@@ -61,7 +60,7 @@
           <label for="" class="col-sm-4 control-label">Tag</label>
           <div class="col-sm-8">
             <input type="text" class="form-control"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.tag">
           </div>
@@ -70,7 +69,7 @@
           <label for="" class="col-sm-4 control-label">Class</label>
           <div class="col-sm-8">
             <input type="text" class="form-control"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.classname">
           </div>
@@ -100,7 +99,7 @@
           <div class="col-sm-4">
             <a class="btn btn-primary"
               ng-file-select
-              ng-file-change="renderTimeline(timeline)"
+              ng-file-change="renderTimeline(timeline, event)"
               ng-model="event.asset.file"
               ng-required="event.asset.type=='upload'">Select File</a>
           </div>
@@ -117,7 +116,7 @@
           <label for="" class="col-sm-4 control-label">Media URL</label>
           <div class="col-sm-8">
             <input type="text" class="form-control"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.asset.url"
               ng-required="event.asset.type=='url'">
@@ -127,7 +126,7 @@
           <label for="" class="col-sm-4 control-label"> Thumbnail</label>
           <div class="col-sm-8">
             <input type="text" class="form-control"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.asset.thumbnail">
           </div>
@@ -136,7 +135,7 @@
           <label for="" class="col-sm-4 control-label">Credit</label>
           <div class="col-sm-8">
             <input type="text" class="form-control"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.asset.credit">
           </div>
@@ -145,7 +144,7 @@
           <label for="" class="col-sm-4 control-label">Caption</label>
           <div class="col-sm-8">
             <input type="text" class="form-control"
-              ng-change="renderTimeline(timeline)"
+              ng-change="renderTimeline(timeline, event)"
               ng-model-options="{updateOn: 'blur'}"
               ng-model="event.asset.caption">
           </div>

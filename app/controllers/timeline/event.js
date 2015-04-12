@@ -29,7 +29,22 @@ angular.module('timelyn.timeline.event', ['ngRoute', 'ngResource', 'ui.bootstrap
   // If there is an event fetch it
   // Set edit defaults
   if($routeParams.eventId) {
-    $scope.event = Event.get({id: $routeParams.eventId})
+    $scope.event = Event.get({id: $routeParams.eventId}, function(event, response) {
+      // Action.renderTimeline(timeline)
+      if($scope.event.asset) {
+        $scope.event.asset.type = 'unchanged'
+      }
+      else {
+        $scope.event.asset = { type: 'none' }
+      }
+
+      // Fetch timeline
+      $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
+        // @todo Slide to current event using setpos
+        Action.renderTimeline(timeline, event)
+        // console.log(timeline)
+      })
+    })
     Breadcrumb.set(action, $routeParams.timelineId, $routeParams.eventId)
     $scope.edit = true
   }
@@ -38,17 +53,13 @@ angular.module('timelyn.timeline.event', ['ngRoute', 'ngResource', 'ui.bootstrap
     $scope.event = { asset: { type: 'none' } }
     Breadcrumb.set(action, $routeParams.timelineId)
     $scope.create = true
-    // Action.renderTimeline({})
-  }
 
-  // Fetch timeline
-  $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
-    // @todo Slide to current event using setpos
-    Action.renderTimeline(timeline)
-    console.log(timeline)
-    if(action == 'editEvent') {
-      // $scope.timeline.asset.type = 'unchanged'
-    }
-  })
+    // Fetch timeline
+    $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
+      // @todo Slide to current event using setpos
+      Action.renderTimeline(timeline)
+      // console.log(timeline)
+    })
+  }
 
 })
