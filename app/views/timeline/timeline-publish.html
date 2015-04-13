@@ -1,0 +1,22 @@
+<div class="container">
+
+  <div class="row title">
+    <div class="col-sm-12">
+      <h1>Publish: {{timeline.headline}}</h1>
+      <p>Once published the code for your timeline will be pushed to edge locations across our content delivery network.</p>
+      <p>Changes made after publishing a timeline will not be visible until you re-publish the timeline.</p>
+    </div>
+  </div> <!-- .row -->
+
+  <div class="row">
+    <div class="col-sm-3">
+      <a class="btn btn-default pull-right" ng-click="back()">Cancel</a>
+    </div>
+    <div class="col-sm-8">
+      <a class="btn btn-primary" ng-click="publishTimeline(timeline.id)">Publish Timeline</a>
+    </div>
+  </div> <!-- .row -->
+
+</div> <!-- .container -->
+
+<div id="timeline-embed"></div>

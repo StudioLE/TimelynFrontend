@@ -1,0 +1,29 @@
+<div class="container">
+
+  <div class="row title">
+    <div class="col-sm-12">
+      <h1>{{timeline.headline}}</h1>
+      <p>Are you sure you wish to delete this timeline?</p>
+    </div>
+  </div> <!-- .row -->
+
+  <div class="radio">
+    <label class="radio-inline">
+      <input type="radio" 
+        ng-model="embed.ssl"
+        ng-change="embedCode('http')"
+        value=""> HTTP
+    </label>
+    <label class="radio-inline">
+      <input type="radio"
+        ng-model="embed.ssl"
+        ng-change="embedCode('https')"
+        value="ssl"> HTTPS
+    </label>
+  </div>
+  <textarea class="form-control" rows="2"
+    ng-model="embed.code"></textarea>
+
+</div> <!-- .container -->
+
+<div id="timeline-embed"></div>

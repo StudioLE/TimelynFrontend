@@ -22,6 +22,12 @@
           <li><a ng-click="go('editTimeline', timeline.id)">
             <i class="fa fa-pencil-square-o"></i> edit timeline</a>
           </li>
+          <li ng-if=" ! timeline.published"><a ng-click="go('publishTimeline', timeline.id)">
+            <i class="fa fa-trash"></i> publish timeline</a>
+          </li>
+          <li ng-if="timeline.published"><a ng-click="go('embedTimeline', timeline.id)">
+            <i class="fa fa-trash"></i> embed timeline</a>
+          </li>
           <li><a ng-click="go('deleteTimeline', timeline.id)">
             <i class="fa fa-trash"></i> delete timeline</a>
           </li>

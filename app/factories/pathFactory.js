@@ -39,6 +39,12 @@ angular.module('timelyn.pathFactory', [])
             else if(req[1] === 'delete') {
               path.push('delete')
             }
+            else if(req[1] === 'publish') {
+              path.push('publish')
+            }
+            else if(req[1] === 'embed') {
+              path.push('embed')
+            }
           // No break so cascade
           case 0:
             if(req[0] === null) {
@@ -82,6 +88,12 @@ angular.module('timelyn.pathFactory', [])
         break;
         case 'deleteTimeline':
           return [timelineId, 'delete']
+        break;
+        case 'publishTimeline':
+          return [timelineId, 'publish']
+        break;
+        case 'embedTimeline':
+          return [timelineId, 'embed']
         break;
         case 'createEvent':
           return [timelineId, 'event', 'create']

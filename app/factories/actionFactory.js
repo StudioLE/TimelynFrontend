@@ -141,6 +141,24 @@ angular.module('timelyn.actionFactory', ['ngSanitize'])
     },
 
     /**
+     * Publish timeline
+     *
+     * @param {Integer} timeline id
+     * @param {Function} callback
+     * @return void
+     */
+    publishTimeline: function(id, callback) {
+      // Send a POST request to the PublishController
+      $http.post(Config.app('/timeline/publish'), { id: id })
+      .success(function(data, status, headers, config) {
+        callback(null, data)
+      })
+      .error(function(data, status, headers, config) {
+        Alert.error({ data: data })
+      })
+    },
+
+    /**
      * Delete timeline
      *
      * @param {Integer} timeline id
