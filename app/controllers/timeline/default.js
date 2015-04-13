@@ -16,7 +16,7 @@ angular.module('timelyn.timeline.default', ['ngRoute', 'ngResource', 'ui.bootstr
         Alert.set('Timeline created: ' + timeline.headline, 'success')
         // Redirect & update scope
         Path.go([timeline.id])
-        $scope.timeline = Timeline.get({id: $routeParams.timelineId})
+        $scope.timeline = Timeline.format({id: $routeParams.timelineId})
       }
     })
   }
@@ -32,7 +32,7 @@ angular.module('timelyn.timeline.default', ['ngRoute', 'ngResource', 'ui.bootstr
   // href="route(req, timelineId, eventId)"
   $scope.route = Path.route
 
-  $scope.timeline = Timeline.get({id: $routeParams.timelineId}, function(timeline, response) {
+  $scope.timeline = Timeline.format({id: $routeParams.timelineId}, function(timeline, response) {
     Action.renderTimeline(timeline)
     // Sort the events in date order
     $scope.timeline.date = _.sortBy($scope.timeline.date, 'startDate')
