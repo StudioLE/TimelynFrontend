@@ -10,9 +10,6 @@ angular.module('timelyn.alertFactory', [])
 .factory('Alert', function($http, localStorageService, Config) {
   return {
 
-    /**
-     * Alerts array
-     */
     alerts: [],
     
     /**
@@ -38,17 +35,40 @@ angular.module('timelyn.alertFactory', [])
         message: msg,
         icon: this.icon(status)
       })
+      // messageCenterService.add(status, msg, { html: true }) //{ status: messageCenterService.status.permanent })
+      return this.alerts
+    },
+    
+    /**
+     * Alert seen
+     *
+     * @return  {Object} user
+     */
+    seen: function() {
+      // Add seen = true to all elements we get
+      _.each(this.alerts, function(element) { 
+        element.seen = true
+      })
       return this.alerts
     },
 
     /**
-     * Alert reset
+     * Clear seen alerts
      *
-     * Clear all previous Alerts
+     * @return {Array} 
+     */
+    clear: function() {
+      return this.alerts = _.reject(this.alerts, function(element) {
+        return element.seen === true
+      })
+    },
+
+    /**
+     * Clear all Alerts
      *
      * @return {Array} empty
      */
-    clear: function() {
+    reset: function() {
       return this.alerts = []
     },
     
@@ -131,4 +151,18 @@ angular.module('timelyn.alertFactory', [])
     },
 
   }
-});
+})
+
+/*****************************************************************
+*
+* Route Change
+*
+******************************************************************/
+.run(function($rootScope, Alert) {
+  $rootScope.$on('$locationChangeSuccess', function() {
+    console.log('Route changed')
+    console.log(Alert.get())
+    console.log(Alert.clear())
+    console.log(Alert.seen())
+  })
+})

@@ -10,6 +10,7 @@ angular.module('timelyn', [
   'LocalStorageModule',
   'navList',
   'angularFileUpload',
+  'MessageCenterModule',
   'alertModule',
   'timelyn.config',
   'timelyn.pages',
@@ -95,3 +96,4 @@ angular.module('timelyn', [
     }
   })
 })
+
